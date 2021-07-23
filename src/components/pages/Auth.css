@@ -1,0 +1,11 @@
+body {
+    background-color: #242222;
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10vh;
+}
+

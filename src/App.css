@@ -4,11 +4,15 @@
     padding: 0;
     font-family: 'PT Sans', sans-serif;
   }
+
+  body {
+    background-color: #33363B;
+  }
   
   .home,
   .services,
   .products,
-  .sign-up {
+  .login {
     display: flex;
     height: 90vh;
     align-items: center;
@@ -31,12 +35,11 @@
     color: #fff;
     font-size: 100px;
   }
-  
-  .sign-up {
+
+  .login {
     background-position: center;
-    background-size: cover;
+    background-size: fill;
     background-repeat: no-repeat;
-    color: #fff;
-    font-size: 100px;
   }
+  
   
