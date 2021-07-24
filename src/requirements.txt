@@ -1,1 +1,4 @@
 react-router-dom
+js-cookie
+querystring
+axios

@@ -6,6 +6,94 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 10vh;
+    margin-top: 20vh;
+}
+
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.inner-form {
+}
+
+.form-group{
+    padding: 0.8em;
+    color: #fff;
+}
+
+.login-logo{
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    margin: 10%;
+}
+
+.top > h1 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 1em;
+}
+
+input, label {
+    display:block;
+}
+
+label {
+    padding: 0 1em 0.2em;
+    font-size: 14px;
+}
+
+input {
+    padding: 0 2em;
+}
+
+input[type=email] {
+    padding:10px; 
+    border:3px solid #E76300; 
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    width: 250px;
+    height: 35px;
+}
+
+input[type=email]:focus {
+    border-color:#fff;
+}
+
+input[type=password] {
+    padding:10px; 
+    border:3px solid #E76300; 
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    width: 250px;
+    height: 35px;
+}
+
+input[type=password]:focus {
+    border-color:#fff;
+}
+
+input[type=submit] {
+    width: 250px; 
+    height: 35px;
+    background:#E76300; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    margin: auto;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.button-holder {
+    margin-top: 20px;
 }
 

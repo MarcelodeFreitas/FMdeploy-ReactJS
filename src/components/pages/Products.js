@@ -1,10 +1,15 @@
 import React from 'react';
-import '../../App.css'
+import '../../App.css';
+import Navbar from '../Navbar';
 
 export default function Products() {
     return(
-    <h1 className="products" style={{backgroundImage: "url(/images/img-3.jpg)"}}>
-        API
-    </h1>
+    <>
+        <Navbar/>
+        <h1 className="products" style={{backgroundImage: "url(/images/img-3.jpg)"}}>
+            API
+        </h1>
+    </>
+    
     )
 }
