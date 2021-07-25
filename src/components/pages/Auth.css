@@ -14,14 +14,20 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding-bottom: 100px;
 }
 
 .inner-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .form-group{
     padding: 0.3em;
     color: #fff;
+    display: block;
 }
 
 .login-logo{

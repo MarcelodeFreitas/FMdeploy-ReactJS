@@ -35,10 +35,8 @@ const login = async (email, password) => {
         }
       );
       token = response.data.access_token;
-      console.log(": sadsad", errorMessage);
       return { token: token, errorMessage: errorMessage };
     } catch (e) {
-      console.log(e);
       errorMessage = "Invalid credentials";
       return { token: token, errorMessage: errorMessage };
     }
@@ -48,8 +46,24 @@ const login = async (email, password) => {
 //register function
 const register = async (name, email, password, confirmPassword) => {
     console.log(name, email, password, confirmPassword)
-
-
+    let errorMessage = "";
+    if (password !== confirmPassword) {
+        errorMessage = "Passwords do not match!";
+        return { errorMessage: errorMessage };
+    }
+    try {
+        const response = await axios.post(
+          `${baseUrl}/user/`,{
+            name: name,
+            email: email,
+            password: password,
+          }
+        );
+        errorMessage = "Account created successfully!"
+        return { errorMessage: errorMessage };
+      } catch (e) {
+        return { errorMessage: e.response.data.detail };
+      }
   };
 
 export default function Auth() {
@@ -73,40 +87,57 @@ export default function Auth() {
 
     if (signin) {
         try {
-        const { token, errorMessage } = await login(
-            details.email,
-            details.password
-        );
-        console.log("token1: ", token);
-        console.log("errorMessage: ", errorMessage);
+          const { token, errorMessage } = await login(
+              details.email,
+              details.password
+          );
 
-        if (token) {
-            console.log("token: ", token);
-            setToken(token);
-            return history.push("/app");
-        }
+          if (token) {
+              setToken(token);
+              return history.push("/app");
+          }
 
-        if (errorMessage) {
-            console.log(errorMessage);
-            setError(errorMessage);
-            setTimeout(() => setError(""), 3000);
+          if (errorMessage) {
+              console.log(errorMessage);
+              setError(errorMessage);
+              setTimeout(() => setError(""), 4000);
         }
         } catch (e) {
-        console.log(e);
+          console.log(e);
         }
     } 
 
     if (!signin) {
         try {
-            const {errorMessage} = await register(details.name, details.email, details.password, details.confirmPassword)
+            const { errorMessage } = await register(details.name, details.email, details.password, details.confirmPassword)
 
             if (errorMessage) {
                 console.log(errorMessage);
                 setError(errorMessage);
-                setTimeout(() => setError(""), 3000);
+                setTimeout(() => setError(""), 4000);
             }
         } catch (e) {
-        console.log(e);
+          console.log(e);
+        }
+
+        try {
+          const { token, errorMessage } = await login(
+              details.email,
+              details.password
+          );
+
+          if (token) {
+              setToken(token);
+              return history.push("/app");
+          }
+
+          if (errorMessage) {
+              console.log(errorMessage);
+              setError(errorMessage);
+              setTimeout(() => setError(""), 4000);
+        }
+        } catch (e) {
+          console.log(e);
         }
     }
 
@@ -177,6 +208,8 @@ export default function Auth() {
                 id="password"
                 onChange={onChange}
                 value={details.password}
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                title="at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                 required
               />
             </div>
@@ -189,6 +222,8 @@ export default function Auth() {
                 id="confirmPassword"
                 onChange={onChange}
                 value={details.confirmPassword}
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                title="at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                 required
               />
             </div>

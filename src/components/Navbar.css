@@ -119,6 +119,7 @@
       top: 0;
       left: 0;
       transform: translate(25%, 50%);
+      font-size: 28px;
     }
   
     .menu-icon {
@@ -157,4 +158,3 @@
       transition: 250ms;
     }
   }
-  
