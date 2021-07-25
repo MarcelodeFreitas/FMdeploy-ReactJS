@@ -6,48 +6,56 @@ import baseUrl from "../server/server";
 import querystring from "querystring";
 import axios from "axios";
 import StoreContext from "../Store/Context";
-import Navbar from '../Navbar';
+import Navbar from "../Navbar";
 
 const initialState = () => {
-  return { email: "", password: "", error: "" };
+  return { name: "", email: "", password: "", confirmPassword:"", error: "" };
 };
 
 //login function
 const login = async (email, password) => {
-    let errorMessage = ""
-    let token = ""
+  let errorMessage = "";
+  let token = "";
   if (email === "" || password === "") {
     console.log(email, password);
     errorMessage = "Email or password is blank";
-    return {token: token, errorMessage: errorMessage};
+    return { token: token, errorMessage: errorMessage };
   } else {
-      try {
-        const response = await axios.post(
+    try {
+      const response = await axios.post(
         `${baseUrl}/login`,
         querystring.stringify({
-            username: email,
-            password: password,
+          username: email,
+          password: password,
         }),
         {
-            headers: {
+          headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            },
+          },
         }
-        );
-        token = response.data.access_token;
-        console.log(": sadsad", errorMessage);
-        return {token: token, errorMessage: errorMessage};
-      } catch (e) {
-          console.log(e);
-          errorMessage = "Invalid credentials";
-            return {token: token, errorMessage: errorMessage};
-      }
+      );
+      token = response.data.access_token;
+      console.log(": sadsad", errorMessage);
+      return { token: token, errorMessage: errorMessage };
+    } catch (e) {
+      console.log(e);
+      errorMessage = "Invalid credentials";
+      return { token: token, errorMessage: errorMessage };
+    }
   }
 };
 
+//register function
+const register = async (name, email, password, confirmPassword) => {
+    console.log(name, email, password, confirmPassword)
+
+
+  };
+
 export default function Auth() {
-  const [details, setDetails] = useState({ email: "", password: "" });
+  const [details, setDetails] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [error, setError] = useState("");
+  const [signin, setSignin] = useState(true);
 
   const { setToken } = useContext(StoreContext);
   const history = useHistory();
@@ -63,67 +71,141 @@ export default function Auth() {
   const submitHandler = async (event) => {
     event.preventDefault(); //dont reload the page
 
-    try {
-      const {token, errorMessage} = await login(details.email, details.password);
-      console.log("token1: ", token);
-      console.log("errorMessage: ", errorMessage);
+    if (signin) {
+        try {
+        const { token, errorMessage } = await login(
+            details.email,
+            details.password
+        );
+        console.log("token1: ", token);
+        console.log("errorMessage: ", errorMessage);
 
-      if (token) {
-        console.log("token: ", token);
-        setToken(token);
-        return history.push("/app");
-      }
+        if (token) {
+            console.log("token: ", token);
+            setToken(token);
+            return history.push("/app");
+        }
 
-      if (errorMessage) {
-        console.log(errorMessage);
-        setError(errorMessage);
-      }
-    } catch (e) {
-      console.log(e);
+        if (errorMessage) {
+            console.log(errorMessage);
+            setError(errorMessage);
+            setTimeout(() => setError(""), 3000);
+        }
+        } catch (e) {
+        console.log(e);
+        }
+    } 
+
+    if (!signin) {
+        try {
+            const {errorMessage} = await register(details.name, details.email, details.password, details.confirmPassword)
+
+            if (errorMessage) {
+                console.log(errorMessage);
+                setError(errorMessage);
+                setTimeout(() => setError(""), 3000);
+            }
+        } catch (e) {
+        console.log(e);
+        }
     }
 
     setDetails(initialState);
     setToken("");
+
   };
 
   return (
     <>
-    <Navbar/>
-    <div className={"login-container"}>
-      <form className={"form"} onSubmit={submitHandler}>
-        <div className={"top"}>
-            <img className={"login-logo"} src={window.location.origin + "/images/logo-orange.png"} alt="FMdeploy.jpg"/>
+      <Navbar />
+      <div className={"login-container"}>
+        <form className={"form"} onSubmit={submitHandler}>
+          <div className={"top"}>
+            <img
+              className={"login-logo"}
+              src={window.location.origin + "/images/logo-orange.png"}
+              alt="FMdeploy.jpg"
+            />
             <h1>FMdeploy</h1>
-        </div>
-      
-        <div className={"inner-form"}>
-          {error && <p style={{ color: "white", textAlign: "center" }}>{error}</p>}
-          <div className={"form-group"}>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              onChange={onChange}
-              value={details.email}
-            />
           </div>
-          <div className={"form-group"}>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              onChange={onChange}
-              value={details.password}
-            />
+          <div className={"slider"}>
+            <div className={"slider-labels"}>
+              {signin && <p className={"slider-text"} style={{ color: "#E76300" }}>Login</p>}
+              {!signin && <p className={"slider-text"}  onClick={() => {setSignin(true); setError("");}}>Login</p>}
+
+              {signin && <p className={"slider-text"}  onClick={() => {setSignin(false); setError("");}}>Register</p>}
+              {!signin && <p className={"slider-text"}  style={{ color: "#E76300" }}>Register</p>}
+            </div>
+            {signin && <hr style={{ color: "#E76300" }}/>}
+            {!signin && <hr style={{ color: "#fff" }}/>}
+            {signin && <hr style={{ color: "#fff" }}/>}
+            {!signin && <hr style={{ color: "#E76300" }}/>}
           </div>
-          <div className={"button-holder"}>
-            <input type="submit" value="LOGIN" />
+          <div className={"inner-form"}>
+            {error && (
+              <p style={{ color: "white", textAlign: "center", paddingBottom: "20px" }}>{error}</p>
+            )}
+            {!signin && (
+              <div className={"form-group"}>
+                <label htmlFor="text">Name</label>
+                <input
+                  type="name"
+                  name="name"
+                  id="name"
+                  onChange={onChange}
+                  value={details.name}
+                  required
+                />
+              </div>
+            )}
+            <div className={"form-group"}>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                onChange={onChange}
+                value={details.email}
+                required
+              />
+            </div>
+            <div className={"form-group"}>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                onChange={onChange}
+                value={details.password}
+                required
+              />
+            </div>
+            {!signin && (
+              <div className={"form-group"}>
+              <label htmlFor="password">Confirm password</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                onChange={onChange}
+                value={details.confirmPassword}
+                required
+              />
+            </div>
+            )}
+            {signin && 
+            <div className={"button-holder"}>
+              <input type="submit" value="LOGIN" />
+            </div>
+            }
+            {!signin && 
+            <div className={"button-holder"}>
+              <input type="submit" value="REGISTER" />
+            </div>
+            }
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
     </>
   );
 }

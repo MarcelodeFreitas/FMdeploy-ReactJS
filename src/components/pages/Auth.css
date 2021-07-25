@@ -6,7 +6,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20vh;
+    margin-top: 6vh;
 }
 
 .form{
@@ -20,7 +20,7 @@ body {
 }
 
 .form-group{
-    padding: 0.8em;
+    padding: 0.3em;
     color: #fff;
 }
 
@@ -30,8 +30,9 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
-    margin: 10%;
+    width: 50%;
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 
 .top > h1 {
@@ -51,6 +52,20 @@ label {
 
 input {
     padding: 0 2em;
+    letter-spacing: 0.05em;
+}
+
+input[type=name] {
+    padding:10px; 
+    border:3px solid #E76300; 
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    width: 250px;
+    height: 35px;
+}
+
+input[type=name]:focus {
+    border-color:#fff;
 }
 
 input[type=email] {
@@ -104,3 +119,23 @@ input[type=submit]:hover {
     margin-top: 20px;
 }
 
+.slider {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+.slider-labels {
+    color: #fff;
+}
+
+.slider-text {
+    display: inline-block;
+    text-align: center;
+    width: 125px;
+    cursor:pointer;
+}
+
+hr {
+    display: inline-block;
+    width: 125px; 
+}
