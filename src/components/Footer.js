@@ -58,8 +58,7 @@ function Fotter() {
             <div className='social-media-wrap'>
                 <div className='footer-logo'>
                     <Link to='/' className='social-logo'>
-                        <p style={{backgroundColor: "#E76300", padding: "2%", borderRadius: "10%"}}>FM</p>&nbsp;deploy  
-                    {/* <i className='fab fa-typo3' /> */}
+                        <p style={{backgroundColor: "#E76300", padding: "2%", borderRadius: "10%"}}>FM</p>&nbsp;deploy 
                     </Link>
                 </div>
                 <small className='website-rights'>FMdeploy © 2021</small>
