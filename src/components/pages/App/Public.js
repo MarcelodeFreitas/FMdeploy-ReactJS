@@ -3,7 +3,7 @@ import Sidebar from "../../Sidebar";
 import "../../Sidebar.css";
 import "./Main.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faSearch, faShareAlt } from "@fortawesome/free-solid-svg-icons";
+import { faGlobeAmericas, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const Public = () => {
   return (
@@ -11,10 +11,10 @@ const Public = () => {
       <Sidebar />
       <div className="main">
         <div className="header">
-          <h1 className={"title"}>Shared Models</h1>
+          <h1 className={"title"}>Public Models</h1>
           <div className={"main-button"}>
-            SHARE MODEL
-            <FontAwesomeIcon className="btn-icon" icon={faShareAlt} />
+            PUBLISH MODEL
+            <FontAwesomeIcon className="btn-icon" icon={faGlobeAmericas} />
           </div>
         </div>
         <hr className={"line"} />

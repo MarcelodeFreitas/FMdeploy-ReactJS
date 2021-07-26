@@ -9,6 +9,7 @@ import StoreProvider from './components/Store/Provider';
 import RoutesPrivate from './components/Routes/Private/Private';
 import Main from './components/pages/App/Main'
 import Public from './components/pages/App/Public';
+import Shared from './components/pages/App/Shared';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
               <Route path="/services" exact component={Services}/>
               <Route path="/auth" exact component={Auth}/>
               <RoutesPrivate path="/app" exact component={Main}/>
+              <RoutesPrivate path="/shared" exact component={Shared}/>
               <RoutesPrivate path="/public" exact component={Public}/>
             </Switch>
         </StoreProvider>

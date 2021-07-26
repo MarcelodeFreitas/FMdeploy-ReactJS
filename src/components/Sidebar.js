@@ -11,31 +11,31 @@ const Sidebar = () => {
             <nav className="sidebar">
                 <ul className="sidebar-side">
                     <li className="logo">
-                        <a href="#" className="side-link">
+                        <Link to="/app" className="side-link">
                         <span className="link-text logo-text">FMdeploy</span>
                         <FontAwesomeIcon className="icon" icon={faBrain} />
-                        </a>
+                        </Link>
                     </li>
 
                     <li className="side-item">
-                        <a href="#" className="side-link">
+                        <Link to="/app" className="side-link">
                         <FontAwesomeIcon className="icon" icon={faFolder} />
                         <span className="link-text">My Models</span>
-                        </a>
+                        </Link>
                     </li>
 
                     <li className="side-item">
-                        <a href="#" className="side-link">
+                        <Link to="/shared" className="side-link">
                         <FontAwesomeIcon className="icon" icon={faFolderOpen} />
                         <span className="link-text">Shared Models</span>
-                        </a>
+                        </Link>
                     </li>
 
                     <li className="side-item">
-                        <a href="#" className="side-link">
+                        <Link to="/public" className="side-link">
                         <FontAwesomeIcon className="icon" icon={faGlobeAmericas} />
                         <span className="link-text">Public Models</span>
-                        </a>
+                        </Link>
                     </li>
 
                     <li className="side-item">
