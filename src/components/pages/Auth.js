@@ -1,12 +1,12 @@
-import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import "../../App.css";
-import "./Auth.css";
-import baseUrl from "../server/server";
-import querystring from "querystring";
-import axios from "axios";
-import StoreContext from "../Store/Context";
-import Navbar from "../Navbar";
+import React, { useState, useContext } from "react"
+import { useHistory } from "react-router-dom"
+import "../../App.css"
+import "./Auth.css"
+import baseUrl from "../server/server"
+import querystring from "querystring"
+import axios from "axios"
+import StoreContext from "../Store/Context"
+import Navbar from "../Navbar"
 
 const initialState = () => {
   return { name: "", email: "", password: "", confirmPassword:"", error: "" };
@@ -52,7 +52,7 @@ const register = async (name, email, password, confirmPassword) => {
         return { errorMessage: errorMessage };
     }
     try {
-        const response = await axios.post(
+        await axios.post(
           `${baseUrl}/user/`,{
             name: name,
             email: email,
@@ -148,7 +148,7 @@ export default function Auth() {
 
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <div className={"login-container"}>
         <form className={"form"} onSubmit={submitHandler}>
           <div className={"top"}>

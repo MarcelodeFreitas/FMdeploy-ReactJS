@@ -1,9 +1,9 @@
-import React from "react";
-import Sidebar from "../../Sidebar";
-import "../../Sidebar.css";
-import "./Main.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGlobeAmericas, faSearch } from "@fortawesome/free-solid-svg-icons";
+import React from "react"
+import Sidebar from "../../Sidebar"
+import "../../Sidebar.css"
+import "./Main.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGlobeAmericas, faSearch } from "@fortawesome/free-solid-svg-icons"
 
 const Public = () => {
   return (
@@ -31,7 +31,7 @@ const Public = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Public;
+export default Public

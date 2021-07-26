@@ -1,17 +1,18 @@
-import './App.css';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import Home from "./components/pages/Home";
-import Products from "./components/pages/Products";
-import Services from "./components/pages/Services";
-import Auth from "./components/pages/Auth";
-import React from 'react';
-import StoreProvider from './components/Store/Provider';
-import RoutesPrivate from './components/Routes/Private/Private';
+import './App.css'
+import React from 'react'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import Home from "./components/pages/Home"
+import Products from "./components/pages/Products"
+import Services from "./components/pages/Services"
+import Auth from "./components/pages/Auth"
+import StoreProvider from './components/Store/Provider'
+import RoutesPrivate from './components/Routes/Private/Private'
 import Main from './components/pages/App/Main'
-import Public from './components/pages/App/Public';
-import Shared from './components/pages/App/Shared';
+import Public from './components/pages/App/Public'
+import Shared from './components/pages/App/Shared'
+import New from './components/pages/App/New'
 
-function App() {
+const App = () => {
 
   return (
     <>
@@ -25,6 +26,7 @@ function App() {
               <RoutesPrivate path="/app" exact component={Main}/>
               <RoutesPrivate path="/shared" exact component={Shared}/>
               <RoutesPrivate path="/public" exact component={Public}/>
+              <RoutesPrivate path="/new" exact component={New}/>
             </Switch>
         </StoreProvider>
       </BrowserRouter>
@@ -32,4 +34,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

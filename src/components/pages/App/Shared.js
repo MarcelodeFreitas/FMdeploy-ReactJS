@@ -1,9 +1,9 @@
-import React from "react";
-import Sidebar from "../../Sidebar";
-import "../../Sidebar.css";
-import "./Main.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faShareAlt } from "@fortawesome/free-solid-svg-icons";
+import React from "react"
+import Sidebar from "../../Sidebar"
+import "../../Sidebar.css"
+import "./Main.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSearch, faShareAlt } from "@fortawesome/free-solid-svg-icons"
 
 const Shared = () => {
   return (
@@ -31,7 +31,7 @@ const Shared = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Shared;
+export default Shared
