@@ -1,8 +1,3 @@
-:root {
-    --primary: #E76300;
-    --secondary: #fff;
-}
-
 .main{
     background-color: #F3F3F3;
     height: 100vh;
@@ -17,21 +12,58 @@
 .title {
     text-align: left;
     padding-top: 0.2em;
-    color: var(--primary);
+    color: #E76300;
 }
 
-.btn {
+.main-button {
     margin-left: auto;
     color: #fff;
-    background-color: var(--primary);
-    border-radius: 5px;
+    background-color: #E76300;
+    border-radius: 10px;
+    padding: 0.7em 2em ;
+    cursor: pointer;
+}
+
+.main-button:hover {
+    background-color: #F38E00;
+}
+
+.line {
+    border: 1px solid #fff;
+    width: 100%;
 }
 
 .btn-icon {
+    margin-left: 1em;
 }
 
+.searchbar {
+    display: flex;
+    background-color: #fff;
+    margin-top: 1em;
+    width: 250px;
+    border: 4px solid #E76300;
+    border-radius: 25px;
+    align-items: center;
+}
 
-.line {
-    border: 1px solid var(--secondary);
-    width: 100%;
+.searchbar-input {
+    padding: 0.7em 2em;
+    border-radius: 30px;
+    outline: none;
+    border: none;
+    width: 180px;
+}
+
+.search-icon {
+    color: #E76300;
+    font-size: 20px;
+    margin: auto;
+}
+
+.search-icon:hover {
+    color: #F38E00;
+    font-size: 20px;
+    margin: auto;
+    cursor: pointer;
 }

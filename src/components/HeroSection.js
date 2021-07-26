@@ -2,6 +2,8 @@ import React from 'react';
 import { Button } from './Button';
 import './HeroSection.css';
 import '../App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 
 function HeroSection() {
     return (
@@ -18,7 +20,7 @@ function HeroSection() {
                 <Button className='btns' 
                 buttonStyle='btn--primary' 
                 buttonSize='btn--large'>
-                    SEE DOCUMENTATION <i className='far fa-play-circle'/>
+                    SEE DOCUMENTATION <FontAwesomeIcon icon={faPlayCircle}/>
                 </Button>
             </div>
         </div>

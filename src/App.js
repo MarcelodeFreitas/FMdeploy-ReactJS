@@ -8,6 +8,7 @@ import React from 'react';
 import StoreProvider from './components/Store/Provider';
 import RoutesPrivate from './components/Routes/Private/Private';
 import Main from './components/pages/App/Main'
+import Public from './components/pages/App/Public';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
               <Route path="/services" exact component={Services}/>
               <Route path="/auth" exact component={Auth}/>
               <RoutesPrivate path="/app" exact component={Main}/>
+              <RoutesPrivate path="/public" exact component={Public}/>
             </Switch>
         </StoreProvider>
       </BrowserRouter>
