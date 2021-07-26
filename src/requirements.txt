@@ -2,6 +2,7 @@ react-router-dom
 js-cookie
 querystring
 axios
-@fortawesome/fontawesome-svg-core
+@fortawesome/fontawesome-svg-coreS
 @fortawesome/free-solid-svg-icons
 @fortawesome/react-fontawesome
+@fortawesome/free-brands-svg-icons

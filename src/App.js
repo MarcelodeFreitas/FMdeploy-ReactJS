@@ -23,6 +23,10 @@ const App = () => {
               <Route path="/products" exact component={Products}/>
               <Route path="/services" exact component={Services}/>
               <Route path="/auth" exact component={Auth}/>
+              <Route path='/docs' exact component={() => { 
+                  window.location.href = 'http://127.0.0.1:8000/'; 
+                  return null;
+              }}/>
               <RoutesPrivate path="/app" exact component={Main}/>
               <RoutesPrivate path="/shared" exact component={Shared}/>
               <RoutesPrivate path="/public" exact component={Public}/>

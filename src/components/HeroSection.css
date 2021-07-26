@@ -69,3 +69,8 @@ video {
         width: 100%;
     }
 }
+
+.link-herosection {
+    text-decoration: none;
+    color: #fff;
+}

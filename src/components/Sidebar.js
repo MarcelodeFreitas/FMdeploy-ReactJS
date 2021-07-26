@@ -63,7 +63,7 @@ const Sidebar = () => {
                         }
                     </li>
 
-                    <li className="side-item" onClick={() => setToken('')}>
+                    <li onClick={() => setToken('')} className="side-item">
                         <div className="side-link">
                         <FontAwesomeIcon className="icon" icon={faSignOutAlt} />
                         <span className="link-text">Logout</span>

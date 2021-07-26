@@ -1,7 +1,9 @@
 import React from 'react'
 import { Button } from './Button'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import './Footer.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInstagram, faTwitter, faFacebook, faYoutube } from '@fortawesome/free-brands-svg-icons'
 
 function Fotter() {
     return (
@@ -15,12 +17,12 @@ function Fotter() {
                     You can start in just five minutes.
                 </p>
                 <div className='input-areas'>
-                    <form>
+                    {/* <form>
                         <input type="email" name="email" 
                         placeholder="Your Email"
                         className="footer-input"/>
-                    </form>
-                    <Button buttonStyle='btn--outline'>
+                    </form> */}
+                    <Button buttonStyle='btn--outline' path="/auth">
                         Join Now!
                     </Button>
                 </div>
@@ -69,7 +71,7 @@ function Fotter() {
                     target='_blank'
                     aria-label='Facebook'
                     >
-                    <i className='fab fa-facebook-f' />
+                    <FontAwesomeIcon icon={faFacebook} />
                     </Link>
                     <Link
                     className='social-icon-link instagram'
@@ -77,7 +79,7 @@ function Fotter() {
                     target='_blank'
                     aria-label='Instagram'
                     >
-                    <i className='fab fa-instagram' />
+                    <FontAwesomeIcon icon={faInstagram} />
                     </Link>
                     <Link
                     className='social-icon-link youtube'
@@ -85,7 +87,7 @@ function Fotter() {
                     target='_blank'
                     aria-label='Youtube'
                     >
-                    <i className='fab fa-youtube' />
+                    <FontAwesomeIcon icon={faYoutube} />
                     </Link>
                     <Link
                     className='social-icon-link twitter'
@@ -93,7 +95,7 @@ function Fotter() {
                     target='_blank'
                     aria-label='Twitter'
                     >
-                    <i className='fab fa-twitter' />
+                    <FontAwesomeIcon icon={faTwitter} />
                     </Link>
                     <Link
                     className='social-icon-link twitter'

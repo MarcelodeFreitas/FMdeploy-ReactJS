@@ -3,8 +3,8 @@ import { Link } from "react-router-dom"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch } from "@fortawesome/free-solid-svg-icons"
+/* import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSearch } from "@fortawesome/free-solid-svg-icons" */
 
 const New = () => {
   return (
