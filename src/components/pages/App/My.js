@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useHistory, useLocation } from "react-router-dom"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
@@ -7,6 +7,76 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSearch } from "@fortawesome/free-solid-svg-icons"
 import Models from "../../Models"
 import AppHeader from "../../AppHeader"
+import NoContentCard from "../../NoContentCard"
+
+const model_list = [
+  {
+      id: 1,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 2,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 3,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 4,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 5,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 6,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 7,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 8,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 9,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 10,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+  {
+      id: 11,
+      name: 'OB MASKS',
+      author: "Francisca",
+      date: "08/07/2021",
+  },
+]
 
 function My() {
   const history = useHistory()
@@ -37,6 +107,16 @@ function My() {
     }
   })
 
+  const [models, setModels] = useState(model_list)
+
+  // Delete an AI model
+  const deleteModel = (id) => {
+    //delete AI model from state
+    setModels(models.filter((model) => 
+        model.id !== id
+    ))
+  }
+
   return (
     <>
       <Sidebar />
@@ -54,9 +134,13 @@ function My() {
           <FontAwesomeIcon icon={faSearch} className={"search-icon"}/>
         </div>
 
-        <div className={"content-table"}>
-          <Models />
-        </div>
+        { models.length > 0 ?
+          <div className={"content-table"}>
+            <Models models={models} onDelete={deleteModel}/>
+          </div>
+          :
+          <NoContentCard text="No models found!"/>
+        }
         
       </div>
     </>
