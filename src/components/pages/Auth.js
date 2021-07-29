@@ -94,7 +94,7 @@ export default function Auth() {
 
           if (token) {
               setToken(token);
-              return history.push("/app");
+              return history.push("/my");
           }
 
           if (errorMessage) {
@@ -128,7 +128,7 @@ export default function Auth() {
 
           if (token) {
               setToken(token);
-              return history.push("/app");
+              return history.push("/my");
           }
 
           if (errorMessage) {

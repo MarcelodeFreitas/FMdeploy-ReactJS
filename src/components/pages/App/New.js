@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import AppHeader from "../../AppHeader"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
@@ -11,16 +11,10 @@ const New = () => {
     <>
       <Sidebar />
       <div className="main">
-        <div className="header">
-          <h1 className={"title"}>New Model</h1>
-          <Link to="/app" className="main-button">
-            BACK
-          </Link>
-        </div>
-        <hr className={"line"} />
+        <AppHeader title="New Model" button="BACK" path="/my"/>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default New;
+export default New

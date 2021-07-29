@@ -3,21 +3,15 @@ import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch, faShareAlt } from "@fortawesome/free-solid-svg-icons"
+import { faSearch } from "@fortawesome/free-solid-svg-icons"
+import AppHeader from "../../AppHeader"
 
 const Shared = () => {
   return (
     <>
       <Sidebar />
       <div className="main">
-        <div className="header">
-          <h1 className={"title"}>Shared Models</h1>
-          <div className={"main-button"}>
-            SHARE MODEL
-            <FontAwesomeIcon className="btn-icon" icon={faShareAlt} />
-          </div>
-        </div>
-        <hr className={"line"} />
+        <AppHeader title="Shared Models" button="SHARE MODEL" buttonIcon="share-alt" path="/my"/>
         <div className={"searchbar"}>
           <input
             className={"searchbar-input"}

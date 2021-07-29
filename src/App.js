@@ -7,7 +7,7 @@ import Services from "./components/pages/Services"
 import Auth from "./components/pages/Auth"
 import StoreProvider from './components/Store/Provider'
 import RoutesPrivate from './components/Routes/Private/Private'
-import Main from './components/pages/App/Main'
+import My from './components/pages/App/My'
 import Public from './components/pages/App/Public'
 import Shared from './components/pages/App/Shared'
 import New from './components/pages/App/New'
@@ -27,7 +27,7 @@ const App = () => {
                   window.location.href = 'http://127.0.0.1:8000/'; 
                   return null;
               }}/>
-              <RoutesPrivate path="/app" exact component={Main}/>
+              <RoutesPrivate path="/my" exact component={My}/>
               <RoutesPrivate path="/shared" exact component={Shared}/>
               <RoutesPrivate path="/public" exact component={Public}/>
               <RoutesPrivate path="/new" exact component={New}/>

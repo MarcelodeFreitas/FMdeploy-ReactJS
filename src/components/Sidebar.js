@@ -15,20 +15,20 @@ const Sidebar = () => {
             <nav className="sidebar">
                 <ul className="sidebar-side">
                     <li className="logo">
-                        <Link to="/app" className="side-link">
+                        <Link to="/my" className="side-link">
                             <span className="link-text logo-text">FMdeploy</span>
                             <FontAwesomeIcon className="icon" icon={faBrain} />
                         </Link>
                     </li>
 
                     <li className="side-item">
-                        { location.pathname === "/app" ?
-                            <Link to="/app" className="side-link" style={{ filter: 'none', color: '#e76300'}}>
+                        { location.pathname === "/my" ?
+                            <Link to="/my" className="side-link" style={{ filter: 'none', color: '#e76300'}}>
                                 <FontAwesomeIcon className="icon" style={{}} icon={faFolder} />
                                 <span className="link-text">My Models</span>
                             </Link>
                             :
-                            <Link to="/app" className="side-link">
+                            <Link to="/my" className="side-link">
                                 <FontAwesomeIcon className="icon" icon={faFolder} />
                                 <span className="link-text">My Models</span>
                             </Link>
