@@ -8,3 +8,11 @@
     overflow: auto;
     width: 100%;
 }
+
+  /* Small screens */
+  @media only screen and (max-width: 600px) {
+    .main {
+        height: auto;
+        padding-bottom: 200px;
+    }
+  }

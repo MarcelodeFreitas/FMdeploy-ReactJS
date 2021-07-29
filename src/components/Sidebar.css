@@ -168,23 +168,23 @@
       overflow: hidden;
     }
   
-    .sidebar:hover {
+    /* .sidebar:hover {
       width: 15rem;
-    }
+    } */
   
     .sidebar:hover .link-text {
       display: inline;
     }
   
-    .sidebar:hover .logo svg
+    /* .sidebar:hover .logo svg
     {
       margin-left: 11rem;
-    }
+    } */
   
-    .sidebar:hover .logo-text
+    /* .sidebar:hover .logo-text
     {
       left: 0px;
-    }
+    } */
   }
 
   

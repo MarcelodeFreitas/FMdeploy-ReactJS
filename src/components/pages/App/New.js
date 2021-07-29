@@ -13,16 +13,32 @@ const New = () => {
         <AppHeader title="New Model" button="BACK" path="/my" />
         <div className="content">
           <div className="content-left">
-            <label>hey</label>
-            <input></input>
-            <label>hey</label>
-            <input></input>
+            <div className="content-line">
+              <label for="title">Title</label>
+              <input className="content-input" id="title"></input>
+            </div>
+            <div className="content-line">
+              <label for="description">Description</label>
+              <textarea className="content-input-fat" id="description"></textarea>
+            </div>
+            <div className="content-line">
+              <label for="outputType">Output Type</label>
+              <input className="content-input" id="outputType"></input>
+            </div>
+            <div className="content-line">
+              <label for="privacy">Privacy</label>
+              <input className="content-input" id="privacy"></input>
+            </div>
           </div>
           <div className="content-right">
-            <label>hey</label>
-            <input></input>
-            <label>hey</label>
-            <input></input>
+            <label for="pythonScript">Python Script</label>
+            <div className="content-box">
+              
+            </div>
+            <label for="models">Models</label>
+            <div className="content-box">
+              
+            </div>
           </div>
         </div>
       </div>
