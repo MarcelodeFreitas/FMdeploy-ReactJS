@@ -10,25 +10,7 @@
     color: #E76300;
 }
 
-.main-button {
-    margin-left: auto;
-    color: #fff;
-    background-color: #E76300;
-    border-radius: 10px;
-    padding: 0.7em 2em ;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.main-button:hover {
-    background-color: #F38E00;
-}
-
 .line {
     border: 1px solid #fff;
     width: 100%;
-}
-
-.btn-icon {
-    margin-left: 1em;
 }

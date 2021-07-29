@@ -3,11 +3,10 @@ import { useHistory, useLocation } from "react-router-dom"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch } from "@fortawesome/free-solid-svg-icons"
 import Models from "../../Models"
 import AppHeader from "../../AppHeader"
 import NoContentCard from "../../NoContentCard"
+import SearchById from "../../SearchById"
 
 const model_list = [
   {
@@ -122,17 +121,7 @@ function My() {
       <Sidebar />
       <div className="main">
         <AppHeader title="My Models" button="NEW MODEL" buttonIcon="plus" path="/new"/>
-        <div className={"searchbar"}>
-          <input
-            className={"searchbar-input"}
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search by Model ID"
-            required
-          />
-          <FontAwesomeIcon icon={faSearch} className={"search-icon"}/>
-        </div>
+        <SearchById />
 
         { models.length > 0 ?
           <div className={"content-table"}>

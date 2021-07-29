@@ -37,6 +37,7 @@
 
 .icon {
     height: 40px;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 600px) {

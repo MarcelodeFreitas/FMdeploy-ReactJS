@@ -1,0 +1,15 @@
+.content {
+    display: flex;
+}
+
+.content-left {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.content-right {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
