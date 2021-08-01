@@ -15,19 +15,23 @@ const New = () => {
           <div className="content-left">
             <div className="content-line">
               <label for="title">Title</label>
-              <input className="content-input" id="title"></input>
+              <input className="content-input" id="title" required></input>
             </div>
             <div className="content-line">
               <label for="description">Description</label>
-              <textarea className="content-input-fat" id="description"></textarea>
+              <textarea className="content-input-fat" id="description" required></textarea>
             </div>
             <div className="content-line">
               <label for="outputType">Output Type</label>
-              <input className="content-input" id="outputType"></input>
+              <select className="content-input" id="outputType" name="outputType" required>
+                <option value="" disabled selected>Select your option</option>
+                <option value=".nii.gz">File .nii.gz</option>
+                <option value="string">String</option>
+              </select>
             </div>
             <div className="content-line">
               <label for="privacy">Privacy</label>
-              <input className="content-input" id="privacy"></input>
+              <input className="content-input" id="privacy" required></input>
             </div>
           </div>
           <div className="content-right">
