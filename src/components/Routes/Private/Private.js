@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom'
 import StoreContext from '../../Store/Context'
 
 const RoutesPrivate = ({ component: Component, ...rest}) => {
-    const { token } = useContext(StoreContext);
+    const { token } = useContext(StoreContext)
     return(
         <>
             <Route
@@ -18,4 +18,4 @@ const RoutesPrivate = ({ component: Component, ...rest}) => {
     )
 }
 
-export default RoutesPrivate;
+export default RoutesPrivate

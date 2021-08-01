@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { useHistory, useLocation } from "react-router-dom"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
@@ -7,75 +7,9 @@ import Models from "../../Models"
 import AppHeader from "../../AppHeader"
 import NoContentCard from "../../NoContentCard"
 import SearchById from "../../SearchById"
-
-const model_list = [
-  {
-      id: 1,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 2,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 3,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 4,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 5,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 6,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 7,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 8,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 9,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 10,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-  {
-      id: 11,
-      name: 'OB MASKS',
-      author: "Francisca",
-      date: "08/07/2021",
-  },
-]
+import axios from "axios"
+import baseUrl from "../../server/server"
+import StoreContext from '../../Store/Context'
 
 function My() {
   const history = useHistory()
@@ -106,13 +40,41 @@ function My() {
     }
   })
 
-  const [models, setModels] = useState(model_list)
+  const { token } = useContext(StoreContext)
+
+  const [models, setModels] = useState("")
+
+  //get ai models owned by current user
+  const getMyModels = async () => {
+    try {
+        const response = await axios.get(
+          `${baseUrl}/userai/owned_list`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+          }
+        )
+        return await response.data
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    const fetchMyModels = async () => {
+      const modelsFromServer = await getMyModels()
+      setModels(modelsFromServer)
+    }
+
+    fetchMyModels()
+  }, [])
 
   // Delete an AI model
   const deleteModel = (id) => {
     //delete AI model from state
     setModels(models.filter((model) => 
-        model.id !== id
+        model.ai_id !== id
     ))
   }
 

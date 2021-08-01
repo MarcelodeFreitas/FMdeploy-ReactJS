@@ -6,7 +6,7 @@ const Models = ({ models, onDelete }) => {
     return (
         <>
             {models.map( (model) => (
-                <Model key={model.id} model={model} onDelete={onDelete}/>
+                <Model key={model.ai_id} model={model} onDelete={onDelete}/>
             ))}
         </>
     )

@@ -9,17 +9,17 @@ import StoreContext from "../Store/Context"
 import Navbar from "../Navbar"
 
 const initialState = () => {
-  return { name: "", email: "", password: "", confirmPassword:"", error: "" };
-};
+  return { name: "", email: "", password: "", confirmPassword:"", error: "" }
+}
 
 //login function
 const login = async (email, password) => {
-  let errorMessage = "";
-  let token = "";
+  let errorMessage = ""
+  let token = ""
   if (email === "" || password === "") {
-    console.log(email, password);
-    errorMessage = "Email or password is blank";
-    return { token: token, errorMessage: errorMessage };
+    console.log(email, password)
+    errorMessage = "Email or password is blank"
+    return { token: token, errorMessage: errorMessage }
   } else {
     try {
       const response = await axios.post(
@@ -33,12 +33,12 @@ const login = async (email, password) => {
             "Content-Type": "application/x-www-form-urlencoded",
           },
         }
-      );
-      token = response.data.access_token;
-      return { token: token, errorMessage: errorMessage };
+      )
+      token = response.data.access_token
+      return { token: token, errorMessage: errorMessage }
     } catch (e) {
-      errorMessage = "Invalid credentials";
-      return { token: token, errorMessage: errorMessage };
+      errorMessage = "Invalid credentials"
+      return { token: token, errorMessage: errorMessage }
     }
   }
 };
@@ -46,10 +46,10 @@ const login = async (email, password) => {
 //register function
 const register = async (name, email, password, confirmPassword) => {
     console.log(name, email, password, confirmPassword)
-    let errorMessage = "";
+    let errorMessage = ""
     if (password !== confirmPassword) {
-        errorMessage = "Passwords do not match!";
-        return { errorMessage: errorMessage };
+        errorMessage = "Passwords do not match!"
+        return { errorMessage: errorMessage }
     }
     try {
         await axios.post(
@@ -58,29 +58,29 @@ const register = async (name, email, password, confirmPassword) => {
             email: email,
             password: password,
           }
-        );
+        )
         errorMessage = "Account created successfully!"
-        return { errorMessage: errorMessage };
+        return { errorMessage: errorMessage }
       } catch (e) {
-        return { errorMessage: e.response.data.detail };
+        return { errorMessage: e.response.data.detail }
       }
   };
 
 export default function Auth() {
-  const [details, setDetails] = useState({ name: "", email: "", password: "", confirmPassword: "" });
-  const [error, setError] = useState("");
-  const [signin, setSignin] = useState(true);
+  const [details, setDetails] = useState({ name: "", email: "", password: "", confirmPassword: "" })
+  const [error, setError] = useState("")
+  const [signin, setSignin] = useState(true)
 
-  const { setToken } = useContext(StoreContext);
-  const history = useHistory();
+  const { setToken } = useContext(StoreContext)
+  const history = useHistory()
 
   const onChange = (event) => {
-    const { value, name } = event.target;
+    const { value, name } = event.target
     setDetails({
       ...details,
       [name]: value,
-    });
-  };
+    })
+  }
 
   const submitHandler = async (event) => {
     event.preventDefault(); //dont reload the page
@@ -100,10 +100,10 @@ export default function Auth() {
           if (errorMessage) {
               console.log(errorMessage);
               setError(errorMessage);
-              setTimeout(() => setError(""), 4000);
+              setTimeout(() => setError(""), 4000)
         }
         } catch (e) {
-          console.log(e);
+          console.log(e)
         }
     } 
 
@@ -141,10 +141,10 @@ export default function Auth() {
         }
     }
 
-    setDetails(initialState);
-    setToken("");
+    setDetails(initialState)
+    setToken("")
 
-  };
+  }
 
   return (
     <>
@@ -242,5 +242,5 @@ export default function Auth() {
         </form>
       </div>
     </>
-  );
+  )
 }
