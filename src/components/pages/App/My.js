@@ -44,31 +44,35 @@ function My() {
 
   const [models, setModels] = useState("")
 
-  //get ai models owned by current user
-  const getMyModels = async () => {
-    try {
-        const response = await axios.get(
-          `${baseUrl}/userai/owned_list`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            },
-          }
-        )
-        return await response.data
-    } catch (e) {
-      console.log(e)
-    }
-  }
+ 
 
   useEffect(() => {
+
+    //get ai models owned by current user
+    const getMyModels = async () => {
+      try {
+          const response = await axios.get(
+            `${baseUrl}/userai/owned_list`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              },
+            }
+          )
+          return await response.data
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    
     const fetchMyModels = async () => {
       const modelsFromServer = await getMyModels()
       setModels(modelsFromServer)
     }
-
+    
     fetchMyModels()
-  }, [])
+    
+  }, [token])
 
   // Delete an AI model
   const deleteModel = (id) => {

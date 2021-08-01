@@ -83,7 +83,7 @@ export default function Auth() {
   }
 
   const submitHandler = async (event) => {
-    event.preventDefault(); //dont reload the page
+    event.preventDefault() //dont reload the page
 
     if (signin) {
         try {
@@ -94,12 +94,12 @@ export default function Auth() {
 
           if (token) {
               setToken(token);
-              return history.push("/my");
+              return history.push("/my")
           }
 
           if (errorMessage) {
-              console.log(errorMessage);
-              setError(errorMessage);
+              console.log(errorMessage)
+              setError(errorMessage)
               setTimeout(() => setError(""), 4000)
         }
         } catch (e) {

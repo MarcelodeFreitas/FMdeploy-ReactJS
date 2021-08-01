@@ -10,39 +10,65 @@ const New = () => {
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title="New Model" button="BACK" path="/my" />
+        <AppHeader title="New Model" button="CANCEL" path="/my" />
         <div className="content">
           <div className="content-left">
-            <div className="content-line">
-              <label for="title">Title</label>
-              <input className="content-input" id="title" required></input>
-            </div>
-            <div className="content-line">
-              <label for="description">Description</label>
-              <textarea className="content-input-fat" id="description" required></textarea>
-            </div>
-            <div className="content-line">
-              <label for="outputType">Output Type</label>
-              <select className="content-input" id="outputType" name="outputType" required>
-                <option value="" disabled selected>Select your option</option>
-                <option value=".nii.gz">File .nii.gz</option>
-                <option value="string">String</option>
-              </select>
-            </div>
-            <div className="content-line">
-              <label for="privacy">Privacy</label>
-              <input className="content-input" id="privacy" required></input>
-            </div>
+            <form>
+              <div className="content-line">
+                <label for="title">Title</label>
+                <input type="text" className="content-input" id="title" required></input>
+              </div>
+              <div className="content-line">
+                <label for="description">Description</label>
+                <textarea className="content-input-fat" id="description" required></textarea>
+              </div>
+              <div className="content-line">
+                <label for="outputType">Output Type</label>
+                <select className="content-input" id="outputType" name="outputType" required>
+                  <option value="" disabled selected>Select your option</option>
+                  <option value=".nii.gz">File .nii.gz</option>
+                  <option value="string">String</option>
+                </select>
+              </div>
+              <div className="content-slider">
+                <label for="privacy">Private</label>
+                <div class="toggle-slider">
+                  <input type="checkbox" name="privacy" id="privacy"></input>
+                </div>
+              </div>
+            </form>
           </div>
           <div className="content-right">
-            <label for="pythonScript">Python Script</label>
-            <div className="content-box">
-              
+            <div>
+              <label for="pythonScript">Python Script</label>
+              <div className="content-box">
+                
+              </div>
+              <div className="buttons">
+                  <div className="clear-button">
+                    CLEAR
+                  </div>
+                  <div className="confirm-button">
+                    CONFIRM
+                  </div>
+              </div>
             </div>
-            <label for="models">Models</label>
-            <div className="content-box">
-              
+
+            <div>
+              <label for="pythonScript">Models</label>
+              <div className="content-box">
+                
+              </div>
+              <div className="buttons">
+                  <div className="clear-button">
+                    CLEAR
+                  </div>
+                  <div className="confirm-button">
+                    CONFIRM
+                  </div>
+              </div>
             </div>
+            
           </div>
         </div>
       </div>

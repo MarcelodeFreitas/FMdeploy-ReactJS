@@ -21,9 +21,9 @@
 
 .content-box {
     background-color: #fff;
-    height: 30vh;
+    height: 15vh;
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .content-line {
@@ -59,6 +59,101 @@
 .content-input-fat:focus {
     border: 3px solid #F38E00;
     outline: none;
+}
+
+/* form slider */
+.content-slider {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.toggle-slider {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transform: scale(0.5);
+}
+
+input[type=checkbox] {
+    position: relative;
+    background-color: #B5B5B5;
+    width: 80px;
+    height: 40px;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    border-radius: 20px;
+    transition: 0.5s;
+}
+
+input:checked[type=checkbox] {
+    position: relative;
+    background-color: #E76300;
+    width: 80px;
+    height: 40px;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    border-radius: 20px;
+}
+
+input[type=checkbox]:before {
+    position: absolute;
+    top:2px;
+    left:2px;
+    background: #fff;
+    content: "";
+    width: 36px;
+    height: 36px;
+    border-radius: 20px;
+    transform: scale(0.9);
+    transition: 0.5s;
+}
+
+input:checked[type=checkbox]:before {
+    left:42px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+
+.clear-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #141418;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    width: 45%;
+}
+
+.clear-button:hover {
+    background-color: #323234;
+    cursor: pointer;
+}
+
+.confirm-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #E76300;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    width: 45%;
+}
+
+.confirm-button:hover {
+    background-color: #F38E00;
+    cursor: pointer;
 }
 
   /* Small screens */
