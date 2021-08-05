@@ -1,12 +1,13 @@
 .main{
     background-color: #F3F3F3;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .content-table {
     max-height: 70vh;
     overflow: auto;
     width: 100%;
+    background-color: #F3F3F3;
 }
 
   /* Small screens */

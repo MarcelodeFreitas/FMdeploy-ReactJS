@@ -51,12 +51,12 @@ input, label {
     display:block;
 }
 
-label {
+.auth-label {
     padding: 0 1em 0.2em;
     font-size: 14px;
 }
 
-input {
+.auth-input {
     padding: 0 2em;
     letter-spacing: 0.05em;
 }
@@ -100,7 +100,7 @@ input[type=password]:focus {
     border-color:#fff;
 }
 
-input[type=submit] {
+.auth-button {
     width: 250px; 
     height: 35px;
     background:#E76300; 
@@ -114,7 +114,7 @@ input[type=submit] {
     font-size: 16px;
 }
 
-input[type=submit]:hover {
+.auth-button:hover {
     background:#F38E00; 
 
 }

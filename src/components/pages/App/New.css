@@ -38,6 +38,7 @@
     border: 3px solid #E76300;
     border-radius: 10px;
     height: 40px;
+    padding-left: 10px;
 }
 
 .content-input-fat {
@@ -122,6 +123,17 @@ input:checked[type=checkbox]:before {
     flex-direction: row;
     margin-bottom: 20px;
     justify-content: space-between;
+    font-size: 15px;
+}
+
+.buttons-form {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    font-size: 15px;
 }
 
 .clear-button {
@@ -149,12 +161,15 @@ input:checked[type=checkbox]:before {
     padding: 10px;
     border-radius: 10px;
     width: 45%;
+    border:none;
+    font-size: 15px;
 }
 
 .confirm-button:hover {
     background-color: #F38E00;
     cursor: pointer;
 }
+
 
   /* Small screens */
   @media only screen and (max-width: 600px) {

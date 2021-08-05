@@ -178,7 +178,7 @@ export default function Auth() {
             )}
             {!signin && (
               <div className={"form-group"}>
-                <label htmlFor="text">Name</label>
+                <label className="auth-label" htmlFor="text">Name</label>
                 <input
                   type="name"
                   name="name"
@@ -190,8 +190,9 @@ export default function Auth() {
               </div>
             )}
             <div className={"form-group"}>
-              <label htmlFor="email">Email</label>
+              <label className="auth-label" htmlFor="email">Email</label>
               <input
+                className="auth-input"
                 type="email"
                 name="email"
                 id="email"
@@ -201,8 +202,9 @@ export default function Auth() {
               />
             </div>
             <div className={"form-group"}>
-              <label htmlFor="password">Password</label>
+              <label className="auth-label" htmlFor="password">Password</label>
               <input
+                className="auth-input"
                 type="password"
                 name="password"
                 id="password"
@@ -215,8 +217,9 @@ export default function Auth() {
             </div>
             {!signin && (
               <div className={"form-group"}>
-              <label htmlFor="password">Confirm password</label>
+              <label className="auth-label" htmlFor="password">Confirm password</label>
               <input
+                className="auth-input"
                 type="password"
                 name="confirmPassword"
                 id="confirmPassword"
@@ -230,12 +233,12 @@ export default function Auth() {
             )}
             {signin && 
             <div className={"button-holder"}>
-              <input type="submit" value="LOGIN" />
+              <input className="auth-button" type="submit" value="LOGIN" />
             </div>
             }
             {!signin && 
             <div className={"button-holder"}>
-              <input type="submit" value="REGISTER" />
+              <input className="auth-button" type="submit" value="REGISTER" />
             </div>
             }
           </div>
