@@ -7,3 +7,5 @@ axios
 @fortawesome/react-fontawesome
 @fortawesome/free-brands-svg-icons
 react-dropzone
+formik
+@material-ui/core

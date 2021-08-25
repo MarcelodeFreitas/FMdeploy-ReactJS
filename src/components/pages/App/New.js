@@ -34,7 +34,7 @@ const newModel = async (token, title, description, outputType, isPrivate) => {
       console.log(e)
     }
   
-};
+}
 
 const New = () => {
 
@@ -97,27 +97,33 @@ const New = () => {
       return null
     }
 
+    const[ pythonScriptName, setPythonScriptName ] = useState("")
+
     const { 
       acceptedFiles, 
       fileRejections, 
       getRootProps, 
       getInputProps } = useDropzone({
       disabled: false,
+      multiple: false,
       maxFiles: 1,
       validator: pythonValidator,
-      /* onDrop: acceptedFiles => {
+      onDropAccepted: file => {
+        const fileName = file[0].path
         setPythonScript(
-          acceptedFiles.map( file => Object.assign(file))
+          Object.assign(file[0])
         )
-      } */
+      }
     })
 
-    /* const savePythonScript = setPythonScript(
-      acceptedFiles.map( file => Object.assign(file))
-    ) */
-  
+    /* console.log("acceptedFiles", acceptedFiles)
+    
+    if (acceptedFiles !== []) {
+      setPythonScript(acceptedFiles[0])
+    } */
+
     const acceptedFileItems = acceptedFiles.map(file => (
-      <li className="file-list-item" key={file.path}>
+      <li className="python-script-accepted" key={file.path}>
         {file.path}{/*  - {file.size} bytes */}
       </li>
     ));
@@ -132,25 +138,31 @@ const New = () => {
   
        </li>
      ) 
-    });
+    })
 
     return (
       <div>
         <div {...getRootProps() } className="content-box">
           <input {...getInputProps()} />
-          <p>Drop File Here</p>
-          <p>- or -</p>
-          <p>Click to Upload</p>
-          <div className="blank-line"/>
-          <p className="content-box-text-small">(you can only drop 1 file here)</p>
+          { pythonScriptName == "" ?
+          <div className="center">
+            <p>Drop File Here</p>
+            <p>- or -</p>
+            <p>Click to Upload</p>
+            <div className="blank-line"/>
+            <p className="content-box-text-small">(you can only drop 1 file here)</p>
+          </div>
+          :
+          <p>{pythonScriptName}</p>
+          }
         </div>
         <div className="file-messages">
-          {acceptedFileItems != "" &&
+          {/* {acceptedFileItems != "" &&
             <div>
               <h4>Accepted file</h4>
               <ul>{acceptedFileItems}</ul>
             </div>
-          }
+          } */}
           {fileRejectionItems != "" &&
             <div>
               <h4>Rejected files</h4>
@@ -163,8 +175,6 @@ const New = () => {
   } 
 
   
-
-
   const onChange = (event) => {
     
     const target = event.target
@@ -200,14 +210,14 @@ const New = () => {
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title="New Model" button="CANCEL" path="/my" />
+        <AppHeader title="New Model" button="CANCEL" buttonIcon="undo-alt" path="/my" />
         <div className="content">
 
           <div className="content-left">
 
             <div className="new-header">
               <p>
-                1. Model Info
+                1. Create Model
               </p>
             </div>
 
@@ -288,11 +298,12 @@ const New = () => {
             </form>
           </div>
 
+          {id &&
           <div className="content-right">
 
-          <div className="new-header">
+            <div className="new-header">
               <p>
-                2. Model Files
+                2. Add Model Files
               </p>
             </div>
 
@@ -326,6 +337,8 @@ const New = () => {
             </div>
 
           </div>
+          }
+          
         </div>
       </div>
     </>

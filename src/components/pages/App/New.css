@@ -233,3 +233,12 @@ input:checked[type=checkbox]:before {
     margin-left: 6px;
     margin-bottom: 6px;
 }
+
+.python-script-accepted {
+    color: black;
+    list-style: none;
+}
+
+.center {
+    text-align: center;
+}
