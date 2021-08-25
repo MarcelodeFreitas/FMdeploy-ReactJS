@@ -20,11 +20,26 @@
 }
 
 .content-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #D3D3D3;
+    font-weight: normal;
+    font-size: 20px;
     background-color: #fff;
-    height: 15vh;
+    height: 20vh;
     border-radius: 10px;
     margin-bottom: 10px;
 }
+
+.content-box-text-small {
+    font-size: 16px;
+}
+
+/* .dropzone-text {
+    font-size:25px;
+} */
 
 .content-line {
     display: flex;
@@ -63,6 +78,7 @@
 }
 
 /* form slider */
+
 .content-slider {
     display: flex;
     align-items: flex-start;
@@ -103,8 +119,8 @@ input:checked[type=checkbox] {
 
 input[type=checkbox]:before {
     position: absolute;
-    top:2px;
-    left:2px;
+    top: 2px;
+    left: 2px;
     background: #fff;
     content: "";
     width: 36px;
@@ -115,7 +131,7 @@ input[type=checkbox]:before {
 }
 
 input:checked[type=checkbox]:before {
-    left:42px;
+    left: 42px;
 }
 
 .buttons {
@@ -145,6 +161,7 @@ input:checked[type=checkbox]:before {
     padding: 10px;
     border-radius: 10px;
     width: 45%;
+    font-weight: bold;
 }
 
 .clear-button:hover {
@@ -161,8 +178,9 @@ input:checked[type=checkbox]:before {
     padding: 10px;
     border-radius: 10px;
     width: 45%;
-    border:none;
+    border: none;
     font-size: 15px;
+    font-weight: bold;
 }
 
 .confirm-button:hover {
@@ -170,19 +188,48 @@ input:checked[type=checkbox]:before {
     cursor: pointer;
 }
 
+.new-header {
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: regular;
+    color: #E76300;
+}
 
-  /* Small screens */
-  @media only screen and (max-width: 600px) {
+/* Small screens */
+
+@media only screen and (max-width: 600px) {
     .content {
         flex-direction: column;
     }
-    
     .content-left {
         width: 100%;
         margin-bottom: 60px;
     }
-    
     .content-right {
         width: 100%;
     }
-  }
+}
+
+.file-list-item {
+    margin-left: 10px;
+    list-style: inside;
+}
+
+.file-list-errors {
+    margin-left: 10px;
+}
+
+.file-messages {
+    margin-left: 6px;
+    margin-bottom: 10px;
+}
+
+.blank-line {
+    height: 20px;
+}
+
+.new-label {
+    font-weight: bold;
+    margin-left: 6px;
+    margin-bottom: 6px;
+}

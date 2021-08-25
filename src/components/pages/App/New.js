@@ -5,14 +5,14 @@ import "./Main.css"
 import "./New.css"
 import baseUrl from "../../server/server"
 import axios from "axios"
-import querystring from "querystring"
 import StoreContext from "../../Store/Context"
+import { useDropzone } from "react-dropzone"
 
 const initialState = () => {
   return { title: "", description: "", inputType: "", outputType: "", isPrivate: true }
 }
 
-//Function to creqate a new model
+//Function to create a new model
 const newModel = async (token, title, description, outputType, isPrivate) => {
   try {
       const response = await axios.post(
@@ -44,6 +44,127 @@ const New = () => {
 
   const [values, setValues] = useState({ title: "", description: "", inputType: "", outputType: "", isPrivate: true })
 
+  const[pythonScript, setPythonScript] = useState([])
+
+  const[modelFiles, setModelFiles] = useState([])
+
+  /* const[files, setFiles] = useState([]) */
+
+  const ModelFilesDropzone = () => {
+
+    const { getRootProps, getInputProps } = useDropzone({
+      disabled: false,
+      onDrop: acceptedFiles => {
+        setModelFiles(
+          acceptedFiles.map( file => Object.assign(file))
+        )
+      }
+    })
+  
+    const files = modelFiles.map( (file => (
+      <li key={file.name}>
+        {file.name} - {file.size} bytes
+      </li>
+      ))
+    )
+
+    return (
+      <div>
+        <div {...getRootProps() } className="content-box">
+          <input {...getInputProps()} />
+          <p>Drop Files Here</p>
+          <p>- or -</p>
+          <p>Click to Upload</p>
+        </div>
+        <div>
+          <ul>{files}</ul>
+        </div>
+      </div>
+    )
+  } 
+
+
+  const PythonScriptDropzone = () => {
+
+    const pythonValidator = file => {
+      if (file.name.slice(-2) !== "py") {
+        return {
+          code: "wrong-file-extension",
+          message: "This is not a python file."
+        };
+      }
+    
+      return null
+    }
+
+    const { 
+      acceptedFiles, 
+      fileRejections, 
+      getRootProps, 
+      getInputProps } = useDropzone({
+      disabled: false,
+      maxFiles: 1,
+      validator: pythonValidator,
+      /* onDrop: acceptedFiles => {
+        setPythonScript(
+          acceptedFiles.map( file => Object.assign(file))
+        )
+      } */
+    })
+
+    /* const savePythonScript = setPythonScript(
+      acceptedFiles.map( file => Object.assign(file))
+    ) */
+  
+    const acceptedFileItems = acceptedFiles.map(file => (
+      <li className="file-list-item" key={file.path}>
+        {file.path}{/*  - {file.size} bytes */}
+      </li>
+    ));
+  
+    const fileRejectionItems = fileRejections.map(({ file, errors  }) => { 
+     return (
+       <li className="file-list-item" key={file.path}>
+            {file.path}{/*  - {file.size} bytes */}
+            <ul className="file-list-errors">
+              {errors.map(e => <li key={e.code}>{e.message}</li>)}
+           </ul>
+  
+       </li>
+     ) 
+    });
+
+    return (
+      <div>
+        <div {...getRootProps() } className="content-box">
+          <input {...getInputProps()} />
+          <p>Drop File Here</p>
+          <p>- or -</p>
+          <p>Click to Upload</p>
+          <div className="blank-line"/>
+          <p className="content-box-text-small">(you can only drop 1 file here)</p>
+        </div>
+        <div className="file-messages">
+          {acceptedFileItems != "" &&
+            <div>
+              <h4>Accepted file</h4>
+              <ul>{acceptedFileItems}</ul>
+            </div>
+          }
+          {fileRejectionItems != "" &&
+            <div>
+              <h4>Rejected files</h4>
+              <ul>{fileRejectionItems}</ul>
+            </div>
+          }
+        </div>
+      </div>
+    )
+  } 
+
+  
+
+
   const onChange = (event) => {
     
     const target = event.target
@@ -54,6 +175,7 @@ const New = () => {
       ...values,
       [name]: value,
     })
+
   }
 
   const submitHandler = async (event) => {
@@ -82,9 +204,16 @@ const New = () => {
         <div className="content">
 
           <div className="content-left">
+
+            <div className="new-header">
+              <p>
+                1. Model Info
+              </p>
+            </div>
+
             <form onSubmit={submitHandler}>
               <div className="content-line">
-                <label htmlFor="title">Title</label>
+                <label className="new-label" htmlFor="title">Title</label>
                 <input 
                   className="content-input" 
                   type="text" 
@@ -96,7 +225,7 @@ const New = () => {
                 />
               </div>
               <div className="content-line">
-                <label htmlFor="description">Description</label>
+                <label className="new-label" htmlFor="description">Description</label>
                 <textarea 
                   className="content-input-fat" 
                   id="description" 
@@ -107,7 +236,7 @@ const New = () => {
                 />
               </div>
               <div className="content-line">
-                <label htmlFor="inputType">Input Type</label>
+                <label className="new-label" htmlFor="inputType">Input Type</label>
                 <select 
                   className="content-input" 
                   id="inputType" 
@@ -122,7 +251,7 @@ const New = () => {
                 </select>
               </div>
               <div className="content-line">
-                <label htmlFor="outputType">Output Type</label>
+                <label className="new-label" htmlFor="outputType">Output Type</label>
                 <select 
                   className="content-input" 
                   id="outputType" 
@@ -137,7 +266,7 @@ const New = () => {
                 </select>
               </div>
               <div className="content-slider">
-                <label htmlFor="privacy">Private</label>
+                <label className="new-label" htmlFor="privacy">Private</label>
                 <div className="toggle-slider">
                   <input 
                   type="checkbox" 
@@ -160,11 +289,19 @@ const New = () => {
           </div>
 
           <div className="content-right">
-            <div>
-              <label htmlFor="pythonScript">Python Script</label>
-              <div className="content-box">
 
-              </div>
+          <div className="new-header">
+              <p>
+                2. Model Files
+              </p>
+            </div>
+
+            <div>
+              <label className="new-label" htmlFor="pythonScript">Python Script</label>
+              {/* <div className="content-box">
+                <input type="file" name="pythonScript" onChange={onFileInputChange}/>
+              </div> */}
+              <PythonScriptDropzone />
               <div className="buttons">
                 <div className="clear-button">
                   CLEAR
@@ -176,10 +313,8 @@ const New = () => {
             </div>
 
             <div>
-              <label htmlFor="pythonScript">Models</label>
-              <div className="content-box">
-
-              </div>
+              <label className="new-label" htmlFor="modelFiles">Models</label>
+              <ModelFilesDropzone />
               <div className="buttons">
                 <div className="clear-button">
                   CLEAR

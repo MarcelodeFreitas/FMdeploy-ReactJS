@@ -6,3 +6,4 @@ axios
 @fortawesome/free-solid-svg-icons
 @fortawesome/react-fontawesome
 @fortawesome/free-brands-svg-icons
+react-dropzone
