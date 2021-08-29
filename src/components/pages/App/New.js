@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { Component } from "react"
 import AppHeader from "../../AppHeader"
 import Sidebar from "../../Sidebar"
 import "./Main.css"
@@ -6,343 +6,249 @@ import "./New.css"
 import baseUrl from "../../server/server"
 import axios from "axios"
 import StoreContext from "../../Store/Context"
-import { useDropzone } from "react-dropzone"
+import { Card, CardContent, MenuItem, Box, ThemeProvider, InputLabel } from "@material-ui/core"
+import { Field } from "formik"
+import { CheckboxWithLabel, TextField, Select, SimpleFileUpload } from "formik-material-ui"
+import FormikStepper, { FormikStep } from "./formicStepper"
+import * as yup from 'yup'
+import { MultipleFileUploadField } from "../../uploadFiles/multipleFileUpload"
+import theme from "../../theme/theme"
 
-const initialState = () => {
-  return { title: "", description: "", inputType: "", outputType: "", isPrivate: true }
+const defaultState = {
+  title: "",
+  description: "",
+  inputType: "",
+  outputType: "",
+  isPrivate: true
 }
+
+const sleep = (time) => new Promise((acc) => setTimeout(acc, time))
 
 //Function to create a new model
 const newModel = async (token, title, description, outputType, isPrivate) => {
   try {
-      const response = await axios.post(
-        `${baseUrl}/ai`,
-        {
-          title: title,
-          description: description,
-          output_type: outputType,
-          is_private: isPrivate,
+    const response = await axios.post(
+      `${baseUrl}/ai`,
+      {
+        title: title,
+        description: description,
+        output_type: outputType,
+        is_private: isPrivate,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        }
-      )
-      return await response.data
-    } catch (e) {
-      console.log(e)
-    }
-  
+      }
+    )
+    return await response.data
+  } catch (e) {
+    console.log(e)
+  }
+
 }
 
-const New = () => {
+export default class New extends Component {
 
-  const { token } = useContext(StoreContext)
+  static contextType = StoreContext
 
-  const [id, setId] = useState("")
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...defaultState,
+      id: "",
 
-  const [values, setValues] = useState({ title: "", description: "", inputType: "", outputType: "", isPrivate: true })
-
-  const[pythonScript, setPythonScript] = useState([])
-
-  const[modelFiles, setModelFiles] = useState([])
-
-  /* const[files, setFiles] = useState([]) */
-
-  const ModelFilesDropzone = () => {
-
-    const { getRootProps, getInputProps } = useDropzone({
-      disabled: false,
-      onDrop: acceptedFiles => {
-        setModelFiles(
-          acceptedFiles.map( file => Object.assign(file))
-        )
-      }
-    })
-  
-    const files = modelFiles.map( (file => (
-      <li key={file.name}>
-        {file.name} - {file.size} bytes
-      </li>
-      ))
-    )
-
-    return (
-      <div>
-        <div {...getRootProps() } className="content-box">
-          <input {...getInputProps()} />
-          <p>Drop Files Here</p>
-          <p>- or -</p>
-          <p>Click to Upload</p>
-        </div>
-        <div>
-          <ul>{files}</ul>
-        </div>
-      </div>
-    )
-  } 
-
-
-  const PythonScriptDropzone = () => {
-
-    const pythonValidator = file => {
-      if (file.name.slice(-2) !== "py") {
-        return {
-          code: "wrong-file-extension",
-          message: "This is not a python file."
-        };
-      }
-    
-      return null
     }
+  }
 
-    const[ pythonScriptName, setPythonScriptName ] = useState("")
-
-    const { 
-      acceptedFiles, 
-      fileRejections, 
-      getRootProps, 
-      getInputProps } = useDropzone({
-      disabled: false,
-      multiple: false,
-      maxFiles: 1,
-      validator: pythonValidator,
-      onDropAccepted: file => {
-        const fileName = file[0].path
-        setPythonScript(
-          Object.assign(file[0])
-        )
-      }
-    })
-
-    /* console.log("acceptedFiles", acceptedFiles)
-    
-    if (acceptedFiles !== []) {
-      setPythonScript(acceptedFiles[0])
-    } */
-
-    const acceptedFileItems = acceptedFiles.map(file => (
-      <li className="python-script-accepted" key={file.path}>
-        {file.path}{/*  - {file.size} bytes */}
-      </li>
-    ));
-  
-    const fileRejectionItems = fileRejections.map(({ file, errors  }) => { 
-     return (
-       <li className="file-list-item" key={file.path}>
-            {file.path}{/*  - {file.size} bytes */}
-            <ul className="file-list-errors">
-              {errors.map(e => <li key={e.code}>{e.message}</li>)}
-           </ul>
-  
-       </li>
-     ) 
-    })
-
+  render() {
     return (
-      <div>
-        <div {...getRootProps() } className="content-box">
-          <input {...getInputProps()} />
-          { pythonScriptName == "" ?
-          <div className="center">
-            <p>Drop File Here</p>
-            <p>- or -</p>
-            <p>Click to Upload</p>
-            <div className="blank-line"/>
-            <p className="content-box-text-small">(you can only drop 1 file here)</p>
-          </div>
-          :
-          <p>{pythonScriptName}</p>
-          }
-        </div>
-        <div className="file-messages">
-          {/* {acceptedFileItems != "" &&
-            <div>
-              <h4>Accepted file</h4>
-              <ul>{acceptedFileItems}</ul>
+      <>
+      <ThemeProvider theme={theme}>
+        <Sidebar />
+        <div className="main">
+          <AppHeader title="New Model" button="CANCEL" buttonIcon="undo-alt" path="/my" />
+          <div className="content">
+
+            <div className="material-ui-card">
+              <Card>
+                <CardContent>
+                  <FormikStepper
+                    initialValues={defaultState} 
+                    onSubmit={async (values) => {
+                      await sleep(3000)
+                      console.log('values', values)
+                    }}>
+
+                    <FormikStep
+                      label="Create Model"
+                      validationSchema={yup.object().shape({
+                        title: yup.string().required(),
+                        description: yup.string().required(),
+                        inputType: yup.string().required('Please, select office'),
+                        outputType: yup.string().required('Please, select office2'),
+                        isPrivate: yup.boolean().required(),
+                      })}>
+                      <Box paddingBottom={2}>
+                        <Box paddingBottom={4}>
+                          <Field fullWidth
+                            component={TextField}
+                            name="title"
+                            type="text"
+                            label="Title"
+                          />
+                        </Box>
+                        <Box paddingBottom={4}>
+                          <Field fullWidth
+                            component={TextField}
+                            name="description"
+                            type="text"
+                            label="Description"
+                          />
+                        </Box>
+                        <Box paddingBottom={4}>
+                          <InputLabel htmlFor="inputType">Input Type</InputLabel>
+                          <Field fullWidth
+                            labelId="inputType"
+                            component={Select}
+                            name="inputType"
+                            type="select"
+                            inputProps={{
+                              id: 'inputType',
+                            }}
+                          >
+                            <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
+                            <MenuItem value={"string"}>string</MenuItem>
+                          </Field>
+                        </Box>
+                        <Box paddingBottom={4}>
+                          <InputLabel htmlFor="outputType">Output Type</InputLabel>
+                          <Field fullWidth
+                            component={Select}
+                            name="outputType"
+                            inputProps={{
+                              id: 'outputType',
+                            }}
+                          >
+                            <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
+                            <MenuItem value={"string"}>string</MenuItem>
+                          </Field>
+                        </Box>
+                        <Box paddingBottom={2}>
+                          <Field
+                            component={CheckboxWithLabel}
+                            type="checkbox"
+                            name="isPrivate"
+                            Label={{ label: 'Private' }}
+                          />
+                        </Box>
+                      </Box>
+
+                    </FormikStep>
+
+                    <FormikStep
+                      label="Add Model Files">
+                      <Box paddingBottom={2}>
+                        <Field component={SimpleFileUpload} name="file" label="Simple File Upload" />
+                        <MultipleFileUploadField name="files" />
+                      </Box>
+                    </FormikStep>
+
+
+
+                  </FormikStepper>
+                </CardContent>
+              </Card>
             </div>
-          } */}
-          {fileRejectionItems != "" &&
-            <div>
-              <h4>Rejected files</h4>
-              <ul>{fileRejectionItems}</ul>
-            </div>
-          }
-        </div>
-      </div>
-    )
-  } 
+            {/* <div className="content-left">
 
-  
-  const onChange = (event) => {
-    
-    const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
-
-    setValues({
-      ...values,
-      [name]: value,
-    })
-
-  }
-
-  const submitHandler = async (event) => {
-    event.preventDefault() //dont reload the page
-
-    console.log(values)
-
-    const data = await newModel(token, values.title, values.description, values.outputType, values.isPrivate)
-
-    setId(await data.ai_id)
-    console.log(id)
-
-  }
-
-  const clearHandler = () => {
-
-    setValues(initialState)
-
-  }
-
-  return (
-    <>
-      <Sidebar />
-      <div className="main">
-        <AppHeader title="New Model" button="CANCEL" buttonIcon="undo-alt" path="/my" />
-        <div className="content">
-
-          <div className="content-left">
-
-            <div className="new-header">
-              <p>
-                1. Create Model
-              </p>
-            </div>
-
-            <form onSubmit={submitHandler}>
-              <div className="content-line">
-                <label className="new-label" htmlFor="title">Title</label>
-                <input 
-                  className="content-input" 
-                  type="text" 
-                  name="title" 
-                  id="title" 
-                  onChange={onChange}
-                  value={values.title}
-                  required
-                />
+              <div className="new-header">
+                <p>
+                  1. Create Model
+                </p>
               </div>
-              <div className="content-line">
-                <label className="new-label" htmlFor="description">Description</label>
-                <textarea 
-                  className="content-input-fat" 
-                  id="description" 
-                  name="description"
-                  onChange={onChange}
-                  value={values.description}
-                  required
-                />
-              </div>
-              <div className="content-line">
-                <label className="new-label" htmlFor="inputType">Input Type</label>
-                <select 
-                  className="content-input" 
-                  id="inputType" 
-                  name="inputType" 
-                  onChange={onChange}
-                  value={values.inputType}
-                  required
-                >
-                  <option value="" disabled defaultValue="selected">Select your option</option>
-                  <option value=".nii.gz">File .nii.gz</option>
-                  <option value="string">String</option>
-                </select>
-              </div>
-              <div className="content-line">
-                <label className="new-label" htmlFor="outputType">Output Type</label>
-                <select 
-                  className="content-input" 
-                  id="outputType" 
-                  name="outputType" 
-                  onChange={onChange}
-                  value={values.outputType}
-                  required
-                >
-                  <option value="" disabled defaultValue="selected">Select your option</option>
-                  <option value=".nii.gz">File .nii.gz</option>
-                  <option value="string">String</option>
-                </select>
-              </div>
-              <div className="content-slider">
-                <label className="new-label" htmlFor="privacy">Private</label>
-                <div className="toggle-slider">
-                  <input 
-                  type="checkbox" 
-                  name="isPrivate" 
-                  id="isPrivate"
-                  onChange={onChange}
-                  checked={values.isPrivate}
+
+              <form onSubmit={this.submitHandler}>
+                <div className="content-line">
+                  <label className="new-label" htmlFor="title">Title</label>
+                  <input
+                    className="content-input"
+                    type="text"
+                    name="title"
+                    id="title"
+                    onChange={this.onChange}
+                    value={this.title}
+                    required
                   />
                 </div>
-              </div>
-
-              
-              <div className="buttons-form">
-                <div className="clear-button" onClick={clearHandler}>
-                  CLEAR
+                <div className="content-line">
+                  <label className="new-label" htmlFor="description">Description</label>
+                  <textarea
+                    className="content-input-fat"
+                    id="description"
+                    name="description"
+                    onChange={this.onChange}
+                    value={this.description}
+                    required
+                  />
                 </div>
-                <input className="confirm-button" type="submit" value="CREATE" />
-              </div>
-            </form>
+                <div className="content-line">
+                  <label className="new-label" htmlFor="inputType">Input Type</label>
+                  <select
+                    className="content-input"
+                    id="inputType"
+                    name="inputType"
+                    onChange={this.onChange}
+                    value={this.inputType}
+                    required
+                  >
+                    <option value="" disabled defaultValue="selected">Select your option</option>
+                    <option value=".nii.gz">File .nii.gz</option>
+                    <option value="string">String</option>
+                  </select>
+                </div>
+                <div className="content-line">
+                  <label className="new-label" htmlFor="outputType">Output Type</label>
+                  <select
+                    className="content-input"
+                    id="outputType"
+                    name="outputType"
+                    onChange={this.onChange}
+                    value={this.outputType}
+                    required
+                  >
+                    <option value="" disabled defaultValue="selected">Select your option</option>
+                    <option value=".nii.gz">File .nii.gz</option>
+                    <option value="string">String</option>
+                  </select>
+                </div>
+                <div className="content-slider">
+                  <label className="new-label" htmlFor="privacy">Private</label>
+                  <div className="toggle-slider">
+                    <input
+                      type="checkbox"
+                      name="isPrivate"
+                      id="isPrivate"
+                      onChange={this.onChange}
+                      checked={this.isPrivate}
+                    />
+                  </div>
+                </div>
+
+
+                <div className="buttons-form">
+                  <div className="clear-button" onClick={this.clearHandler}>
+                    CLEAR
+                  </div>
+                  <input className="confirm-button" type="submit" value="CREATE" />
+                </div>
+              </form>
+            </div> */}
+
           </div>
-
-          {id &&
-          <div className="content-right">
-
-            <div className="new-header">
-              <p>
-                2. Add Model Files
-              </p>
-            </div>
-
-            <div>
-              <label className="new-label" htmlFor="pythonScript">Python Script</label>
-              {/* <div className="content-box">
-                <input type="file" name="pythonScript" onChange={onFileInputChange}/>
-              </div> */}
-              <PythonScriptDropzone />
-              <div className="buttons">
-                <div className="clear-button">
-                  CLEAR
-                </div>
-                <div className="confirm-button">
-                  CONFIRM
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label className="new-label" htmlFor="modelFiles">Models</label>
-              <ModelFilesDropzone />
-              <div className="buttons">
-                <div className="clear-button">
-                  CLEAR
-                </div>
-                <div className="confirm-button">
-                  CONFIRM
-                </div>
-              </div>
-            </div>
-
-          </div>
-          }
-          
         </div>
-      </div>
-    </>
-  )
+        </ThemeProvider>
+      </>
+    )
+  }
 }
-
-export default New

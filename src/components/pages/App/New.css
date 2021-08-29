@@ -242,3 +242,11 @@ input:checked[type=checkbox]:before {
 .center {
     text-align: center;
 }
+
+.material-ui-card {
+    width: 100%;
+}
+
+.formik-field {
+    
+}

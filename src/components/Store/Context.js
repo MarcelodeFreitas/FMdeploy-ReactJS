@@ -1,8 +1,8 @@
-import { createContext } from "react";
+import { createContext } from "react"
 
 const StoreContext = createContext({
     token: null,
     setToken: () => {},
 })
 
-export default StoreContext;
+export default StoreContext

@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "formik": "^2.2.9",
+    "formik-material-ui": "^4.0.0-alpha.1",
     "js-cookie": "^2.2.1",
     "querystring": "^0.2.1",
     "react": "^17.0.2",
@@ -20,7 +21,8 @@
     "react-dropzone": "^11.3.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",
