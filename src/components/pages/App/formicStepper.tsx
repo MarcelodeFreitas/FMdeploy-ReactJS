@@ -21,7 +21,7 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
         return step === childrenArray.length - 1
     }
 
-    function isLastStep2() {
+    function isPenultimate() {
         return step === childrenArray.length - 2
     }
 
@@ -29,15 +29,18 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
         validationSchema={currentChild.props.validationSchema}
         onSubmit={async (values, helpers) => {
             //calling parent if we are on the last child 
-            if (isLastStep2()) {
+            if (isPenultimate()) {
                 await props.onSubmit(values, helpers)
                 setCompleted(true)
                 setStep(s => s + 1)
             } else {
+                /* console.log(props) */
                 //next step
                 setStep(s => s + 1)
             }
-        }}>
+        }
+
+        }>
         {({ isSubmitting }) => (
             <Form autoComplete="off">
                 <Stepper alternativeLabel activeStep={step}>
@@ -72,7 +75,19 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
                             color="primary"
                             type="submit"
                         >
-                            {isSubmitting ? 'Submitting' : isLastStep2() ? 'Submit' : 'Next'}
+                            {isSubmitting ? 'Submitting' : isPenultimate() ? 'Submit' : 'Next'}
+                        </Button>
+                    </Grid>
+                    ) : null}
+                    {isLastStep() ? (
+                    <Grid item>
+                        <Button
+                            disabled={isSubmitting}
+                            variant="contained"
+                            color="primary"
+                            onClick={() => window.location.reload(false)}
+                        >
+                            New Model
                         </Button>
                     </Grid>
                     ) : null}

@@ -19,7 +19,11 @@ const defaultState = {
   description: "",
   inputType: "",
   outputType: "",
-  isPrivate: true
+  isPrivate: true,
+  modelFiles: [],
+  pythonScript: "",
+  errorPythonScript: "",
+  errorModelFiles: ""
 }
 
 const sleep = (time) => new Promise((acc) => setTimeout(acc, time))
@@ -57,8 +61,6 @@ export default class New extends Component {
     this.state = {
       ...defaultState,
       id: "",
-      modelFiles: [],
-      pythonScript: "",
     }
   }
 
@@ -66,31 +68,68 @@ export default class New extends Component {
     console.log(files)
   }
 
-  clearPythonFile = () => {
-    this.setState({
-      pythonScript: ""
-    },
-      () => { console.log(this.state.pythonScript) }
-    )
+  handleFileErrors = () => {
+    /* console.log("pythonscript: ", this.state.pythonScript, "modelfiles: ", this.state.modelfiles)
+    console.log(this.state.pythonScript === "")
+    console.log(this.state.modelFiles.length === 0) */
+    if (this.state.pythonScript === "") {
+      this.setState({ errorPythonScript: "A Python script is required" })
+    }
+    if (this.state.modelFiles.length === 0) {
+      this.setState({ errorModelFiles: "A Model File is required" })
+    }
+    if (this.state.pythonScript === "" || this.state.modelFiles.length === 0) {
+      return true
+    } else {
+      return false
+    }
   }
 
-  clearModelFiles = () => {
-    this.setState({
-      modelFiles: []
-    },
-      () => { console.log(this.state.modelFiles) }
-    )
-  }
+  /* onFormSubmit = async () => {
+    await this.handleFileErrors()
+
+  } */
+
+
 
   render() {
-    const ModelFilesDropzone = () => {
+
+    const ModelFilesDropzone = ({
+      field: { value }, // { name, value, onChange, onBlur }
+      form: { touched, errors, setFieldValue, setFieldError }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+      ...props
+    }) => {
+
+      /* const modelFilesValidator = file => {
+        console.log(file)
+        if (file.name.slice(-2) !== "py") {
+          setFieldError("pythonScript", "This is not a python file.")
+          return {
+            code: "wrong-file-extension",
+            message: "This is not a python file."
+          }
+        }
+
+        return null
+      } */
+
+      const clearModelFiles = () => {
+        this.setState({
+          modelFiles: []
+        },
+          () => { console.log(this.state.modelFiles) }
+        )
+        setFieldValue("modelFiles", [], false)
+      }
 
       const { getRootProps, getInputProps } = useDropzone({
         disabled: false,
+        /* validator: modelFilesValidator, */
         onDropAccepted: acceptedFiles => {
           this.setState({
             modelFiles: acceptedFiles.map(file => Object.assign(file))
-          }, () => { console.log(this.state.modelFiles) })
+          })
+          setFieldValue("modelFiles", acceptedFiles.map(file => Object.assign(file)))
         }
       })
 
@@ -112,22 +151,42 @@ export default class New extends Component {
           <div>
             <ul className="file-list-errors">{files}</ul>
           </div>
+          <ErrorMessage component="div" className="error-message" name="modelFiles" />
+          <div className="center-button">
+            <div className="clear-button" onClick={clearModelFiles}>
+              CLEAR
+            </div>
+          </div>
         </div>
       )
     }
 
 
-    const PythonScriptDropzone = () => {
+    const PythonScriptDropzone = ({
+      field: { value }, // { name, value, onChange, onBlur }
+      form: { touched, errors, setFieldValue, setFieldError }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+      ...props
+    }) => {
 
       const pythonValidator = file => {
         if (file.name.slice(-2) !== "py") {
+          setFieldError("pythonScript", "This is not a python file.")
           return {
             code: "wrong-file-extension",
             message: "This is not a python file."
-          };
+          }
         }
 
         return null
+      }
+
+      const clearPythonFile = () => {
+        this.setState({
+          pythonScript: ""
+        },
+          () => { console.log(this.state.pythonScript) }
+        )
+        setFieldValue("pythonScript", "", false)
       }
 
 
@@ -143,10 +202,8 @@ export default class New extends Component {
           onDropAccepted: acceptedFiles => {
             this.setState({
               pythonScript: acceptedFiles[0]
-            },
-              () => { console.log(this.state.pythonScript) }
-            )
-
+            })
+            setFieldValue("pythonScript", acceptedFiles[0])
           }
         })
 
@@ -166,9 +223,9 @@ export default class New extends Component {
         return (
           <li className="file-list-item" key={file.path}>
             {file.path}{/*  - {file.size} bytes */}
-            <ul className="file-list-errors">
+            {/* <ul className="file-list-errors">
               {errors.map(e => <li key={e.code}>{e.message}</li>)}
-            </ul>
+            </ul> */}
 
           </li>
         )
@@ -197,12 +254,18 @@ export default class New extends Component {
                 <ul>{acceptedFileItems}</ul>
               </div>
             } */}
-            {fileRejectionItems !== "" &&
+            {fileRejectionItems.length > 0 &&
               <div>
                 <h4>Rejected files</h4>
                 <ul>{fileRejectionItems}</ul>
               </div>
             }
+          </div>
+          <ErrorMessage component="div" className="error-message" name="pythonScript" />
+          <div className="center-button">
+            <div className="clear-button" onClick={clearPythonFile}>
+              CLEAR
+            </div>
           </div>
         </div>
       )
@@ -222,11 +285,19 @@ export default class New extends Component {
                     <FormikStepper
                       initialValues={defaultState}
                       onSubmit={async (values) => {
-                        await sleep(3000)
-                        console.log('values', values)
-                        console.log('pythonFiles', this.state.pythonScript)
-                        console.log('modelFiles', this.state.modelFiles)
-                      }}>
+                        console.log(this.handleFileErrors())
+                        if (this.handleFileErrors()) {
+                          console.log("files are missing")
+                        } else {
+                          console.log(" no files missing")
+                          await sleep(3000)
+                          console.log('values', values)
+                          /* console.log('pythonFiles', this.state.pythonScript)
+                          console.log('modelFiles', this.state.modelFiles) */
+                        }
+                      }}
+                      handleFiles={async () => console.log("hello")}
+                    >
 
                       <FormikStep
                         label="Create Model"
@@ -297,7 +368,12 @@ export default class New extends Component {
                       </FormikStep>
 
                       <FormikStep
-                        label="Add Model Files">
+                        label="Add Model Files"
+                        validationSchema={yup.object().shape({
+                          pythonScript: yup.mixed().required("Python Script is a required field"),
+                          modelFiles: yup.array().min(1),
+                        })
+                        }>
                         <Box paddingBottom={2}>
                           {/* <Field component={SimpleFileUpload} name="file" label="Simple File Upload" />
                         <MultipleFileUploadField name="files" /> */}
@@ -312,35 +388,35 @@ export default class New extends Component {
                             {/* <div className="content-box">
                 <input type="file" name="pythonScript" onChange={onFileInputChange}/>
               </div> */}
-                            <PythonScriptDropzone />
-                            <div className="center-button">
-                              <div className="clear-button" onClick={this.clearPythonFile}>
-                                CLEAR
-                              </div>
-                              {/* <div className="confirm-button">
-                                CONFIRM
-                              </div> */}
-                            </div>
+                            {/* <PythonScriptDropzone /> */}
+
+                            <Field
+                              component={PythonScriptDropzone}
+                              type="file"
+                              name="pythonScript"
+                              id="pythonScript"
+                            />
+
+
+
                           </div>
 
                           <div>
                             <label className="new-label" htmlFor="modelFiles">Models</label>
-                            <ModelFilesDropzone />
-                            <div className="center-button">
-                              <div className="clear-button" onClick={this.clearModelFiles}>
-                                CLEAR
-                              </div>
-                              {/* <div className="confirm-button">
-                                CONFIRM
-                              </div> */}
-                            </div>
+                            {/* <ModelFilesDropzone /> */}
+                            <Field
+                              component={ModelFilesDropzone}
+                              type="file"
+                              name="modelFiles"
+                              id="modelFiles"
+                            />
                           </div>
 
 
                         </Box>
                       </FormikStep>
                       <FormikStep
-                      label="Result">
+                        label="Result">
                         done ye
                       </FormikStep>
                     </FormikStepper>
