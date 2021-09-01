@@ -5,10 +5,18 @@ import "./AppButton.css"
 
 const AppButton = ( {path, button, buttonIcon} ) => {
     return (
-        <Link to={path} className={"main-button"}>
-            {button}
-            <FontAwesomeIcon className={"btn-icon"} icon={buttonIcon} />
-        </Link>
+        <>
+            {buttonIcon !== "" ? 
+                <Link to={path} className={"main-button"}>
+                    {button}
+                    <FontAwesomeIcon className={"btn-icon"} icon={buttonIcon} />
+                </Link>
+            :
+                <Link to={path} className={"main-button"}>
+                    {button}
+                </Link>
+            }
+        </>
     )
 }
 

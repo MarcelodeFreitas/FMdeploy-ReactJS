@@ -89,7 +89,7 @@ function My() {
         <AppHeader title="My Models" button="NEW MODEL" buttonIcon="plus" path="/new"/>
         <SearchById />
 
-        { models.length > 0 ?
+        { (models && models.length > 0) ?
           <div className={"content-table"}>
             <Models models={models} onDelete={deleteModel}/>
           </div>

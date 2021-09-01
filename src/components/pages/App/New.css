@@ -27,10 +27,10 @@
     color: #D3D3D3;
     font-weight: normal;
     font-size: 20px;
-    background-color: #fff;
-    height: 20vh;
+    height: 25vh;
     border-radius: 10px;
     margin-bottom: 10px;
+    border-style: dashed;
 }
 
 .content-box-text-small {
@@ -94,7 +94,7 @@
     transform: scale(0.5);
 }
 
-input[type=checkbox] {
+/* input[type=checkbox] {
     position: relative;
     background-color: #B5B5B5;
     width: 80px;
@@ -132,13 +132,21 @@ input[type=checkbox]:before {
 
 input:checked[type=checkbox]:before {
     left: 42px;
-}
+} */
 
 .buttons {
     display: flex;
     flex-direction: row;
     margin-bottom: 20px;
     justify-content: space-between;
+    font-size: 15px;
+}
+
+.center-button {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    justify-content: center;
     font-size: 15px;
 }
 
@@ -160,8 +168,9 @@ input:checked[type=checkbox]:before {
     color: white;
     padding: 10px;
     border-radius: 10px;
-    width: 45%;
+    width: 250px;
     font-weight: bold;
+    margin-top: 10px;
 }
 
 .clear-button:hover {
@@ -249,4 +258,14 @@ input:checked[type=checkbox]:before {
 
 .formik-field {
     
+}
+
+.fileName{
+    color: black;
+}
+
+.error-message {
+    font-size: 12px;
+    margin-top: 6px;
+    color: red;
 }

@@ -7,13 +7,20 @@ import AppButton from './AppButton'
 
 library.add(fab, faPlus, faGlobeAmericas, faShareAlt, faUndoAlt, faTimes)
 
-const AppHeader = ({title, button, buttonIcon, path}) => {
+const AppHeader = ({ title, button, buttonIcon, path }) => {
     return (
         <>
+            {buttonIcon !== "" ? 
+                <div className={"header"}>
+                    <h1 className={"title"}>{title}</h1>
+                    <AppButton path={path} button={button} buttonIcon={buttonIcon} /> 
+                </div>
+            :
             <div className={"header"}>
-                <h1 className={"title"}>{title}</h1>
-                <AppButton path={path} button={button} buttonIcon={buttonIcon} /> 
-            </div>
+                    <h1 className={"title"}>{title}</h1>
+                    <AppButton path={path} button={button} buttonIcon={""} /> 
+                </div>
+            }
             <hr className={"line"} />
         </>
     )

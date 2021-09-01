@@ -21,13 +21,18 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
         return step === childrenArray.length - 1
     }
 
+    function isLastStep2() {
+        return step === childrenArray.length - 2
+    }
+
     return <Formik {...props}
         validationSchema={currentChild.props.validationSchema}
         onSubmit={async (values, helpers) => {
             //calling parent if we are on the last child 
-            if (isLastStep()) {
+            if (isLastStep2()) {
                 await props.onSubmit(values, helpers)
                 setCompleted(true)
+                setStep(s => s + 1)
             } else {
                 //next step
                 setStep(s => s + 1)
@@ -46,7 +51,7 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
                 {currentChild}
 
                 <Grid container spacing={2}>
-                    {step > 0 ? (
+                    {(step > 0 && step < 2) ? (
                         <Grid item>
                             <Button
                                 disabled={isSubmitting}
@@ -58,6 +63,7 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
                             </Button>
                         </Grid>
                     ) : null}
+                    {step < 2 ? (
                     <Grid item>
                         <Button
                             startIcon={isSubmitting ? <CircularProgress size="1rem" /> : null}
@@ -66,9 +72,10 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
                             color="primary"
                             type="submit"
                         >
-                            {isSubmitting ? 'Submitting' : isLastStep() ? 'Submit' : 'Next'}
+                            {isSubmitting ? 'Submitting' : isLastStep2() ? 'Submit' : 'Next'}
                         </Button>
                     </Grid>
+                    ) : null}
                 </Grid>
 
             </Form>
