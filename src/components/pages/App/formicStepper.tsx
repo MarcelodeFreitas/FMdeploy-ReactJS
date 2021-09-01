@@ -41,7 +41,7 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
         }
 
         }>
-        {({ isSubmitting }) => (
+        {({ isSubmitting, resetForm }) => (
             <Form autoComplete="off">
                 <Stepper alternativeLabel activeStep={step}>
                     {childrenArray.map((child, index) => (
@@ -85,7 +85,8 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
                             disabled={isSubmitting}
                             variant="contained"
                             color="primary"
-                            onClick={() => window.location.reload(false)}
+                            type="reset"
+                            onClick={() => {resetForm({}); setStep(0)}}
                         >
                             New Model
                         </Button>

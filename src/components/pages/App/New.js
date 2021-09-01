@@ -114,11 +114,6 @@ export default class New extends Component {
       } */
 
       const clearModelFiles = () => {
-        this.setState({
-          modelFiles: []
-        },
-          () => { console.log(this.state.modelFiles) }
-        )
         setFieldValue("modelFiles", [], false)
       }
 
@@ -126,14 +121,11 @@ export default class New extends Component {
         disabled: false,
         /* validator: modelFilesValidator, */
         onDropAccepted: acceptedFiles => {
-          this.setState({
-            modelFiles: acceptedFiles.map(file => Object.assign(file))
-          })
           setFieldValue("modelFiles", acceptedFiles.map(file => Object.assign(file)))
         }
       })
 
-      const files = this.state.modelFiles.map((file => (
+      const files = value.map((file => (
         <li className="file-list-errors" key={file.name}>
           {file.name} - {file.size} bytes
         </li>
@@ -181,11 +173,6 @@ export default class New extends Component {
       }
 
       const clearPythonFile = () => {
-        this.setState({
-          pythonScript: ""
-        },
-          () => { console.log(this.state.pythonScript) }
-        )
         setFieldValue("pythonScript", "", false)
       }
 
@@ -235,7 +222,7 @@ export default class New extends Component {
         <div>
           <div {...getRootProps()} className="content-box">
             <input {...getInputProps()} />
-            {this.state.pythonScript === "" ?
+            {value === "" ?
               <div className="center">
                 <p>Drop File Here</p>
                 <p>- or -</p>
@@ -244,7 +231,7 @@ export default class New extends Component {
                 <p className="content-box-text-small">(you can only drop 1 file here)</p>
               </div>
               :
-              <p className="fileName">{this.state.pythonScript.name}</p>
+              <p className="fileName">{value.name}</p>
             }
           </div>
           <div className="file-messages">
@@ -292,11 +279,8 @@ export default class New extends Component {
                           console.log(" no files missing")
                           await sleep(3000)
                           console.log('values', values)
-                          /* console.log('pythonFiles', this.state.pythonScript)
-                          console.log('modelFiles', this.state.modelFiles) */
                         }
                       }}
-                      handleFiles={async () => console.log("hello")}
                     >
 
                       <FormikStep
