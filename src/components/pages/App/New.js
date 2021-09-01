@@ -272,15 +272,10 @@ export default class New extends Component {
                     <FormikStepper
                       initialValues={defaultState}
                       onSubmit={async (values) => {
-                        console.log(this.handleFileErrors())
-                        if (this.handleFileErrors()) {
-                          console.log("files are missing")
-                        } else {
-                          console.log(" no files missing")
                           await sleep(3000)
                           console.log('values', values)
                         }
-                      }}
+                      }
                     >
 
                       <FormikStep
