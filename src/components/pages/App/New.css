@@ -27,7 +27,7 @@
     color: #D3D3D3;
     font-weight: normal;
     font-size: 20px;
-    height: 25vh;
+    height: 150px;
     border-radius: 10px;
     margin-bottom: 10px;
     border-style: dashed;
@@ -268,4 +268,11 @@ input:checked[type=checkbox]:before {
     font-size: 12px;
     margin-top: 6px;
     color: red;
+}
+
+.submit-result-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

@@ -23,13 +23,17 @@ const defaultState = {
   modelFiles: [],
   pythonScript: "",
   errorPythonScript: "",
-  errorModelFiles: ""
+  errorModelFiles: "",
+  aiId: "",
+  aiCreatedMessage: "",
+  pythonScriptMessage: "",
+  modelFilesMessage: "",
 }
 
-const sleep = (time) => new Promise((acc) => setTimeout(acc, time))
+/* const sleep = (time) => new Promise((acc) => setTimeout(acc, time)) */
 
 //Function to create a new model
-const newModel = async (token, title, description, outputType, isPrivate) => {
+/* const newModel = async (token, title, description, outputType, isPrivate) => {
   try {
     const response = await axios.post(
       `${baseUrl}/ai`,
@@ -50,7 +54,7 @@ const newModel = async (token, title, description, outputType, isPrivate) => {
     console.log(e)
   }
 
-}
+} */
 
 export default class New extends Component {
 
@@ -60,7 +64,6 @@ export default class New extends Component {
     super(props)
     this.state = {
       ...defaultState,
-      id: "",
     }
   }
 
@@ -85,10 +88,96 @@ export default class New extends Component {
     }
   }
 
-  /* onFormSubmit = async () => {
-    await this.handleFileErrors()
+  //create ai model in the server
+  createAiModel = async (token, values) => {
+    console.log(values)
+    
+    try {
+      const response = await axios.post(
+        `${baseUrl}/ai`,
+        {
+          title: values.title,
+          description: values.description,
+          input_type: values.outputType,
+          output_type: values.outputType,
+          is_private: values.isPrivate,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        }
+      )
+      console.log(await response)
+      this.setState({ aiId: await response.data.ai_id }, () => console.log("aiId: ", this.state.aiId))
+      if (await response.status === 201) {
+        this.setState({ aiCreatedMessage: "Model created successfully" })
+      }
+      if (await response.status === 401) { 
+        this.setState({ aiCreatedMessage: "Unauthorized" })
+      }
+    } catch (e) {
+      console.log(e)
+      this.setState({ aiCreatedMessage: "Error" })
+    }
 
-  } */
+  }
+
+  //add pythonscript to the ai model
+  uploadPythonScript = async (token, values) => {
+
+    try {
+      const formData = new FormData()
+      formData.append('python_file', values.pythonScript)
+      const response = axios.post(`${baseUrl}/files/pythonscript/${this.state.aiId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
+        }
+      })
+      console.log(await response)
+      if (await response.status === 200) {
+        this.setState({ pythonScriptMessage: "Python Script uploaded successfully"  })
+      }
+      if (await response.status === 401) { 
+        this.setState({ pythonScriptMessage: "Unauthorized" })
+      }
+    } catch (e) {
+      console.log(e)
+      this.setState({ pythonScriptMessage: "Error" })
+    }
+
+  }
+
+    //add modelfiles to the ai model
+    uploadModelFiles = async (token, values) => {
+
+      try {
+        const formData = new FormData()
+
+        values.modelFiles.forEach(function (item, index) {
+          formData.append('model_files', item)
+        })
+        
+        const response = axios.post(`${baseUrl}/files/modelfiles/${this.state.aiId}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+          }
+        })
+        console.log(await response)
+        if (await response.status === 200) {
+          this.setState({ modelFilesMessage: "Model Files uploaded successfully"  })
+        }
+        if (await response.status === 401) { 
+          this.setState({ modelFilesMessage: "Unauthorized" })
+        }
+      } catch (e) {
+        console.log(e)
+        this.setState({ modelFilesMessage: "Error" })
+      }
+  
+    }
 
 
 
@@ -179,7 +268,7 @@ export default class New extends Component {
 
 
       const {
-        acceptedFiles,
+        
         fileRejections,
         getRootProps,
         getInputProps } = useDropzone({
@@ -200,11 +289,11 @@ export default class New extends Component {
         setPythonScript(acceptedFiles[0])
       } */
 
-      const acceptedFileItems = acceptedFiles.map(file => (
+      /* const acceptedFileItems = acceptedFiles.map(file => (
         <li className="python-script-accepted" key={file.path}>
-          {file.path}{/*  - {file.size} bytes */}
+          {file.path}
         </li>
-      ));
+      )) */
 
       const fileRejectionItems = fileRejections.map(({ file, errors }) => {
         return (
@@ -272,9 +361,11 @@ export default class New extends Component {
                     <FormikStepper
                       initialValues={defaultState}
                       onSubmit={async (values) => {
-                          await sleep(3000)
-                          console.log('values', values)
-                        }
+                        await this.createAiModel(this.context.token, await values)
+                        await this.uploadPythonScript(this.context.token, await values)
+                        await this.uploadModelFiles(this.context.token, await values)
+                        
+                      }
                       }
                     >
 
@@ -396,7 +487,15 @@ export default class New extends Component {
                       </FormikStep>
                       <FormikStep
                         label="Result">
-                        done ye
+                        <div className="submit-result-container">
+                          <div>1. Create Model</div>
+                          <div>{this.state.aiCreatedMessage}</div>
+                          <div>2. Submit Python Script</div>
+                          <div>{this.state.pythonScriptMessage}</div>
+                          <div>3. Submit Model Files</div>
+                          <div>{this.state.modelFilesMessage}</div>
+                        </div>
+
                       </FormikStep>
                     </FormikStepper>
                   </CardContent>

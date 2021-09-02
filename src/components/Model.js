@@ -7,18 +7,18 @@ export const Model = ({ model, onDelete }) => {
 
     return (
         <div className={"list-item"}>
-            {/* <div className={"item"}>
+            <div className={"item"}>
                 <p className={"item-text-colored"}>ID:</p>
                 <p className={"item-text"}>{model.ai_id}</p>
-            </div> */}
+            </div>
             <div className={"item"}>
                 <p className={"item-text-colored"}>NAME:</p>
                 <p className={"item-text"}>{model.title}</p>
             </div>
-            {/* <div className={"item"}>
+            <div className={"item"}>
                 <p className={"item-text-colored"}>AUTHOR:</p>
                 <p className={"item-text"}>{model.name}</p>
-            </div> */}
+            </div>
             <div className={"item"}>
                 <p className={"item-text-colored"}>DATE:</p>
                 <p className={"item-text"}>{new Intl.DateTimeFormat().format(date)}</p>

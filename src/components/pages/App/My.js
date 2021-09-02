@@ -75,7 +75,7 @@ function My() {
   }, [token])
 
   // Delete an AI model
-  const deleteModel = (id) => {
+  const deleteModel = async (id) => {
     //delete AI model from state
     setModels(models.filter((model) => 
         model.ai_id !== id
