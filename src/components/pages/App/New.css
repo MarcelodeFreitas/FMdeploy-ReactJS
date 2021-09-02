@@ -276,3 +276,19 @@ input:checked[type=checkbox]:before {
     align-items: center;
     justify-content: center;
 }
+
+.submit-result-element {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.submit-result-message {
+    margin-left: 20px;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+.submit-result-label {
+    color: #E76300;
+    font-weight: bold;
+}

@@ -25,9 +25,9 @@ const defaultState = {
   errorPythonScript: "",
   errorModelFiles: "",
   aiId: "",
-  aiCreatedMessage: "",
-  pythonScriptMessage: "",
-  modelFilesMessage: "",
+  aiCreatedMessage: "server feedback message 1",
+  pythonScriptMessage: "server feedback message 2",
+  modelFilesMessage: "server feedback message 3",
 }
 
 /* const sleep = (time) => new Promise((acc) => setTimeout(acc, time)) */
@@ -91,7 +91,7 @@ export default class New extends Component {
   //create ai model in the server
   createAiModel = async (token, values) => {
     console.log(values)
-    
+
     try {
       const response = await axios.post(
         `${baseUrl}/ai`,
@@ -111,14 +111,13 @@ export default class New extends Component {
       console.log(await response)
       this.setState({ aiId: await response.data.ai_id }, () => console.log("aiId: ", this.state.aiId))
       if (await response.status === 201) {
-        this.setState({ aiCreatedMessage: "Model created successfully" })
-      }
-      if (await response.status === 401) { 
-        this.setState({ aiCreatedMessage: "Unauthorized" })
+       /* this.setState({ aiCreatedMessage: "Model created successfully" }) */
+        return "Model created successfully"
       }
     } catch (e) {
-      console.log(e)
-      this.setState({ aiCreatedMessage: "Error" })
+      console.log("createAiModel error: ", e.response)
+      /* this.setState({ aiCreatedMessage: e.response.data.detail }) */
+      return e.response.data.detail
     }
 
   }
@@ -136,51 +135,61 @@ export default class New extends Component {
         }
       })
       console.log(await response)
-      if (await response.status === 200) {
-        this.setState({ pythonScriptMessage: "Python Script uploaded successfully"  })
-      }
-      if (await response.status === 401) { 
-        this.setState({ pythonScriptMessage: "Unauthorized" })
-      }
+      return "Python Script uploaded successfully"
     } catch (e) {
-      console.log(e)
-      this.setState({ pythonScriptMessage: "Error" })
+      console.log("uploadPythonScript error: ", e.response)
+      /* this.setState({ pythonScriptMessage: e.response.data.detail }) */
+      return e.response.data.detail
     }
 
   }
 
-    //add modelfiles to the ai model
-    uploadModelFiles = async (token, values) => {
+  //add modelfiles to the ai model
+  uploadModelFiles = async (token, values) => {
 
-      try {
-        const formData = new FormData()
+    try {
+      const formData = new FormData()
 
-        values.modelFiles.forEach(function (item, index) {
-          formData.append('model_files', item)
-        })
-        
-        const response = axios.post(`${baseUrl}/files/modelfiles/${this.state.aiId}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`
-          }
-        })
-        console.log(await response)
-        if (await response.status === 200) {
-          this.setState({ modelFilesMessage: "Model Files uploaded successfully"  })
+      values.modelFiles.forEach(function (item, index) {
+        formData.append('model_files', item)
+      })
+
+      const response = axios.post(`${baseUrl}/files/modelfiles/${this.state.aiId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`
         }
-        if (await response.status === 401) { 
-          this.setState({ modelFilesMessage: "Unauthorized" })
-        }
-      } catch (e) {
-        console.log(e)
-        this.setState({ modelFilesMessage: "Error" })
-      }
-  
+      })
+      console.log(await response)
+      return "Model Files uploaded successfully"
+      
+    } catch (e) {
+      console.log("uploadPythonScript error: ", e.response)
+      return e.response.data.detail
     }
 
+  }
 
+  handleSubmitResult = () => {
+    return (
+      <div>
+        <div className="submit-result-element">
+          <div className="submit-result-label">1. Create Model</div>
+          <div className="submit-result-message">{this.state.aiCreatedMessage}</div>
+        </div>
+        <div className="submit-result-element">
+          <div className="submit-result-label">2. Submit Python Script</div>
+          <div className="submit-result-message">{this.state.pythonScriptMessage}</div>
+        </div>
+        <div className="submit-result-element">
+          <div className="submit-result-label">3. Submit Model Files</div>
+          <div className="submit-result-message">{this.state.modelFilesMessage}</div>
+        </div>
+      </div>
 
+    )
+  }
+  
   render() {
 
     const ModelFilesDropzone = ({
@@ -268,7 +277,7 @@ export default class New extends Component {
 
 
       const {
-        
+
         fileRejections,
         getRootProps,
         getInputProps } = useDropzone({
@@ -361,10 +370,11 @@ export default class New extends Component {
                     <FormikStepper
                       initialValues={defaultState}
                       onSubmit={async (values) => {
-                        await this.createAiModel(this.context.token, await values)
-                        await this.uploadPythonScript(this.context.token, await values)
-                        await this.uploadModelFiles(this.context.token, await values)
-                        
+                        const aiCreatedMessage = await this.createAiModel(this.context.token, await values)
+                        const pythonScriptMessage = await this.uploadPythonScript(this.context.token, await values)
+                        const modelFilesMessage = await this.uploadModelFiles(this.context.token, await values)
+                        console.log(aiCreatedMessage, pythonScriptMessage, modelFilesMessage)
+                        this.setState({aiCreatedMessage: aiCreatedMessage, pythonScriptMessage: pythonScriptMessage, modelFilesMessage: modelFilesMessage})
                       }
                       }
                     >
@@ -488,12 +498,7 @@ export default class New extends Component {
                       <FormikStep
                         label="Result">
                         <div className="submit-result-container">
-                          <div>1. Create Model</div>
-                          <div>{this.state.aiCreatedMessage}</div>
-                          <div>2. Submit Python Script</div>
-                          <div>{this.state.pythonScriptMessage}</div>
-                          <div>3. Submit Model Files</div>
-                          <div>{this.state.modelFilesMessage}</div>
+                          <this.handleSubmitResult />
                         </div>
 
                       </FormikStep>
