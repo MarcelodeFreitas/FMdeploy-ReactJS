@@ -44,59 +44,77 @@ function My() {
 
   const [models, setModels] = useState("")
 
- 
+
 
   useEffect(() => {
 
     //get ai models owned by current user
     const getMyModels = async () => {
       try {
-          const response = await axios.get(
-            `${baseUrl}/userai/owned_list`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`
-              },
-            }
-          )
-          return await response.data
+        const response = await axios.get(
+          `${baseUrl}/userai/owned_list`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+          }
+        )
+        return await response.data
       } catch (e) {
         console.log(e)
       }
     }
-    
+
     const fetchMyModels = async () => {
       const modelsFromServer = await getMyModels()
       setModels(modelsFromServer)
     }
-    
+
     fetchMyModels()
-    
+
   }, [token])
 
   // Delete an AI model
   const deleteModel = async (id) => {
+
+    //delete ai model from server
+    try {
+      const response = await axios.delete(
+        `${baseUrl}/ai/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        }
+      )
+      console.log(await response)
+    } catch (e) {
+      console.log(e)
+    }
+
     //delete AI model from state
-    setModels(models.filter((model) => 
-        model.ai_id !== id
+    setModels(models.filter((model) =>
+      model.ai_id !== id
     ))
+
+
   }
 
   return (
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title="My Models" button="NEW MODEL" buttonIcon="plus" path="/new"/>
+        <AppHeader title="My Models" button="NEW MODEL" buttonIcon="plus" path="/new" />
         <SearchById />
 
-        { (models && models.length > 0) ?
+        {(models && models.length > 0) ?
           <div className={"content-table"}>
-            <Models models={models} onDelete={deleteModel}/>
+            <Models models={models} onDelete={deleteModel} />
           </div>
           :
-          <NoContentCard text="No models found!"/>
+          <NoContentCard text="No models found!" />
         }
-        
+
       </div>
     </>
   )
