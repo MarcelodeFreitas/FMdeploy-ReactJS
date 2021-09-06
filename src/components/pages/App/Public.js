@@ -1,4 +1,3 @@
-import React from "react"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
@@ -10,7 +9,7 @@ const Public = () => {
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title="Public Models" button="PUBLISH MODEL" buttonIcon="globe-americas" path="/my"/>
+        <AppHeader title="Public Models" button="PUBLISH" buttonIcon="globe-americas" path="/my"/>
         <SearchById />
       </div>
     </>

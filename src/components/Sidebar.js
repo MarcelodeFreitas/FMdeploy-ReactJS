@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { useLocation } from "react-router-dom"
 import './Sidebar.css'
 import { Link } from 'react-router-dom'
@@ -16,7 +16,7 @@ const Sidebar = () => {
                 <ul className="sidebar-side">
                     <li className="logo">
                         <Link to="/my" className="side-link">
-                            <span className="link-text logo-text">FMdeploy</span>
+                            <span className="logo-text">FMdeploy</span>
                             <FontAwesomeIcon className="icon" icon={faBrain} />
                         </Link>
                     </li>

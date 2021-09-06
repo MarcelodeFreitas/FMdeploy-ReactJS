@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import { Component } from "react"
 import AppHeader from "../../AppHeader"
 import Sidebar from "../../Sidebar"
 import "./Main.css"
@@ -382,7 +382,7 @@ export default class New extends Component {
                       <FormikStep
                         label="Create Model"
                         validationSchema={yup.object().shape({
-                          title: yup.string().required("Title is a required field"),
+                          title: yup.string().max(60).required("Title is a required field"),
                           description: yup.string().required("Description is a required field"),
                           inputType: yup.string().required("Input Type is a required field"),
                           outputType: yup.string().required("Output Type is a required field"),

@@ -178,25 +178,6 @@ input:checked[type=checkbox]:before {
     cursor: pointer;
 }
 
-.confirm-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #E76300;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-    width: 45%;
-    border: none;
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.confirm-button:hover {
-    background-color: #F38E00;
-    cursor: pointer;
-}
-
 .new-header {
     margin-bottom: 20px;
     font-size: 20px;

@@ -1,4 +1,3 @@
-import React from "react"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
@@ -10,7 +9,7 @@ const Shared = () => {
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title="Shared Models" button="SHARE MODEL" buttonIcon="share-alt" path="/my"/>
+        <AppHeader title="Shared Models" button="SHARE" buttonIcon="share-alt" path="/my"/>
         <SearchById />
       </div>
     </>

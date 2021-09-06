@@ -1,29 +1,32 @@
-import React from 'react'
 import './Model.css'
 import TouchableOpacity from './TouchableOpacity'
+import { useHistory } from "react-router-dom"
 
 export const Model = ({ model, onDelete }) => {
     const date = new Date(model.created_in)
+    const history = useHistory()
 
     return (
         <div className={"list-item"}>
-            <div className={"item"}>
-                <p className={"item-text-colored"}>ID:</p>
-                <p className={"item-text"}>{model.ai_id}</p>
+            <div className={"data-items"}>
+                <div className={"item"}>
+                    <p className={"item-text-colored"}>ID:</p>
+                    <p className={"item-text"}>{model.ai_id}</p>
+                </div>
+                {/* <div className={"item"}>
+                    <p className={"item-text-colored"}>AUTHOR:</p>
+                    <p className={"item-text"}>{model.name}</p>
+                </div> */}
+                <div className={"item"}>
+                    <p className={"item-text-colored"}>DATE:</p>
+                    <p className={"item-text"}>{new Intl.DateTimeFormat().format(date)}</p>
+                </div>
+                <div className={"item"}>
+                    <p className={"item-text-colored"}>TITLE:</p>
+                    <p className={"item-text"}>{model.title}</p>
+                </div>
             </div>
-            <div className={"item"}>
-                <p className={"item-text-colored"}>NAME:</p>
-                <p className={"item-text"}>{model.title}</p>
-            </div>
-            <div className={"item"}>
-                <p className={"item-text-colored"}>AUTHOR:</p>
-                <p className={"item-text"}>{model.name}</p>
-            </div>
-            <div className={"item"}>
-                <p className={"item-text-colored"}>DATE:</p>
-                <p className={"item-text"}>{new Intl.DateTimeFormat().format(date)}</p>
-            </div>
-            <div className={"item"}>
+            <div className={"last-item"}>
                 <div className={"icon-container"}>
                     <TouchableOpacity>
                         <img className={"icon"} 
@@ -34,14 +37,33 @@ export const Model = ({ model, onDelete }) => {
                 </div>
                 <div className={"icon-container"}>
                     <TouchableOpacity>
+                        <img className={"icon"} src="images/edit.png" 
+                            alt="share"/>
+                    </TouchableOpacity>
+                </div>
+                <div className={"icon-container"}>
+                    <TouchableOpacity>
                         <img className={"icon"} src="images/share.png" 
                             alt="share"/>
                     </TouchableOpacity>
                 </div>
                 <div className={"icon-container"}>
                     <TouchableOpacity>
-                        <img className={"icon"} src="images/run.png" 
-                            alt="run"/>
+                        {/* <Link to={{
+                            pathname: '/run',
+                            state: {
+                                name: "hey", 
+                                name2: "heyx2",
+                            },
+                        }}> */}
+                            <img className={"icon"} src="images/run.png" 
+                                alt="run"
+                                onClick={() => {
+                                    history.replace(
+                                        '/run', {...model}
+                                    )
+                                }}/>
+                        {/* </Link> */}
                     </TouchableOpacity>
                 </div>
             </div>

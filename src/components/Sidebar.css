@@ -28,7 +28,7 @@
   }
   
   .main {
-    margin-left: 5rem;
+    margin-left: 4rem;
     padding: 1rem;
     padding-left: 3em;
   }
@@ -36,7 +36,7 @@
 .sidebar {
     position: fixed;
     background-color: var(--bg-primary);
-    transition: width 600ms ease;
+    transition: width 300ms ease;
     overflow: scroll;
     overflow-x: hidden;
   }
@@ -76,11 +76,6 @@
     cursor: pointer;
   }
   
-  .link-text {
-    display: none;
-    margin-left: 1rem;
-  }
-  
   .side-link svg {
     width: 2rem;
     min-width: 2rem;
@@ -108,7 +103,7 @@
     color: var(--text-secondary);
     background: var(--bg-secondary);
     font-size: 1.5rem;
-    letter-spacing: 0.3ch;
+    letter-spacing: 0.1ch;
     width: 100%;
   }
   
@@ -126,6 +121,8 @@
     position: absolute;
     left: -999px;
     transition: var(--transition-speed);
+    padding-left: 1rem;
+    margin-right: 1rem;
   }
   
   .sidebar:hover .logo svg {
@@ -156,6 +153,7 @@
   
     .main {
       margin: 0;
+      padding-left: 1rem;
     }
   }
   
@@ -168,23 +166,23 @@
       overflow: hidden;
     }
   
-    /* .sidebar:hover {
+    .sidebar:hover {
       width: 15rem;
-    } */
+    }
   
     .sidebar:hover .link-text {
       display: inline;
     }
   
-    /* .sidebar:hover .logo svg
+    .sidebar:hover .logo svg
     {
       margin-left: 11rem;
-    } */
+    }
   
-    /* .sidebar:hover .logo-text
+    .sidebar:hover .logo-text
     {
       left: 0px;
-    } */
+    }
   }
 
   

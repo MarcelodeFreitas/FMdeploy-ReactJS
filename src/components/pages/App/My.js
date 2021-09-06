@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useHistory, useLocation } from "react-router-dom"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
@@ -59,9 +59,10 @@ function My() {
             },
           }
         )
-        return await response.data
+        console.log("getMyModels: ", await response.data)
+        return await response.data.reverse()
       } catch (e) {
-        console.log(e)
+        console.log("getMyModels error: ", e.response)
       }
     }
 
@@ -96,15 +97,18 @@ function My() {
     setModels(models.filter((model) =>
       model.ai_id !== id
     ))
-
-
   }
+
+  /* const toggleListReverse = () => {
+    let modelsReversed = models.reverse()
+    setModels(modelsReversed)
+  } */
 
   return (
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title="My Models" button="NEW MODEL" buttonIcon="plus" path="/new" />
+        <AppHeader title="My Models" button="NEW" buttonIcon="plus" path="/new" />
         <SearchById />
 
         {(models && models.length > 0) ?
