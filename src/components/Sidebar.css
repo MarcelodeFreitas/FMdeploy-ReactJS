@@ -39,6 +39,7 @@
     transition: width 300ms ease;
     overflow: scroll;
     overflow-x: hidden;
+    z-index: 999999; /* to make sure material ui buttons dont go above bar when in small screen mode */
   }
   
   .sidebar-side {

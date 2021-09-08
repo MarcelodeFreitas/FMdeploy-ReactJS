@@ -1,6 +1,7 @@
 .main{
     background-color: #F3F3F3;
     min-height: 100vh;
+    padding-bottom: 200px;
 }
 
 .content-table {
@@ -11,9 +12,8 @@
 }
 
   /* Small screens */
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 1000px) {
     .main {
         height: auto;
-        padding-bottom: 200px;
     }
   }

@@ -8,16 +8,20 @@ import { useState, useContext } from "react"
 import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
-import { CircularProgress, Button, ThemeProvider } from '@material-ui/core'
+import { CircularProgress, Button, ThemeProvider, Container } from '@material-ui/core'
 import theme from "../../theme/theme"
 
 const Run = (props) => {
 
+  const date = new Date(props.location.state.created_in)
+
+  const formatedDate = new Intl.DateTimeFormat().format(date)
+
   const { token } = useContext(StoreContext)
 
-  const [inputFileId, setInputFileID] = useState("")
+  /* const [inputFileId, setInputFileID] = useState("") */
 
-  const [outputFile, setOutputFile] = useState("")
+  /* const [outputFile, setOutputFile] = useState("") */
 
   const [outputFileName, setOutputFileName] = useState("")
 
@@ -25,7 +29,7 @@ const Run = (props) => {
 
   const [isRunning, setIsRunning] = useState(false)
 
-  /* console.log(props.location.state) */
+  console.log(props.location.state)
 
   //upload input file to the server and get the id
   const uploadInputFile = async (token, inputFile) => {
@@ -40,7 +44,7 @@ const Run = (props) => {
       })
       console.log(await response)
       console.log(await response.data)
-      setInputFileID(await response.data.input_file_id)
+      /* setInputFileID(await response.data.input_file_id) */
       return await response.data.input_file_id
     } catch (e) {
       console.log(e)
@@ -95,24 +99,19 @@ const Run = (props) => {
     } else {
       console.log(inputFile)
     }
-    
+
   }
 
   const InputFilesDropzone = () => {
 
     const [files, setFiles] = useState([])
 
-    const getFiles = () => {
-      console.log(files)
-    }
-
-
     const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
       disabled: false,
       maxFiles: 1,
-      onDrop: () => {setOutputFileName("")},
+      /* onDrop: () => {setOutputFileName("")}, */
       onDropAccepted: acceptedFiles => {
-        setOutputFileName("")
+        /* setOutputFileName("") */
         setFiles(acceptedFiles[0])
         console.log("files: ", files)
       }
@@ -121,7 +120,7 @@ const Run = (props) => {
     const clearFiles = () => {
       setFiles([])
       acceptedFiles.splice([], 1)
-      setInputFileID("")
+      /* setInputFileID("") */
       setOutputFileName("")
     }
 
@@ -146,28 +145,18 @@ const Run = (props) => {
           <div className="clear-button-fat" onClick={clearFiles}>
             CLEAR
           </div>
-          {console.log(isRunning)}
-          {/* {acceptedFiles.length === 0 ?
-            <div className="submit-button-disabled" onClick={() => { console.log("disabled") }}>
-              SUBMIT
-            </div>
-            :
-            <div className="submit-button" onClick={() => handleRun(token, acceptedFiles[0], props.location.state.ai_id)}>
-              SUBMIT
-            </div>
-          } */}
           <Button
-              style={{width: '48%', fontSize: "15px", fontWeight: "bold"}}
-              startIcon={isRunning ? <CircularProgress size="1rem" /> : null}
-              disabled={isRunning}
-              variant="contained"
-              color="primary"
-              type="submit"
-              onClick={() =>  handleRun(token, acceptedFiles[0], props.location.state.ai_id)}
+            style={{ width: '48%', fontSize: "15px", fontWeight: "bold", borderRadius: "10px" }}
+            startIcon={isRunning ? <CircularProgress size="1rem" /> : null}
+            disabled={isRunning}
+            variant="contained"
+            color="primary"
+            type="submit"
+            onClick={() => handleRun(token, acceptedFiles[0], props.location.state.ai_id)}
           >
-              Submit
+            Submit
           </Button>
-          
+
         </div>
       </div>
     )
@@ -175,42 +164,69 @@ const Run = (props) => {
 
   return (
     <>
-    <ThemeProvider theme={theme}>
-      <Sidebar />
-      <div className="main">
-        <AppHeader title={props.location.state.title} button="BACK" buttonIcon="" path="/my" />
-        <div className="run-container">
-          <div style={{ marginBottom: "40px", marginTop: "40px" }}>
-            <div>ai id: {props.location.state.ai_id}</div>
-            <div>input type: {props.location.state.input_type}</div>
-            <div>is Private: {props.location.state.is_private.toString()}</div>
-          </div>
-          <div className="description">
-            {props.location.state.description} askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh  askdjhf alksdjh laskdjh laskdj halksjdh lkasjd hlaskjh
-          </div>
-          <div className="run-boxes">
-            <InputFilesDropzone />
-            <div className="run-box">
-              <h1 className="run-labels">2. OUTPUT</h1>
-              <div className="run-dropzone">
-                <div className="center">
-                  {outputFileName && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
+      <ThemeProvider theme={theme}>
+        <Sidebar />
+        <div className="main">
+          <AppHeader title={props.location.state.title} button="BACK" buttonIcon="" path="/my" />
+          <Container>
+            <Container className="run-white-container">
+              <div className="run-data-line"><p className="run-top-label">AI ID:</p> {props.location.state.ai_id}</div>
+              <br></br>
+              <div className="run-row">
+                <div className="run-column">
+                  <div className="run-data-line">
+                    <p className="run-top-label">AUTHOR:</p> {props.location.state.name}
+                  </div>
+                </div>
+                <div className="run-column">
+                  <div className="run-data-line">
+                    <p className="run-top-label">DATE:</p> {formatedDate}
+                  </div>
                 </div>
               </div>
-              {outputFileName &&
-                <div className="run-buttons">
-                  <div className="clear-button-fat" onClick={() => { }}>
-                    SHARE
-                  </div>
-                  <div className="submit-button" onClick={() => downloadLink.click()}>
-                    DOWNLOAD
+              <br></br>
+              <div className="run-row">
+                <div className="run-column">
+                  <div className="run-data-line">
+                    <p className="run-top-label">INPUT FILE TYPE:</p> {props.location.state.input_type}
                   </div>
                 </div>
-              }
+                <div className="run-column">
+                  <div className="run-data-line">
+                    <p className="run-top-label">PRIVATE:</p> {props.location.state.is_private.toString()}
+                  </div>
+                </div>
+              </div>
+            </Container>
+
+            <Container className="run-white-container">
+              <p className="run-top-label">DESCRIPTION:</p>
+              <br></br>
+              {props.location.state.description}
+            </Container>
+            <div className="run-boxes">
+              <InputFilesDropzone />
+              <div className="run-box">
+                <h1 className="run-labels">2. OUTPUT</h1>
+                <div className="run-dropzone">
+                  <div className="center">
+                    {outputFileName && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
+                  </div>
+                </div>
+                {outputFileName &&
+                  <div className="run-buttons">
+                    <div className="clear-button-fat" onClick={() => { }}>
+                      SHARE
+                    </div>
+                    <div className="submit-button" onClick={() => downloadLink.click()}>
+                      DOWNLOAD
+                    </div>
+                  </div>
+                }
+              </div>
             </div>
-          </div>
+          </Container>
         </div>
-      </div>
       </ThemeProvider>
     </>
   )
