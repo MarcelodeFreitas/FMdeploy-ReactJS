@@ -1,22 +1,46 @@
-import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSearch } from "@fortawesome/free-solid-svg-icons"
+import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons"
 import './SearchById.css'
+import { useState } from "react"
 
-const SearchById = () => {
-    return (
-        <div className={"searchbar"}>
-          <input
-            className={"searchbar-input"}
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search by Model ID"
-            required
-          />
-          <FontAwesomeIcon icon={faSearch} className={"search-icon"}/>
-        </div>
-    )
+const SearchById = (props) => {
+
+  const [aiId, setAiId] = useState("")
+
+  const onChange = (event) => {
+    const { value, name } = event.target
+    console.log(value, name)
+    setAiId(value)
+  }
+
+  const submitHandler = async () => {
+    const getModelsById = [await props.getModelsById(aiId)]
+    console.log("getModelsById: ", getModelsById)
+    await props.fetchModelById(getModelsById)
+  }
+
+  const handleReset = () => {
+    setAiId("")
+  }
+
+  return (
+    <div className={"searchbar"}>
+      <input
+        className={"searchbar-input"}
+        type="text"
+        name="search"
+        id="search"
+        placeholder="Search by Model ID"
+        onChange={onChange}
+        value={aiId}
+        required
+      />
+      {aiId !== "" &&
+        <FontAwesomeIcon icon={faTimes} className={"clear-icon"} onClick={() => handleReset()} />
+      }
+      <FontAwesomeIcon icon={faSearch} className={"search-icon"} onClick={() => submitHandler()} />
+    </div>
+  )
 }
 
 export default SearchById

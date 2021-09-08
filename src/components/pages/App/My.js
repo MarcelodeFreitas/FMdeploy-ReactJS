@@ -44,6 +44,28 @@ function My() {
 
   const [models, setModels] = useState("")
 
+  //get ai models owned by id
+  const getModelsById = async (aiId) => {
+    console.log(aiId)
+    try {
+      const response = await axios.get(
+        `${baseUrl}/ai/${aiId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        }
+      )
+      return await response.data
+    } catch (e) {
+      console.log("getModelsById error: ", e.response)
+    }
+  }
+
+  const fetchModelById = async (getModelsById) => {
+    setModels(getModelsById)
+  }
+
 
 
   useEffect(() => {
@@ -109,7 +131,7 @@ function My() {
       <Sidebar />
       <div className="main">
         <AppHeader title="My Models" button="NEW" buttonIcon="plus" path="/new" />
-        <SearchById />
+        <SearchById getModelsById={getModelsById} fetchModelById={fetchModelById}/>
 
         {(models && models.length > 0) ?
           <div className={"content-table"}>
