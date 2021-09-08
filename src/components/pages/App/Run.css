@@ -29,6 +29,7 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    height: 100%;
 }
 
 .run-box {
@@ -74,6 +75,21 @@
     cursor: pointer;
 }
 
+.submit-button-disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #E76300;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    width: 48%;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    filter: grayscale(10%) opacity(0.6);
+}
+
 .run-buttons {
     display: flex;
     justify-content: space-between;
@@ -84,8 +100,25 @@
 .link-text {
     display: none;
     margin-left: 1rem;
-  }
+}
 
+.run-labels {
+    color: #E76300;
+    justify-self: left;
+    text-align: left;
+    margin-left: 1rem;
+}
+
+.run-fileName {
+    color: black;
+}
+
+.run-fileName:hover {
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+
+}
 
 @media only screen and (max-width: 1200px) {
     .run-container {
