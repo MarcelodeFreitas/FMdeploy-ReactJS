@@ -106,9 +106,24 @@ const Run = (props) => {
 
     const [files, setFiles] = useState([])
 
-    const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    const inputValidator = file => {
+      if (file.name.includes(props.location.state.input_type)) {
+        console.log("file extension correct")
+        return null
+      } else {
+        /* setValidatorError(`This is not a ${props.location.state.input_type} file.`) */
+        console.log("file extension wrong")
+        return {
+          code: "wrong-file-extension",
+          message: `This is not a ${props.location.state.input_type} file.`
+        }
+      }
+    }
+
+    const { getRootProps, getInputProps, acceptedFiles, fileRejections } = useDropzone({
       disabled: false,
       maxFiles: 1,
+      validator: inputValidator,
       /* onDrop: () => {setOutputFileName("")}, */
       onDropAccepted: acceptedFiles => {
         /* setOutputFileName("") */
@@ -123,6 +138,18 @@ const Run = (props) => {
       /* setInputFileID("") */
       setOutputFileName("")
     }
+
+    const fileRejectionItems = fileRejections.map(({ file, errors }) => {
+      return (
+        <li className="file-list-item" key={file.path}>
+          {file.path} - {file.size} bytes
+          <ul className="file-list-errors">
+            {errors.map(e => <li key={e.code}>{e.message}</li>)}
+          </ul>
+
+        </li>
+      )
+    })
 
     return (
       <div className="run-box">
@@ -141,6 +168,14 @@ const Run = (props) => {
             <p className="fileName">{acceptedFiles[0].name}</p>
           }
         </div>
+        <div className="file-messages">
+            {fileRejectionItems.length > 0 &&
+              <div>
+                <h4>Rejected files</h4>
+                <ul>{fileRejectionItems}</ul>
+              </div>
+            }
+          </div>
         <div className="run-buttons">
           <div className="clear-button-fat" onClick={clearFiles}>
             CLEAR
