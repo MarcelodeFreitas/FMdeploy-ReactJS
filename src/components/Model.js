@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom"
 
 export const Model = ({ model, onDelete }) => {
     const date = new Date(model.created_in)
+    const formatedDate = new Intl.DateTimeFormat().format(date)
     const history = useHistory()
 
     return (
@@ -19,7 +20,7 @@ export const Model = ({ model, onDelete }) => {
                 </div> */}
                 <div className={"item"}>
                     <p className={"item-text-colored"}>DATE:</p>
-                    <p className={"item-text"}>{new Intl.DateTimeFormat().format(date)}</p>
+                    <p className={"item-text"}>{formatedDate}</p>
                 </div>
                 <div className={"item"}>
                     <p className={"item-text-colored"}>TITLE:</p>

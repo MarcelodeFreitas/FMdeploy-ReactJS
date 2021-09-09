@@ -14,9 +14,18 @@ const SearchById = (props) => {
   }
 
   const submitHandler = async () => {
-    const getModelsById = [await props.getModelsById(aiId)]
-    console.log("getModelsById: ", getModelsById)
-    await props.fetchModelById(getModelsById)
+    const getModelsById = await props.getModelsById(aiId)
+    console.log(typeof getModelsById)
+    if (typeof getModelsById === "string") {
+      console.log(getModelsById)
+      await props.handleMessage(getModelsById)
+    } else {
+      if ([getModelsById].length > 0) {
+        console.log("getModelsById: ", [getModelsById])
+        await props.fetchModelById([getModelsById])
+      }
+    }
+    
   }
 
   const handleReset = () => {

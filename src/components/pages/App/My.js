@@ -10,6 +10,14 @@ import SearchById from "../../SearchById"
 import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
+
+import CustomizedSnackbar from "../../Alert"
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function My() {
   const history = useHistory()
@@ -44,6 +52,8 @@ function My() {
 
   const [models, setModels] = useState("")
 
+  const [message, setMessage] = useState("")
+
   //get ai models owned by id
   const getModelsById = async (aiId) => {
     console.log(aiId)
@@ -59,6 +69,7 @@ function My() {
       return await response.data
     } catch (e) {
       console.log("getModelsById error: ", e.response)
+      return e.response.data.detail
     }
   }
 
@@ -66,7 +77,10 @@ function My() {
     setModels(getModelsById)
   }
 
-
+  const handleMessage = async (message) => {
+    setMessage(message)
+    setTimeout(() => setMessage(""), 6100)
+  }
 
   useEffect(() => {
 
@@ -121,17 +135,14 @@ function My() {
     ))
   }
 
-  /* const toggleListReverse = () => {
-    let modelsReversed = models.reverse()
-    setModels(modelsReversed)
-  } */
-
   return (
     <>
       <Sidebar />
       <div className="main">
         <AppHeader title="My Models" button="NEW" buttonIcon="plus" path="/new" />
-        <SearchById getModelsById={getModelsById} fetchModelById={fetchModelById}/>
+        <SearchById getModelsById={getModelsById} fetchModelById={fetchModelById} handleMessage={handleMessage}/>
+
+        {message && <CustomizedSnackbar message={message} severity="error"/>}
 
         {(models && models.length > 0) ?
           <div className={"content-table"}>
