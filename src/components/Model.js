@@ -30,41 +30,41 @@ export const Model = ({ model, onDelete }) => {
             <div className={"last-item"}>
                 <div className={"icon-container"}>
                     <TouchableOpacity>
+                        <img className={"icon"}
+                            onClick={() => onDelete(model.ai_id)}
+                            src="images/trash.png"
+                            alt="delete" />
+                    </TouchableOpacity>
+                </div>
+                <div className={"icon-container"}>
+                    <TouchableOpacity>
                         <img className={"icon"} 
-                        onClick={() => onDelete(model.ai_id)} 
-                        src="images/trash.png"
-                        alt="delete" />
+                            src="images/edit.png"
+                            alt="share" 
+                            onClick={() => {
+                                history.replace(
+                                    '/edit', { ...model }
+                                )
+                            }}/>
                     </TouchableOpacity>
                 </div>
                 <div className={"icon-container"}>
                     <TouchableOpacity>
-                        <img className={"icon"} src="images/edit.png" 
-                            alt="share"/>
+                        <img className={"icon"} 
+                            src="images/share.png"
+                            alt="share" />
                     </TouchableOpacity>
                 </div>
                 <div className={"icon-container"}>
                     <TouchableOpacity>
-                        <img className={"icon"} src="images/share.png" 
-                            alt="share"/>
-                    </TouchableOpacity>
-                </div>
-                <div className={"icon-container"}>
-                    <TouchableOpacity>
-                        {/* <Link to={{
-                            pathname: '/run',
-                            state: {
-                                name: "hey", 
-                                name2: "heyx2",
-                            },
-                        }}> */}
-                            <img className={"icon"} src="images/run.png" 
-                                alt="run"
-                                onClick={() => {
-                                    history.replace(
-                                        '/run', {...model}
-                                    )
-                                }}/>
-                        {/* </Link> */}
+                        <img className={"icon"} 
+                            src="images/run.png"
+                            alt="run"
+                            onClick={() => {
+                                history.replace(
+                                    '/run', { ...model }
+                                )
+                            }} />
                     </TouchableOpacity>
                 </div>
             </div>

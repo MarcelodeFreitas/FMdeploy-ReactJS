@@ -202,7 +202,7 @@ const Run = (props) => {
       <ThemeProvider theme={theme}>
         <Sidebar />
         <div className="main">
-          <AppHeader title={props.location.state.title} button="BACK" buttonIcon="" path="/my" />
+          <AppHeader title={`RUN: ${props.location.state.title}`} button="BACK" buttonIcon="" path="/my" />
           <Container>
             <Container className="run-white-container">
               <div className="run-data-line"><p className="run-top-label">AI ID:</p> {props.location.state.ai_id}</div>

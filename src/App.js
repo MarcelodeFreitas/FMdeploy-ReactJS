@@ -12,6 +12,7 @@ import Public from './components/pages/App/Public'
 import Shared from './components/pages/App/Shared'
 import New from './components/pages/App/New'
 import Run from './components/pages/App/Run'
+import Edit from './components/pages/App/Edit'
 
 const App = () => {
 
@@ -33,6 +34,7 @@ const App = () => {
               <RoutesPrivate path="/public" exact component={Public}/>
               <RoutesPrivate path="/new" exact component={New}/>
               <RoutesPrivate path="/run" exact component={Run}/>
+              <RoutesPrivate path="/edit" exact component={Edit}/>
             </Switch>
         </StoreProvider>
       </BrowserRouter>

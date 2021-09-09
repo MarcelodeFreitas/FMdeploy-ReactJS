@@ -10,14 +10,8 @@ import SearchById from "../../SearchById"
 import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
-import Snackbar from '@material-ui/core/Snackbar'
-import MuiAlert from '@material-ui/lab/Alert'
-
 import CustomizedSnackbar from "../../Alert"
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 function My() {
   const history = useHistory()
