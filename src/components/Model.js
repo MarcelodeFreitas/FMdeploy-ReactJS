@@ -52,7 +52,12 @@ export const Model = ({ model, onDelete }) => {
                     <TouchableOpacity>
                         <img className={"icon"} 
                             src="images/share.png"
-                            alt="share" />
+                            alt="share"
+                            onClick={() => {
+                                history.replace(
+                                    '/share', { ...model }
+                                )
+                            }}/>
                     </TouchableOpacity>
                 </div>
                 <div className={"icon-container"}>

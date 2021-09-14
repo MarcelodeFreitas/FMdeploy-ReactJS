@@ -10,7 +10,7 @@ const CustomizedSnackbar = ({ message, severity }) => {
     console.log(message, severity)
     const [open, setOpen] = useState(false)
 
-    const [state, setState] = useState({
+    const [state] = useState({
         vertical: 'top',
         horizontal: 'center',
       });
@@ -20,10 +20,6 @@ const CustomizedSnackbar = ({ message, severity }) => {
     useEffect(() => {
         setOpen(true)
     }, [])
-
-    /* const handleClick = () => {
-        setOpen(true)
-    } */
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
