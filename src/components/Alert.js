@@ -23,7 +23,7 @@ const CustomizedSnackbar = ({ message, severity }) => {
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
-            return;
+            return
         }
 
         setOpen(false)
