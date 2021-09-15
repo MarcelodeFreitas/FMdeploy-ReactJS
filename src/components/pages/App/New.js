@@ -30,32 +30,6 @@ const defaultState = {
   modelFilesMessage: "server feedback message 3",
 }
 
-/* const sleep = (time) => new Promise((acc) => setTimeout(acc, time)) */
-
-//Function to create a new model
-/* const newModel = async (token, title, description, outputType, isPrivate) => {
-  try {
-    const response = await axios.post(
-      `${baseUrl}/ai`,
-      {
-        title: title,
-        description: description,
-        output_type: outputType,
-        is_private: isPrivate,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-      }
-    )
-    return await response.data
-  } catch (e) {
-    console.log(e)
-  }
-
-} */
-
 export default class New extends Component {
 
   static contextType = StoreContext

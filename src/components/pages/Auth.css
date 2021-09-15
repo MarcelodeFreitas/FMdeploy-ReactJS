@@ -74,7 +74,7 @@ input[type=name]:focus {
     border-color:#fff;
 }
 
-input[type=email] {
+.auth-email {
     padding:10px; 
     border:3px solid #E76300; 
     -webkit-border-radius: 5px;
@@ -83,7 +83,7 @@ input[type=email] {
     height: 35px;
 }
 
-input[type=email]:focus {
+.auth-email:focus {
     border-color:#fff;
 }
 

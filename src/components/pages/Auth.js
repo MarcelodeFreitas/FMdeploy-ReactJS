@@ -192,7 +192,7 @@ export default function Auth() {
             <div className={"form-group"}>
               <label className="auth-label" htmlFor="email">Email</label>
               <input
-                className="auth-input"
+                className="auth-input auth-email"
                 type="email"
                 name="email"
                 id="email"

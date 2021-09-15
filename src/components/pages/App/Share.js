@@ -67,33 +67,36 @@ const Share = (props) => {
             <Container className="run-white-container">
               <p className="run-top-label">SHARE:</p>
               <Formik
-                    validationSchema={yup.object().shape({
-                      email: yup.string().max(60).required("Title is a required field")
-                    })}
-                    onSubmit={async (values) => { 
-                      console.log(values)
-                    }}
+                initialValues={{
+                  email: ""
+                }}
+                validationSchema={yup.object().shape({
+                  email: yup.string().email("Email must be valid").required("Email is a required field"),
+                })}
+                onSubmit={async (values) => {
+                  console.log(values.email)
+                }}
+              >
+                <Form>
+                  <Box paddingBottom={2} paddingTop={2}>
+                    <Field fullWidth
+                      component={TextField}
+                      name="email"
+                      type="email"
+                      label="Email"
+                    />
+                  </Box>
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
                   >
-                    <Form>
-                        <Box paddingBottom={2} paddingTop={2}>
-                          <Field fullWidth
-                            component={TextField}
-                            name="email"
-                            type="email"
-                            label="Email"
-                          />
-                      </Box>
-  
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                      >
-                        Submit
-                      </Button>
-  
-                    </Form>
-                  </Formik>
+                    Share
+                  </Button>
+
+                </Form>
+              </Formik>
             </Container>
           </Container>
         </div>
