@@ -153,7 +153,7 @@ function My() {
 
     //update AI model from state
     const updatedModelList = models.map((model) => {
-      if (model.ai_id == aiId) {
+      if (model.ai_id === aiId) {
         return {...model, is_private: !model.is_private}
       } else {
         return {...model, is_private: model.is_private}

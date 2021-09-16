@@ -10,10 +10,10 @@ import StoreContext from '../../Store/Context'
 import theme from "../../theme/theme"
 import { Form, Formik } from "formik"
 import * as yup from 'yup'
-import { Field, ErrorMessage } from "formik"
-import { CheckboxWithLabel, TextField, Select } from "formik-material-ui"
+import { Field } from "formik"
+import { TextField } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
-import { CircularProgress, Button, ThemeProvider, Container, Box, InputLabel, MenuItem } from '@material-ui/core'
+import {  Button, ThemeProvider, Container, Box } from '@material-ui/core'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -67,6 +67,7 @@ const Share = (props) => {
   }
 
   const clearMessage = async () => {
+    setBeneficiariesErrorMessage("")
     setShareAiMessage("")
     setShareAiMessageSeverity("")
   }
@@ -120,7 +121,7 @@ const Share = (props) => {
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: "#E76300",
       color: theme.palette.common.white,
     },
     body: {
@@ -189,7 +190,7 @@ const Share = (props) => {
               <p className="run-top-label">SHARED WITH:</p>
               <br></br>
               {beneficiariesErrorMessage && beneficiariesErrorMessage}
-              {beneficiariesList &&
+              {beneficiariesList.length > 0 &&
                 <TableContainer component={Paper} className={classes.container}>
                   <Table className={classes.table} stickyHeader aria-label="customized table">
                     <TableHead>
@@ -201,7 +202,7 @@ const Share = (props) => {
                     <TableBody>
                       {beneficiariesList.map((beneficiary) => (
                         <StyledTableRow key={beneficiary.name}>
-                          <StyledTableCell component="th" scope="row">{beneficiary.name}</StyledTableCell>
+                          <StyledTableCell>{beneficiary.name}</StyledTableCell>
                           <StyledTableCell>{beneficiary.email}</StyledTableCell>
                         </StyledTableRow>
                       ))}
