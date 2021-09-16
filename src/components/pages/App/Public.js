@@ -2,6 +2,7 @@ import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
 import AppHeader from "../../AppHeader"
+import SearchById from "../../SearchById"
 import { useContext, useEffect, useState } from "react"
 import StoreContext from "../../Store/Context"
 import axios from "axios"
@@ -49,11 +50,11 @@ const Public = () => {
       <Sidebar />
       <div className="main">
         <AppHeader title="Public Models" button="PUBLISH" buttonIcon="globe-americas" path="/my"/>
-        
+        <SearchById />
 
         {(models && models.length > 0) ?
           <div className={"content-table"}>
-            <Models models={models} actionButtons="run"/>
+            <Models models={models} infoLevel="Public" actionButtons="run"/>
           </div>
           :
           <NoContentCard text="No models found!" />

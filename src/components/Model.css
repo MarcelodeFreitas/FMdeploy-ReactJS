@@ -23,6 +23,11 @@
     flex-direction: row;
 }
 
+.data-items-expanded {
+    display: flex;
+    flex-direction: column;
+}
+
 .last-item {
     display: flex;
     flex-direction: row;
@@ -35,6 +40,13 @@
     display: flex;
     flex-direction: row;
     margin-right: 20px;
+}
+
+.item-group {
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .item-text-colored {
@@ -63,6 +75,10 @@
 
     .item {
         margin-bottom: 10px;
+    }
+
+    .item-group {
+        flex-direction: column;
     }
     
 }

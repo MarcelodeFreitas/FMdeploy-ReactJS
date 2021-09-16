@@ -50,11 +50,11 @@ const Shared = () => {
       <Sidebar />
       <div className="main">
         <AppHeader title="Shared Models" button="SHARE" buttonIcon="share-alt" path="/my"/>
-        
+        <SearchById />
 
         {(models && models.length > 0) ?
           <div className={"content-table"}>
-            <Models models={models} actionButtons="run"/>
+            <Models models={models} infoLevel="Shared" actionButtons="run"/>
           </div>
           :
           <NoContentCard text="No models found!" />
