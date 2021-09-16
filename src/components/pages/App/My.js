@@ -48,6 +48,11 @@ function My() {
 
   const [message, setMessage] = useState("")
 
+  const [deleteMessage, setDeleteMessage] = useState({
+    message: "", 
+    severity: "",
+  })
+
   //get ai models owned by id
   const getModelsById = async (aiId) => {
     console.log(aiId)
@@ -105,6 +110,17 @@ function My() {
 
   }, [token])
 
+  const handleDeleteMessage = (message, severity) => {
+    setDeleteMessage({
+      message: message,
+      severity: severity
+    })
+    setTimeout(() => setDeleteMessage({
+      message: "",
+      severity: ""
+    }), 6100)
+  }
+
   // Delete an AI model
   const deleteModel = async (id) => {
 
@@ -119,8 +135,10 @@ function My() {
         }
       )
       console.log(await response)
+      handleDeleteMessage(await response.data.detail, "success")
     } catch (e) {
       console.log(e)
+      handleDeleteMessage(e.response.data.detail, "error")
     }
 
     //delete AI model from state
@@ -171,6 +189,7 @@ function My() {
         <SearchById getModelsById={getModelsById} fetchModelById={fetchModelById} handleMessage={handleMessage}/>
 
         {message && <CustomizedSnackbar message={message} severity="error"/>}
+        {deleteMessage.message && <CustomizedSnackbar message={deleteMessage.message} severity={deleteMessage.severity}/>}
 
         {(models && models.length > 0) ?
           <div className={"content-table"}>
