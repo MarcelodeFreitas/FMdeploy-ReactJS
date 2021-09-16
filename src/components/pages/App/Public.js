@@ -2,7 +2,6 @@ import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
 import AppHeader from "../../AppHeader"
-import SearchById from "../../SearchById"
 import { useContext, useEffect, useState } from "react"
 import StoreContext from "../../Store/Context"
 import axios from "axios"
@@ -19,7 +18,7 @@ const Public = () => {
   useEffect(() => {
 
     //get ai models owned by current user
-    const getMyModels = async () => {
+    const getPublicModels = async () => {
       try {
         const response = await axios.get(
           `${baseUrl}/ai/public`,
@@ -29,15 +28,15 @@ const Public = () => {
             },
           }
         )
-        console.log("getMyModels: ", await response.data)
+        console.log("getPublicModels: ", await response.data)
         return await response.data.reverse()
       } catch (e) {
-        console.log("getMyModels error: ", e.response)
+        console.log("getPublicModels error: ", e.response)
       }
     }
 
     const fetchMyModels = async () => {
-      const modelsFromServer = await getMyModels()
+      const modelsFromServer = await getPublicModels()
       setModels(modelsFromServer)
     }
 
@@ -50,7 +49,7 @@ const Public = () => {
       <Sidebar />
       <div className="main">
         <AppHeader title="Public Models" button="PUBLISH" buttonIcon="globe-americas" path="/my"/>
-        <SearchById />
+        
 
         {(models && models.length > 0) ?
           <div className={"content-table"}>

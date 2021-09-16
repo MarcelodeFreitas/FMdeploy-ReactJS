@@ -15,7 +15,9 @@ import CustomizedSnackbar from "../../Alert"
 
 function My() {
   const history = useHistory()
+  console.log(history)
   let location = useLocation()
+  console.log(location.pathname)
   //in the fure prevent changing the url manually too??
   let currentURL = window.location.href
   console.log(currentURL)

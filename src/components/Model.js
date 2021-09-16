@@ -1,12 +1,14 @@
 import './Model.css'
 import TouchableOpacity from './TouchableOpacity'
-import { useHistory } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 import Tooltip from '@material-ui/core/Tooltip'
 
 export const Model = ({ model, actionButtons, onDelete, handlePrivacy }) => {
     const date = new Date(model.created_in)
     const formatedDate = new Intl.DateTimeFormat().format(date)
     const history = useHistory()
+    const location = useLocation()
+    const currentUrl = location.pathname
 
     const RenderButtons = () => {
         if (actionButtons === "all") {
@@ -86,7 +88,7 @@ export const Model = ({ model, actionButtons, onDelete, handlePrivacy }) => {
                                     alt="run"
                                     onClick={() => {
                                         history.replace(
-                                            '/run', { ...model }
+                                            '/run', { ...model, path: currentUrl }
                                         )
                                     }} />
                             </Tooltip>
@@ -107,7 +109,7 @@ export const Model = ({ model, actionButtons, onDelete, handlePrivacy }) => {
                                     alt="run"
                                     onClick={() => {
                                         history.replace(
-                                            '/run', { ...model }
+                                            '/run', { ...model, path: currentUrl }
                                         )
                                     }} />
                             </Tooltip>

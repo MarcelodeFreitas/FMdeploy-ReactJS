@@ -1,4 +1,3 @@
-import React from 'react'
 import { Model } from './Model'
 
 const Models = ({ models, actionButtons, onDelete, handlePrivacy }) => {
