@@ -129,6 +129,40 @@ function My() {
     ))
   }
 
+  // public not public ai model
+  const modelPrivacy = async (aiId, privacy) => {
+    try {
+      const response = await axios.put(
+        `${baseUrl}/ai`,
+        {
+          ai_id: aiId,
+          is_private: privacy,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        }
+      )
+      // this.setState({ message: await response.data.detail, severity: "success" })
+      console.log("modelPrivacy response: ", await response)
+    } catch (e) {
+      // this.setState({ message: await e.response.data.detail, severity: "error" })
+      console.log("modelPrivacy error: ", e.response.data.detail)
+    }
+
+    //update AI model from state
+    const updatedModelList = models.map((model) => {
+      if (model.ai_id == aiId) {
+        return {...model, is_private: !model.is_private}
+      } else {
+        return {...model, is_private: model.is_private}
+      }
+    })
+
+    setModels(updatedModelList)
+  }
+
   return (
     <>
       <Sidebar />
@@ -140,7 +174,7 @@ function My() {
 
         {(models && models.length > 0) ?
           <div className={"content-table"}>
-            <Models models={models} onDelete={deleteModel} />
+            <Models models={models} onDelete={deleteModel} handlePrivacy={modelPrivacy} />
           </div>
           :
           <NoContentCard text="No models found!" />
