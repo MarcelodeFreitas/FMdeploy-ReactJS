@@ -1,12 +1,12 @@
 import React from 'react'
 import { Model } from './Model'
 
-const Models = ({ models, onDelete, handlePrivacy }) => {
+const Models = ({ models, actionButtons, onDelete, handlePrivacy }) => {
 
     return (
         <>
             {models.map( (model) => (
-                <Model key={model.ai_id} model={model} onDelete={onDelete} handlePrivacy={handlePrivacy}/>
+                <Model key={model.ai_id} model={model} actionButtons={actionButtons} onDelete={onDelete} handlePrivacy={handlePrivacy}/>
             ))}
         </>
     )

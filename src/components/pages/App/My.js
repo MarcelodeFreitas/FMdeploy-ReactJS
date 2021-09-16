@@ -193,7 +193,7 @@ function My() {
 
         {(models && models.length > 0) ?
           <div className={"content-table"}>
-            <Models models={models} onDelete={deleteModel} handlePrivacy={modelPrivacy} />
+            <Models models={models} actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
           </div>
           :
           <NoContentCard text="No models found!" />
