@@ -131,56 +131,8 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
     const RenderInfo = ({ isExpanded }) => {
         if (infoLevel === "MyModels") {
             return (
-                <div className={"data-items"}>
-                    <div className={"item"}>
-                        <p className={"item-text-colored"}>ID:</p>
-                        <p className={"item-text"}>{model.ai_id}</p>
-                    </div>
-                    {/* <div className={"item"}>
-                    <p className={"item-text-colored"}>AUTHOR:</p>
-                    <p className={"item-text"}>{model.name}</p>
-                </div> */}
-                    <div className={"item"}>
-                        <p className={"item-text-colored"}>DATE:</p>
-                        <p className={"item-text"}>{formatedDate}</p>
-                    </div>
-                    <div className={"item"}>
-                        <p className={"item-text-colored"}>TITLE:</p>
-                        <p className={"item-text"}>{model.title}</p>
-                    </div>
-                </div>
-            )
-        }
-
-        if (infoLevel === "Public" || infoLevel === "Shared") {
-            return (
-                <div className={"data-items"}>
-                    <div className={"item"}>
-                        <p className={"item-text-colored"}>ID:</p>
-                        <p className={"item-text"}>{model.ai_id}</p>
-                    </div>
-                    <div className={"item"}>
-                        <p className={"item-text-colored"}>DATE:</p>
-                        <p className={"item-text"}>{formatedDate}</p>
-                    </div>
-                    <div className={"item"}>
-                        <p className={"item-text-colored"}>TITLE:</p>
-                        <p className={"item-text"}>{model.title}</p>
-                    </div>
-                    <div className={"item"}>
-                        <p className={"item-text-colored"}>AUTHOR:</p>
-                        <p className={"item-text"}>{model.author}</p>
-                    </div>
-                </div>
-            )
-        }
-    }
-
-    return (
-        <div className={"list-item"} onClick={() => handleClick()}>
-            {expand ?
-                <div className={"data-items-expanded"}>
-                    <div className={"item-group"}>
+                <Tooltip title="Click for more info" arrow>
+                    <div className={"data-items"}>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>ID:</p>
                             <p className={"item-text"}>{model.ai_id}</p>
@@ -194,35 +146,86 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                             <p className={"item-text"}>{model.title}</p>
                         </div>
                     </div>
-                    <div className={"item-group"}>
+                </Tooltip>
+            )
+        }
+
+        if (infoLevel === "Public" || infoLevel === "Shared") {
+            return (
+                <Tooltip title="Click for more info" arrow>
+                    <div className={"data-items"}>
+                        <div className={"item"}>
+                            <p className={"item-text-colored"}>ID:</p>
+                            <p className={"item-text"}>{model.ai_id}</p>
+                        </div>
+                        <div className={"item"}>
+                            <p className={"item-text-colored"}>DATE:</p>
+                            <p className={"item-text"}>{formatedDate}</p>
+                        </div>
+                        <div className={"item"}>
+                            <p className={"item-text-colored"}>TITLE:</p>
+                            <p className={"item-text"}>{model.title}</p>
+                        </div>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>AUTHOR:</p>
                             <p className={"item-text"}>{model.author}</p>
                         </div>
-                        <div className={"item"}>
-                            <p className={"item-text-colored"}>PRIVATE:</p>
-                            <p className={"item-text"}>{model.is_private.toString()}</p>
-                        </div>
-                        <div className={"item"}>
-                            <p className={"item-text-colored"}>INPUT TYPE:</p>
-                            <p className={"item-text"}>{model.input_type}</p>
-                        </div>
-                        <div className={"item"}>
-                            <p className={"item-text-colored"}>OUTPUT TYPE:</p>
-                            <p className={"item-text"}>{model.output_type}</p>
-                        </div>
                     </div>
-                    <div className={"item-group"}>
-                        <div className={"item"}>
-                            <p className={"item-text-colored"}>DESCRIPTION:</p>
-                            <p className={"item-text"}>{model.description}</p>
-                        </div>
-                    </div>
-                </div>
-                :
-                <RenderInfo />
-            }
+                </Tooltip>
+            )
+        }
+    }
 
+    return (
+        <div className={"list-item"}>
+            <div className="clickable" onClick={() => handleClick()}>
+
+                {expand ?
+                    <div className={"data-items-expanded"}>
+                        <div className={"item-group"}>
+                            <div className={"item"}>
+                                <p className={"item-text-colored"}>ID:</p>
+                                <p className={"item-text"}>{model.ai_id}</p>
+                            </div>
+                            <div className={"item"}>
+                                <p className={"item-text-colored"}>DATE:</p>
+                                <p className={"item-text"}>{formatedDate}</p>
+                            </div>
+                            <div className={"item"}>
+                                <p className={"item-text-colored"}>TITLE:</p>
+                                <p className={"item-text"}>{model.title}</p>
+                            </div>
+                        </div>
+                        <div className={"item-group"}>
+                            <div className={"item"}>
+                                <p className={"item-text-colored"}>AUTHOR:</p>
+                                <p className={"item-text"}>{model.author}</p>
+                            </div>
+                            <div className={"item"}>
+                                <p className={"item-text-colored"}>PRIVATE:</p>
+                                <p className={"item-text"}>{model.is_private.toString()}</p>
+                            </div>
+                            <div className={"item"}>
+                                <p className={"item-text-colored"}>INPUT TYPE:</p>
+                                <p className={"item-text"}>{model.input_type}</p>
+                            </div>
+                            <div className={"item"}>
+                                <p className={"item-text-colored"}>OUTPUT TYPE:</p>
+                                <p className={"item-text"}>{model.output_type}</p>
+                            </div>
+                        </div>
+                        <div className={"item-group"}>
+                            <div className={"item"}>
+                                <p className={"item-text-colored"}>DESCRIPTION:</p>
+                                <p className={"item-text"}>{model.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                    :
+                    <RenderInfo />
+                }
+
+            </div>
             <RenderButtons />
         </div>
     )

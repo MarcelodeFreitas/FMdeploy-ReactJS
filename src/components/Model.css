@@ -63,6 +63,10 @@
     cursor: pointer;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 1500px) {
     
     .data-items {

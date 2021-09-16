@@ -8,8 +8,7 @@ import { useState, useContext } from "react"
 import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
-import { CircularProgress, Button, ThemeProvider, Container } from '@material-ui/core'
-import theme from "../../theme/theme"
+import { CircularProgress, Button, Container } from '@material-ui/core'
 
 const Run = (props) => {
 
@@ -169,13 +168,13 @@ const Run = (props) => {
           }
         </div>
         <div className="file-messages">
-            {fileRejectionItems.length > 0 &&
-              <div>
-                <h4>Rejected files</h4>
-                <ul>{fileRejectionItems}</ul>
-              </div>
-            }
-          </div>
+          {fileRejectionItems.length > 0 &&
+            <div>
+              <h4>Rejected files</h4>
+              <ul>{fileRejectionItems}</ul>
+            </div>
+          }
+        </div>
         <div className="run-buttons">
           <div className="clear-button-fat" onClick={clearFiles}>
             CLEAR
@@ -199,70 +198,68 @@ const Run = (props) => {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Sidebar />
-        <div className="main">
-          <AppHeader title={`RUN: ${props.location.state.title}`} button="BACK" buttonIcon="" path={props.location.state.path} />
-          <Container>
-            <Container className="run-white-container">
-              <div className="run-data-line"><p className="run-top-label">AI ID:</p> {props.location.state.ai_id}</div>
-              <br></br>
-              <div className="run-row">
-                <div className="run-column">
-                  <div className="run-data-line">
-                    <p className="run-top-label">AUTHOR:</p> {props.location.state.name}
-                  </div>
-                </div>
-                <div className="run-column">
-                  <div className="run-data-line">
-                    <p className="run-top-label">DATE:</p> {formatedDate}
-                  </div>
+      <Sidebar />
+      <div className="main">
+        <AppHeader title={`RUN: ${props.location.state.title}`} button="BACK" buttonIcon="" path={props.location.state.path} />
+        <Container>
+          <Container className="run-white-container">
+            <div className="run-data-line"><p className="run-top-label">AI ID:</p> {props.location.state.ai_id}</div>
+            <br></br>
+            <div className="run-row">
+              <div className="run-column">
+                <div className="run-data-line">
+                  <p className="run-top-label">AUTHOR:</p> {props.location.state.name}
                 </div>
               </div>
-              <br></br>
-              <div className="run-row">
-                <div className="run-column">
-                  <div className="run-data-line">
-                    <p className="run-top-label">INPUT FILE TYPE:</p> {props.location.state.input_type}
-                  </div>
-                </div>
-                <div className="run-column">
-                  <div className="run-data-line">
-                    <p className="run-top-label">PRIVATE:</p> {props.location.state.is_private.toString()}
-                  </div>
+              <div className="run-column">
+                <div className="run-data-line">
+                  <p className="run-top-label">DATE:</p> {formatedDate}
                 </div>
               </div>
-            </Container>
-
-            <Container className="run-white-container">
-              <p className="run-top-label">DESCRIPTION:</p>
-              <br></br>
-              {props.location.state.description}
-            </Container>
-            <div className="run-boxes">
-              <InputFilesDropzone />
-              <div className="run-box">
-                <h1 className="run-labels">2. OUTPUT</h1>
-                <div className="run-dropzone">
-                  <div className="center">
-                    {outputFileName && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
-                  </div>
+            </div>
+            <br></br>
+            <div className="run-row">
+              <div className="run-column">
+                <div className="run-data-line">
+                  <p className="run-top-label">INPUT FILE TYPE:</p> {props.location.state.input_type}
                 </div>
-                {outputFileName &&
-                  <div className="run-buttons">
-                    <div className="clear-button-fat" onClick={() => { }}>
-                      SHARE
-                    </div>
-                    <div className="submit-button" onClick={() => downloadLink.click()}>
-                      DOWNLOAD
-                    </div>
-                  </div>
-                }
+              </div>
+              <div className="run-column">
+                <div className="run-data-line">
+                  <p className="run-top-label">PRIVATE:</p> {props.location.state.is_private.toString()}
+                </div>
               </div>
             </div>
           </Container>
-        </div>
-      </ThemeProvider>
+
+          <Container className="run-white-container">
+            <p className="run-top-label">DESCRIPTION:</p>
+            <br></br>
+            {props.location.state.description}
+          </Container>
+          <div className="run-boxes">
+            <InputFilesDropzone />
+            <div className="run-box">
+              <h1 className="run-labels">2. OUTPUT</h1>
+              <div className="run-dropzone">
+                <div className="center">
+                  {outputFileName && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
+                </div>
+              </div>
+              {outputFileName &&
+                <div className="run-buttons">
+                  <div className="clear-button-fat" onClick={() => { }}>
+                    SHARE
+                  </div>
+                  <div className="submit-button" onClick={() => downloadLink.click()}>
+                    DOWNLOAD
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </Container>
+      </div>
     </>
   )
 }

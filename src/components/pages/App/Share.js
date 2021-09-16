@@ -7,13 +7,12 @@ import { useContext, useEffect, useState } from "react"
 import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
-import theme from "../../theme/theme"
 import { Form, Formik } from "formik"
 import * as yup from 'yup'
 import { Field } from "formik"
 import { TextField } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
-import {  Button, ThemeProvider, Container, Box } from '@material-ui/core'
+import { Button, Container, Box } from '@material-ui/core'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -150,107 +149,105 @@ const Share = (props) => {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <Sidebar />
-        {shareAiMessage && <CustomizedSnackbar message={shareAiMessage} severity={shareAiMessageSeverity} />}
-        <div className="main">
-          <AppHeader title={`SHARE: ${props.location.state.title}`} button="BACK" buttonIcon="" path="/my" />
-          <Container>
-            <Container className="run-white-container">
-              <div className="run-data-line"><p className="run-top-label">AI ID:</p> {props.location.state.ai_id}</div>
-              <br></br>
-              <div className="run-row">
-                <div className="run-column">
-                  <div className="run-data-line">
-                    <p className="run-top-label">AUTHOR:</p> {props.location.state.name}
-                  </div>
-                </div>
-                <div className="run-column">
-                  <div className="run-data-line">
-                    <p className="run-top-label">DATE:</p> {new Date(props.location.state.created_in).toLocaleString()}
-                  </div>
+      <Sidebar />
+      {shareAiMessage && <CustomizedSnackbar message={shareAiMessage} severity={shareAiMessageSeverity} />}
+      <div className="main">
+        <AppHeader title={`SHARE: ${props.location.state.title}`} button="BACK" buttonIcon="" path="/my" />
+        <Container>
+          <Container className="run-white-container">
+            <div className="run-data-line"><p className="run-top-label">AI ID:</p> {props.location.state.ai_id}</div>
+            <br></br>
+            <div className="run-row">
+              <div className="run-column">
+                <div className="run-data-line">
+                  <p className="run-top-label">AUTHOR:</p> {props.location.state.name}
                 </div>
               </div>
-              <br></br>
-              <div className="run-row">
-                <div className="run-column">
-                  <div className="run-data-line">
-                    <p className="run-top-label">INPUT FILE TYPE:</p> {props.location.state.input_type}
-                  </div>
-                </div>
-                <div className="run-column">
-                  <div className="run-data-line">
-                    <p className="run-top-label">PRIVATE:</p>{props.location.state.is_private.toString()}
-                  </div>
+              <div className="run-column">
+                <div className="run-data-line">
+                  <p className="run-top-label">DATE:</p> {new Date(props.location.state.created_in).toLocaleString()}
                 </div>
               </div>
-            </Container>
-
-            <Container className="run-white-container">
-              <p className="run-top-label">SHARED WITH:</p>
-              <br></br>
-              {beneficiariesErrorMessage && beneficiariesErrorMessage}
-              {beneficiariesList.length > 0 &&
-                <TableContainer component={Paper} className={classes.container}>
-                  <Table className={classes.table} stickyHeader aria-label="customized table">
-                    <TableHead>
-                      <TableRow>
-                        <StyledTableCell>Name</StyledTableCell>
-                        <StyledTableCell>Email</StyledTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {beneficiariesList.map((beneficiary) => (
-                        <StyledTableRow key={beneficiary.name}>
-                          <StyledTableCell>{beneficiary.name}</StyledTableCell>
-                          <StyledTableCell>{beneficiary.email}</StyledTableCell>
-                        </StyledTableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              }
-            </Container>
-
-            <Container className="run-white-container">
-              <p className="run-top-label">SHARE:</p>
-              <Formik
-                initialValues={{
-                  email: ""
-                }}
-                validationSchema={yup.object().shape({
-                  email: yup.string().email("Email must be valid").required("Email is a required field"),
-                })}
-                onSubmit={async (values) => {
-                  await clearMessage()
-                  await shareAiModel(await values.email, props.location.state.ai_id)
-                  await getBeneficiaries2(props.location.state.ai_id)
-                }}
-              >
-                <Form>
-                  <Box paddingBottom={2} paddingTop={2}>
-                    <Field fullWidth
-                      component={TextField}
-                      name="email"
-                      type="email"
-                      label="Email"
-                    />
-                  </Box>
-
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    Share
-                  </Button>
-
-                </Form>
-              </Formik>
-            </Container>
+            </div>
+            <br></br>
+            <div className="run-row">
+              <div className="run-column">
+                <div className="run-data-line">
+                  <p className="run-top-label">INPUT FILE TYPE:</p> {props.location.state.input_type}
+                </div>
+              </div>
+              <div className="run-column">
+                <div className="run-data-line">
+                  <p className="run-top-label">PRIVATE:</p>{props.location.state.is_private.toString()}
+                </div>
+              </div>
+            </div>
           </Container>
-        </div>
-      </ThemeProvider>
+
+          <Container className="run-white-container">
+            <p className="run-top-label">SHARED WITH:</p>
+            <br></br>
+            {beneficiariesErrorMessage && beneficiariesErrorMessage}
+            {beneficiariesList.length > 0 &&
+              <TableContainer component={Paper} className={classes.container}>
+                <Table className={classes.table} stickyHeader aria-label="customized table">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell>Name</StyledTableCell>
+                      <StyledTableCell>Email</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {beneficiariesList.map((beneficiary) => (
+                      <StyledTableRow key={beneficiary.name}>
+                        <StyledTableCell>{beneficiary.name}</StyledTableCell>
+                        <StyledTableCell>{beneficiary.email}</StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            }
+          </Container>
+
+          <Container className="run-white-container">
+            <p className="run-top-label">SHARE:</p>
+            <Formik
+              initialValues={{
+                email: ""
+              }}
+              validationSchema={yup.object().shape({
+                email: yup.string().email("Email must be valid").required("Email is a required field"),
+              })}
+              onSubmit={async (values) => {
+                await clearMessage()
+                await shareAiModel(await values.email, props.location.state.ai_id)
+                await getBeneficiaries2(props.location.state.ai_id)
+              }}
+            >
+              <Form>
+                <Box paddingBottom={2} paddingTop={2}>
+                  <Field fullWidth
+                    component={TextField}
+                    name="email"
+                    type="email"
+                    label="Email"
+                  />
+                </Box>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Share
+                </Button>
+
+              </Form>
+            </Formik>
+          </Container>
+        </Container>
+      </div>
     </>
   )
 }

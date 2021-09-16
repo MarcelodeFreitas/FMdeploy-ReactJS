@@ -7,8 +7,7 @@ import { Component } from "react"
 import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
-import { CircularProgress, Button, ThemeProvider, Container, Box, InputLabel, MenuItem } from '@material-ui/core'
-import theme from "../../theme/theme"
+import { CircularProgress, Button, Container, Box, InputLabel, MenuItem } from '@material-ui/core'
 import { Form, Formik } from 'formik'
 import * as yup from 'yup'
 import { Field, ErrorMessage } from "formik"
@@ -93,265 +92,261 @@ export default class New extends Component {
     if (this.state.responseData) {
       return (
         <>
-          <ThemeProvider theme={theme}>
-            <Sidebar />
-            {this.state.message && <CustomizedSnackbar message={this.state.message} severity={this.state.severity} />}
-            <div className="main">
-              <AppHeader title={`EDIT: ${this.state.responseData.title}`} button="BACK" buttonIcon="" path="/my" />
-              <Container>
-                <Container className="run-white-container">
-                  <div className="run-data-line"><p className="run-top-label">AI ID:</p> {this.state.responseData.ai_id}</div>
-                  <br></br>
-                  <div className="run-row">
-                    <div className="run-column">
-                      <div className="run-data-line">
-                        <p className="run-top-label">AUTHOR:</p> {this.props.location.state.name}
-                      </div>
-                    </div>
-                    <div className="run-column">
-                      <div className="run-data-line">
-                        <p className="run-top-label">DATE:</p> {this.state.responseData.created_in}
-                      </div>
+          <Sidebar />
+          {this.state.message && <CustomizedSnackbar message={this.state.message} severity={this.state.severity} />}
+          <div className="main">
+            <AppHeader title={`EDIT: ${this.state.responseData.title}`} button="BACK" buttonIcon="" path="/my" />
+            <Container>
+              <Container className="run-white-container">
+                <div className="run-data-line"><p className="run-top-label">AI ID:</p> {this.state.responseData.ai_id}</div>
+                <br></br>
+                <div className="run-row">
+                  <div className="run-column">
+                    <div className="run-data-line">
+                      <p className="run-top-label">AUTHOR:</p> {this.props.location.state.name}
                     </div>
                   </div>
-                  <br></br>
-                  <div className="run-data-line"><p className="run-top-label">LAST UPDATED:</p> {new Date(this.state.responseData.last_updated).toLocaleString()}</div>
-                </Container>
-  
-                <Container className="run-white-container">
-                  <p className="run-top-label">DESCRIPTION:</p>
-                  <br></br>
-                  {this.state.responseData.description}
-                </Container>
-  
-                <Container className="run-white-container">
-                  <p className="run-top-label">EDIT DATA:</p>
-                  <Formik
-                    initialValues={{
-                      title: this.state.responseData.title,
-                      description: this.state.responseData.description,
-                      inputType: this.state.responseData.input_type,
-                      outputType: this.state.responseData.output_type,
-                      isPrivate: this.state.responseData.is_private,
-                    }}
-                    validationSchema={yup.object().shape({
-                      title: yup.string().max(60).required("Title is a required field"),
-                      description: yup.string().required("Description is a required field"),
-                      inputType: yup.string().required("Input Type is a required field"),
-                      outputType: yup.string().required("Output Type is a required field"),
-                      isPrivate: yup.boolean().required("Private is a required field"),
-                    })}
-                    onSubmit={async (values) => {
-                      await this.updateAiModel(this.context.token, this.props.location.state.ai_id, await values)
-                      await this.getModelsById(this.context.token, this.props.location.state.ai_id)
-                    }}
-                  >
-                    <Form>
-                      <Box paddingBottom={2}>
-                        <Box paddingBottom={2} paddingTop={4}>
-                          <Field fullWidth
-                            component={TextField}
-                            name="title"
-                            type="text"
-                            label="Title"
-                          />
-                        </Box>
-                        <Box paddingBottom={4}>
-                          <Field fullWidth
-                            component={TextField}
-                            name="description"
-                            type="text"
-                            label="Description"
-                            InputProps={{ multiline: true }}
-                          />
-                        </Box>
-                        <Box paddingBottom={4}>
-                          <InputLabel htmlFor="inputType">Input Type</InputLabel>
-                          <Field fullWidth
-                            component={Select}
-                            type="text"
-                            name="inputType"
-                            inputProps={{
-                              id: 'inputType',
-                            }}
-                          >
-                            <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
-                            <MenuItem value={"string"}>string</MenuItem>
-                          </Field>
-                          <ErrorMessage component="div" className="error-message" name="inputType" />
-                        </Box>
-                        <Box paddingBottom={4}>
-                          <InputLabel htmlFor="outputType">Output Type</InputLabel>
-                          <Field fullWidth
-                            component={Select}
-                            name="outputType"
-                            inputProps={{
-                              id: 'outputType',
-                            }}
-                          >
-                            <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
-                            <MenuItem value={"string"}>string</MenuItem>
-                          </Field>
-                          <ErrorMessage component="div" className="error-message" name="outputType" />
-                        </Box>
-                        <Box paddingBottom={2}>
-                          <Field
-                            component={CheckboxWithLabel}
-                            type="checkbox"
-                            name="isPrivate"
-                            Label={{ label: 'Private' }}
-                          />
-                        </Box>
-                      </Box>
-  
-                      <Button
-                        startIcon={this.state.isSubmitting ? <CircularProgress size="1rem" /> : null}
-                        disabled={this.state.isSubmitting}
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                      >
-                        {this.state.isSubmitting ? 'Submitting' : 'Submit'}
-                      </Button>
-  
-                    </Form>
-                  </Formik>
-                </Container>
-  
+                  <div className="run-column">
+                    <div className="run-data-line">
+                      <p className="run-top-label">DATE:</p> {this.state.responseData.created_in}
+                    </div>
+                  </div>
+                </div>
+                <br></br>
+                <div className="run-data-line"><p className="run-top-label">LAST UPDATED:</p> {new Date(this.state.responseData.last_updated).toLocaleString()}</div>
               </Container>
-            </div>
-          </ThemeProvider>
+
+              <Container className="run-white-container">
+                <p className="run-top-label">DESCRIPTION:</p>
+                <br></br>
+                {this.state.responseData.description}
+              </Container>
+
+              <Container className="run-white-container">
+                <p className="run-top-label">EDIT DATA:</p>
+                <Formik
+                  initialValues={{
+                    title: this.state.responseData.title,
+                    description: this.state.responseData.description,
+                    inputType: this.state.responseData.input_type,
+                    outputType: this.state.responseData.output_type,
+                    isPrivate: this.state.responseData.is_private,
+                  }}
+                  validationSchema={yup.object().shape({
+                    title: yup.string().max(60).required("Title is a required field"),
+                    description: yup.string().required("Description is a required field"),
+                    inputType: yup.string().required("Input Type is a required field"),
+                    outputType: yup.string().required("Output Type is a required field"),
+                    isPrivate: yup.boolean().required("Private is a required field"),
+                  })}
+                  onSubmit={async (values) => {
+                    await this.updateAiModel(this.context.token, this.props.location.state.ai_id, await values)
+                    await this.getModelsById(this.context.token, this.props.location.state.ai_id)
+                  }}
+                >
+                  <Form>
+                    <Box paddingBottom={2}>
+                      <Box paddingBottom={2} paddingTop={4}>
+                        <Field fullWidth
+                          component={TextField}
+                          name="title"
+                          type="text"
+                          label="Title"
+                        />
+                      </Box>
+                      <Box paddingBottom={4}>
+                        <Field fullWidth
+                          component={TextField}
+                          name="description"
+                          type="text"
+                          label="Description"
+                          InputProps={{ multiline: true }}
+                        />
+                      </Box>
+                      <Box paddingBottom={4}>
+                        <InputLabel htmlFor="inputType">Input Type</InputLabel>
+                        <Field fullWidth
+                          component={Select}
+                          type="text"
+                          name="inputType"
+                          inputProps={{
+                            id: 'inputType',
+                          }}
+                        >
+                          <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
+                          <MenuItem value={"string"}>string</MenuItem>
+                        </Field>
+                        <ErrorMessage component="div" className="error-message" name="inputType" />
+                      </Box>
+                      <Box paddingBottom={4}>
+                        <InputLabel htmlFor="outputType">Output Type</InputLabel>
+                        <Field fullWidth
+                          component={Select}
+                          name="outputType"
+                          inputProps={{
+                            id: 'outputType',
+                          }}
+                        >
+                          <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
+                          <MenuItem value={"string"}>string</MenuItem>
+                        </Field>
+                        <ErrorMessage component="div" className="error-message" name="outputType" />
+                      </Box>
+                      <Box paddingBottom={2}>
+                        <Field
+                          component={CheckboxWithLabel}
+                          type="checkbox"
+                          name="isPrivate"
+                          Label={{ label: 'Private' }}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Button
+                      startIcon={this.state.isSubmitting ? <CircularProgress size="1rem" /> : null}
+                      disabled={this.state.isSubmitting}
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                    >
+                      {this.state.isSubmitting ? 'Submitting' : 'Submit'}
+                    </Button>
+
+                  </Form>
+                </Formik>
+              </Container>
+
+            </Container>
+          </div>
         </>
       )
     } else {
       return (
         <>
-          <ThemeProvider theme={theme}>
-            <Sidebar />
-            {this.state.message && <CustomizedSnackbar message={this.state.message} severity={this.state.severity} />}
-            <div className="main">
-              <AppHeader title={`EDIT: ${this.props.location.state.title}`} button="BACK" buttonIcon="" path="/my" />
-              <Container>
-                <Container className="run-white-container">
-                  <div className="run-data-line"><p className="run-top-label">AI ID:</p> {this.props.location.state.ai_id}</div>
-                  <br></br>
-                  <div className="run-row">
-                    <div className="run-column">
-                      <div className="run-data-line">
-                        <p className="run-top-label">AUTHOR:</p> {this.props.location.state.name}
-                      </div>
-                    </div>
-                    <div className="run-column">
-                      <div className="run-data-line">
-                        <p className="run-top-label">DATE:</p> {new Date(this.props.location.state.created_in).toLocaleString()}
-                      </div>
+          <Sidebar />
+          {this.state.message && <CustomizedSnackbar message={this.state.message} severity={this.state.severity} />}
+          <div className="main">
+            <AppHeader title={`EDIT: ${this.props.location.state.title}`} button="BACK" buttonIcon="" path="/my" />
+            <Container>
+              <Container className="run-white-container">
+                <div className="run-data-line"><p className="run-top-label">AI ID:</p> {this.props.location.state.ai_id}</div>
+                <br></br>
+                <div className="run-row">
+                  <div className="run-column">
+                    <div className="run-data-line">
+                      <p className="run-top-label">AUTHOR:</p> {this.props.location.state.name}
                     </div>
                   </div>
-                </Container>
-  
-                <Container className="run-white-container">
-                  <p className="run-top-label">DESCRIPTION:</p>
-                  <br></br>
-                  {this.props.location.state.description}
-                </Container>
-  
-                <Container className="run-white-container">
-                  <p className="run-top-label">EDIT DATA:</p>
-                  <Formik
-                    initialValues={{
-                      title: this.props.location.state.title,
-                      description: this.props.location.state.description,
-                      inputType: this.props.location.state.input_type,
-                      outputType: this.props.location.state.output_type,
-                      isPrivate: this.props.location.state.is_private,
-                    }}
-                    validationSchema={yup.object().shape({
-                      title: yup.string().max(60).required("Title is a required field"),
-                      description: yup.string().required("Description is a required field"),
-                      inputType: yup.string().required("Input Type is a required field"),
-                      outputType: yup.string().required("Output Type is a required field"),
-                      isPrivate: yup.boolean().required("Private is a required field"),
-                    })}
-                    onSubmit={async (values) => {
-                      await this.updateAiModel(this.context.token, this.props.location.state.ai_id, await values)
-                      await this.getModelsById(this.context.token, this.props.location.state.ai_id)
-                    }}
-                  >
-                    <Form>
-                      <Box paddingBottom={2}>
-                        <Box paddingBottom={2} paddingTop={4}>
-                          <Field fullWidth
-                            component={TextField}
-                            name="title"
-                            type="text"
-                            label="Title"
-                          />
-                        </Box>
-                        <Box paddingBottom={4}>
-                          <Field fullWidth
-                            component={TextField}
-                            name="description"
-                            type="text"
-                            label="Description"
-                            InputProps={{ multiline: true }}
-                          />
-                        </Box>
-                        <Box paddingBottom={4}>
-                          <InputLabel htmlFor="inputType">Input Type</InputLabel>
-                          <Field fullWidth
-                            component={Select}
-                            type="text"
-                            name="inputType"
-                            inputProps={{
-                              id: 'inputType',
-                            }}
-                          >
-                            <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
-                            <MenuItem value={"string"}>string</MenuItem>
-                          </Field>
-                          <ErrorMessage component="div" className="error-message" name="inputType" />
-                        </Box>
-                        <Box paddingBottom={4}>
-                          <InputLabel htmlFor="outputType">Output Type</InputLabel>
-                          <Field fullWidth
-                            component={Select}
-                            name="outputType"
-                            inputProps={{
-                              id: 'outputType',
-                            }}
-                          >
-                            <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
-                            <MenuItem value={"string"}>string</MenuItem>
-                          </Field>
-                          <ErrorMessage component="div" className="error-message" name="outputType" />
-                        </Box>
-                        <Box paddingBottom={2}>
-                          <Field
-                            component={CheckboxWithLabel}
-                            type="checkbox"
-                            name="isPrivate"
-                            Label={{ label: 'Private' }}
-                          />
-                        </Box>
-                      </Box>
-  
-                      <Button
-                        startIcon={this.state.isSubmitting ? <CircularProgress size="1rem" /> : null}
-                        disabled={this.state.isSubmitting}
-                        variant="contained"
-                        color="primary"
-                        type="submit"
-                      >
-                        {this.state.isSubmitting ? 'Submitting' : 'Submit'}
-                      </Button>
-  
-                    </Form>
-                  </Formik>
-                </Container>
-  
+                  <div className="run-column">
+                    <div className="run-data-line">
+                      <p className="run-top-label">DATE:</p> {new Date(this.props.location.state.created_in).toLocaleString()}
+                    </div>
+                  </div>
+                </div>
               </Container>
-            </div>
-          </ThemeProvider>
+
+              <Container className="run-white-container">
+                <p className="run-top-label">DESCRIPTION:</p>
+                <br></br>
+                {this.props.location.state.description}
+              </Container>
+
+              <Container className="run-white-container">
+                <p className="run-top-label">EDIT DATA:</p>
+                <Formik
+                  initialValues={{
+                    title: this.props.location.state.title,
+                    description: this.props.location.state.description,
+                    inputType: this.props.location.state.input_type,
+                    outputType: this.props.location.state.output_type,
+                    isPrivate: this.props.location.state.is_private,
+                  }}
+                  validationSchema={yup.object().shape({
+                    title: yup.string().max(60).required("Title is a required field"),
+                    description: yup.string().required("Description is a required field"),
+                    inputType: yup.string().required("Input Type is a required field"),
+                    outputType: yup.string().required("Output Type is a required field"),
+                    isPrivate: yup.boolean().required("Private is a required field"),
+                  })}
+                  onSubmit={async (values) => {
+                    await this.updateAiModel(this.context.token, this.props.location.state.ai_id, await values)
+                    await this.getModelsById(this.context.token, this.props.location.state.ai_id)
+                  }}
+                >
+                  <Form>
+                    <Box paddingBottom={2}>
+                      <Box paddingBottom={2} paddingTop={4}>
+                        <Field fullWidth
+                          component={TextField}
+                          name="title"
+                          type="text"
+                          label="Title"
+                        />
+                      </Box>
+                      <Box paddingBottom={4}>
+                        <Field fullWidth
+                          component={TextField}
+                          name="description"
+                          type="text"
+                          label="Description"
+                          InputProps={{ multiline: true }}
+                        />
+                      </Box>
+                      <Box paddingBottom={4}>
+                        <InputLabel htmlFor="inputType">Input Type</InputLabel>
+                        <Field fullWidth
+                          component={Select}
+                          type="text"
+                          name="inputType"
+                          inputProps={{
+                            id: 'inputType',
+                          }}
+                        >
+                          <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
+                          <MenuItem value={"string"}>string</MenuItem>
+                        </Field>
+                        <ErrorMessage component="div" className="error-message" name="inputType" />
+                      </Box>
+                      <Box paddingBottom={4}>
+                        <InputLabel htmlFor="outputType">Output Type</InputLabel>
+                        <Field fullWidth
+                          component={Select}
+                          name="outputType"
+                          inputProps={{
+                            id: 'outputType',
+                          }}
+                        >
+                          <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
+                          <MenuItem value={"string"}>string</MenuItem>
+                        </Field>
+                        <ErrorMessage component="div" className="error-message" name="outputType" />
+                      </Box>
+                      <Box paddingBottom={2}>
+                        <Field
+                          component={CheckboxWithLabel}
+                          type="checkbox"
+                          name="isPrivate"
+                          Label={{ label: 'Private' }}
+                        />
+                      </Box>
+                    </Box>
+
+                    <Button
+                      startIcon={this.state.isSubmitting ? <CircularProgress size="1rem" /> : null}
+                      disabled={this.state.isSubmitting}
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                    >
+                      {this.state.isSubmitting ? 'Submitting' : 'Submit'}
+                    </Button>
+
+                  </Form>
+                </Formik>
+              </Container>
+
+            </Container>
+          </div>
         </>
       )
     }

@@ -11,7 +11,10 @@ import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import CustomizedSnackbar from "../../Alert"
-
+import TextField from '@mui/material/TextField'
+import Autocomplete from '@mui/material/Autocomplete'
+import SearchIcon from '@mui/icons-material/Search'
+import { IconButton } from "@material-ui/core"
 
 function My() {
   const history = useHistory()
@@ -51,7 +54,7 @@ function My() {
   const [message, setMessage] = useState("")
 
   const [deleteMessage, setDeleteMessage] = useState({
-    message: "", 
+    message: "",
     severity: "",
   })
 
@@ -174,29 +177,57 @@ function My() {
     //update AI model from state
     const updatedModelList = models.map((model) => {
       if (model.ai_id === aiId) {
-        return {...model, is_private: !model.is_private}
+        return { ...model, is_private: !model.is_private }
       } else {
-        return {...model, is_private: model.is_private}
+        return { ...model, is_private: model.is_private }
       }
     })
 
     setModels(updatedModelList)
   }
 
+  const [value, setValue] = useState(null)
+
   return (
     <>
       <Sidebar />
       <div className="main">
         <AppHeader title="My Models" button="NEW" buttonIcon="plus" path="/new" />
-        <SearchById getModelsById={getModelsById} fetchModelById={fetchModelById} handleMessage={handleMessage}/>
+        <SearchById getModelsById={getModelsById} fetchModelById={fetchModelById} handleMessage={handleMessage} />
 
-        {message && <CustomizedSnackbar message={message} severity="error"/>}
-        {deleteMessage.message && <CustomizedSnackbar message={deleteMessage.message} severity={deleteMessage.severity}/>}
+
+
+        {message && <CustomizedSnackbar message={message} severity="error" />}
+        {deleteMessage.message && <CustomizedSnackbar message={deleteMessage.message} severity={deleteMessage.severity} />}
 
         {(models && models.length > 0) ?
-          <div className={"content-table"}>
-            <Models models={models} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
-          </div>
+          <>
+            <Autocomplete
+              id="searchByModelId"
+              freeSolo
+              selectOnFocus
+              clearOnBlur
+              sx={{ width: 450, marginBottom: 4 }}
+              value = {value}
+              onChange={(event, newValue) => {
+                console.log(newValue)
+                setValue(newValue)
+                
+              }}
+              options={models.map((option) => option.ai_id)}
+              renderInput={(params) =>
+                <div style={{ display: "flex", backgroundColor: "white", borderRadius: "10px", padding: 6, paddingLeft: 20  }}>
+                  <TextField {...params} label="search by Model Id" color="warning"/>
+                  <IconButton onClick={() => {console.log("search click")}} sx={{ borderRadius: 100}}>
+                    <SearchIcon fontSize="large" color="warning" sx={{ display: "flex", alignSelf: "center" }} />
+                  </IconButton>
+                </div>}
+            />
+
+            <div className={"content-table"}>
+              <Models models={models} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
+            </div>
+          </>
           :
           <NoContentCard text="No models found!" />
         }
