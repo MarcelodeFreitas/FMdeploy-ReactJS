@@ -12,8 +12,8 @@ import StoreContext from '../../Store/Context'
 import CustomizedSnackbar from "../../Alert"
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
-import SearchIcon from '@mui/icons-material/Search'
-import { IconButton } from "@material-ui/core"
+import { FormControl, MenuItem, Select } from "@material-ui/core"
+import { Box } from "@mui/system"
 
 function My() {
   const history = useHistory()
@@ -21,7 +21,7 @@ function My() {
   let location = useLocation()
   // console.log(location.pathname)
   //in the fure prevent changing the url manually too??
-  let currentURL = window.location.href
+  // let currentURL = window.location.href
   // console.log(currentURL)
 
   history.listen((newLocation, action) => {
@@ -50,40 +50,12 @@ function My() {
 
   const [models, setModels] = useState("")
 
-  const [message, setMessage] = useState("")
+  const [myModelsError, setMyModelsError] = useState("")
 
   const [deleteMessage, setDeleteMessage] = useState({
     message: "",
     severity: "",
   })
-
-  //get ai models owned by id
-  const getModelsById = async (aiId) => {
-    console.log(aiId)
-    try {
-      const response = await axios.get(
-        `${baseUrl}/ai/${aiId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        }
-      )
-      return await response.data
-    } catch (e) {
-      console.log("getModelsById error: ", e.response)
-      return e.response.data.detail
-    }
-  }
-
-  const fetchModelById = async (getModelsById) => {
-    setModels(getModelsById)
-  }
-
-  const handleMessage = async (message) => {
-    setMessage(message)
-    setTimeout(() => setMessage(""), 6100)
-  }
 
   useEffect(() => {
 
@@ -102,6 +74,8 @@ function My() {
         return await response.data.reverse()
       } catch (e) {
         console.log("getMyModels error: ", e.response)
+        console.log("getMyModels error detail: ", e.response.data.detail)
+        setMyModelsError(e.response.data.detail)
       }
     }
 
@@ -189,68 +163,81 @@ function My() {
   const [idResults, setIdResults] = useState([])
   const [searchByTitle, setSearchByTitle] = useState("")
   const [titleResults, setTitleResults] = useState([])
-  const [searchByAuthor, setSearchByAuthor] = useState("")
-  const [authorResults, setAuthorResults] = useState([])
+  // const [searchByAuthor, setSearchByAuthor] = useState("")
+  // const [authorResults, setAuthorResults] = useState([])
 
   const [renderType, setRenderType] = useState("default")
 
-  const RenderModelList = ({modelList, type}) => {
-    console.log("yooo:", modelList, type)
-    if (modelList.length > 0 ) {
+  const [searchType, setSearchType] = useState("id")
+
+  const handleSearchChange = (event) => {
+    console.log(event.target.value)
+    setSearchType(event.target.value)
+  }
+
+  const RenderModelList = ({ modelList, type, errorMessage }) => {
+    if (modelList && modelList.length > 0) {
       if (type === "default") {
-        return(
+        return (
           <div className={"content-table"}>
             <Models models={models} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
           </div>
         )
       }
       if (type === "searchId") {
-        return(
+        return (
           <div className={"content-table"}>
-            Search by Id Results:
             <Models models={idResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
           </div>
         )
       }
       if (type === "searchTitle") {
-        return(
+        return (
           <div className={"content-table"}>
-            Search by Title Results:
             <Models models={titleResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
           </div>
         )
       }
-      if (type === "searchAuthor") {
-        return(
-          <div className={"content-table"}>
-            Search by Title Results:
-            <Models models={authorResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
-          </div>
+      // if (type === "searchAuthor") {
+      //   return (
+      //     <div className={"content-table"}>
+      //       <Models models={authorResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
+      //     </div>
+      //   )
+      // }
+    } else {
+      if (errorMessage !== "") {
+        return (
+          <NoContentCard text={errorMessage} />
+        )
+      } else {
+        return (
+          <>
+          </>
         )
       }
-    } else {
-      return(
-        <NoContentCard text="No models found!" />
-      )
+
     }
-    
+
   }
 
   const handleSearch = (searchBy, search) => {
-    if (searchBy === "id") {
-      setIdResults(models.filter((model) =>
-        model.ai_id.includes(search)
-      ))
-    }
-    if (searchBy === "title") {
-      setTitleResults(models.filter((model) =>
-        model.title.includes(search)
-      ))
-    }
-    if (searchBy === "author") {
-      setAuthorResults(models.filter((model) =>
-        model.author.includes(search)
-      ))
+    if (search !== null) {
+      if (searchBy === "id") {
+        setIdResults(models.filter((model) =>
+          model.ai_id.includes(search)
+        ))
+      }
+      if (searchBy === "title") {
+        setTitleResults(models.filter((model) =>
+          model.title.toLowerCase().includes(search.toLowerCase())
+        ))
+      }
+      // if (searchBy === "author") {
+      //   setAuthorResults(models.filter((model) =>
+      //     model.author.toLowerCase().includes(search.toLowerCase())
+      //   ))
+      // }
     }
   }
 
@@ -260,92 +247,91 @@ function My() {
       <div className="main">
         <AppHeader title="My Models" button="NEW" buttonIcon="plus" path="/new" />
 
-        {message && <CustomizedSnackbar message={message} severity="error" />}
         {deleteMessage.message && <CustomizedSnackbar message={deleteMessage.message} severity={deleteMessage.severity} />}
 
-        {(models && models.length > 0) ?
-          <>
-            <div className="searchBars">
+        {(models && models.length > 0) &&
+          <div className="searchbars">
+            <div className="searchbar-field">
+            {searchType === "id" &&
               <Autocomplete
                 id="searchByModelId"
                 freeSolo
                 selectOnFocus
                 clearOnBlur
                 value={searchById}
-                sx={{ width: 420, marginTop: "10px", marginBottom: "10px", marginLeft: "20px" }}
+                sx={{ width: 350, marginLeft: "20px" }}
                 onChange={(event, newValue, reason) => {
-                  console.log("onChange", reason)
                   handleSearch("id", newValue)
-                  setRenderType("searchId")
                   if (reason === "clear") {
                     setRenderType("default")
                   }
-                  
                 }}
                 onInputChange={(event, newValue) => {
                   setRenderType("searchId")
                   setSearchById(newValue)
                   handleSearch("id", newValue)
                 }}
-                onOpen = {() => {
+                onOpen={() => {
+                  setRenderType("default")
                   setSearchById("")
                   setIdResults([])
                   setSearchByTitle("")
                   setTitleResults([])
-                  setSearchByAuthor("")
-                  setAuthorResults([])
+                  // setSearchByAuthor("")
+                  // setAuthorResults([])
                 }}
                 options={models.map((option) => option.ai_id)}
                 renderInput={(params) =>
-                  <TextField {...params} label="search by Model Id" color="warning" />}
+                  <TextField {...params} label="Search by" color="warning" variant="standard" />}
               />
-              <Autocomplete
-                id="searchByTitle"
-                freeSolo
-                selectOnFocus
-                clearOnBlur
-                value={searchByTitle}
-                sx={{ width: 420, marginTop: "10px", marginBottom: "10px", marginLeft: "20px" }}
-                onChange={(event, newValue) => {
-                  console.log(newValue)
-                  setRenderType("searchTitle")
-                  setSearchByTitle(newValue)
-                  handleSearch("title", newValue)
-                }}
-                onInputChange={(event, newValue) => {
-                  console.log(newValue)
-                  setRenderType("searchTitle")
-                  setSearchByTitle(newValue)
-                  handleSearch("title", newValue)
-                }}
-                onOpen = {() => {
-                  setSearchById("")
-                  setIdResults([])
-                  setSearchByTitle("")
-                  setTitleResults([])
-                  setSearchByAuthor("")
-                  setAuthorResults([])
-                }}
-                onClose = {() => {
+            }
+            {searchType === "title" &&
+            <Autocomplete
+              id="searchByTitle"
+              freeSolo
+              selectOnFocus
+              clearOnBlur
+              value={searchByTitle}
+              sx={{ width: 350, marginLeft: "20px" }}
+              onChange={(event, newValue, reason) => {
+                handleSearch("title", newValue)
+                if (reason === "clear") {
                   setRenderType("default")
-                }}
-                options={models.map((option) => option.title)}
-                renderInput={(params) =>
-                  <TextField {...params} label="search by Title" color="warning" />
                 }
-              />
+              }}
+              onInputChange={(event, newValue) => {
+                setRenderType("searchTitle")
+                setSearchByTitle(newValue)
+                handleSearch("title", newValue)
+              }}
+              onOpen={() => {
+                setRenderType("default")
+                setSearchById("")
+                setIdResults([])
+                setSearchByTitle("")
+                setTitleResults([])
+                // setSearchByAuthor("")
+                // setAuthorResults([])
+              }}
+              options={models.map((option) => option.title)}
+              renderInput={(params) =>
+                <TextField {...params} label="Search by" color="warning" variant="standard" />
+              }
+            />
+            }
+            {/* {searchType === "author" &&
               <Autocomplete
                 id="searchByAuthor"
                 freeSolo
                 selectOnFocus
                 clearOnBlur
                 value={searchByAuthor}
-                sx={{ width: 420, marginTop: "10px", marginBottom: "10px", marginLeft: "20px" }}
-                onChange={(event, newValue) => {
-                  console.log(newValue)
-                  setRenderType("searchAuthor")
-                  setSearchByAuthor(newValue)
+                sx={{ width: 350, marginLeft: "20px" }}
+                onChange={(event, newValue, reason) => {
                   handleSearch("author", newValue)
+                  if (reason === "clear") {
+                    setRenderType("default")
+                  }
                 }}
                 onInputChange={(event, newValue) => {
                   setRenderType("searchAuthor")
@@ -353,7 +339,8 @@ function My() {
                   setSearchByAuthor(newValue)
                   handleSearch("author", newValue)
                 }}
-                onOpen = {() => {
+                onOpen={() => {
+                  setRenderType("default")
                   setSearchById("")
                   setIdResults([])
                   setSearchByTitle("")
@@ -361,52 +348,33 @@ function My() {
                   setSearchByAuthor("")
                   setAuthorResults([])
                 }}
-                onClose = {() => {
-                  setRenderType("default")
-                }}
                 options={models.map((option) => option.author)}
                 renderInput={(params) =>
-                  <TextField {...params} label="search by Author" color="warning" />
+                  <TextField {...params} label="Search by" color="warning" variant="standard" />
                 }
               />
+            } */}
             </div>
-
-
-
-          </>
-          :
-          <NoContentCard text="No models found!" />
-        }
-
-
-        {/* {
-          (models.length > 0 && idResults.length === 0 && titleResults.length === 0 && authorResults.length === 0) &&
-          
-        } */}
-
-        {/* {(models && models.length > 0 && idResults.length > 0) &&
-          <div className={"content-table"}>
-            id
-            <Models models={idResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
+            <div className="searchbar-type">
+            <Box sx={{ minWidth: 80, marginLeft: "20px", marginTop: "12px" }}>
+              <FormControl fullWidth>
+                <Select
+                  value={searchType}
+                  label="Search By"
+                  onChange={handleSearchChange}
+                  autoWidth
+                >
+                  <MenuItem value={"id"}>Id</MenuItem>
+                  <MenuItem value={"title"}>Title</MenuItem>
+                  {/* <MenuItem value={"author"}>Author</MenuItem> */}
+                </Select>
+              </FormControl>
+            </Box>
+            </div>
           </div>
         }
 
-        {(models && models.length > 0 && titleResults.length > 0) &&
-          <div className={"content-table"}>
-            title
-            <Models models={titleResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
-          </div>
-        }
-
-        {(models && models.length > 0 && authorResults.length > 0) &&
-          <div className={"content-table"}>
-            author
-            <Models models={authorResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
-          </div>
-        } */}
-
-        <RenderModelList modelList={models} type={renderType}/>
-
+        <RenderModelList modelList={models} type={renderType} errorMessage={myModelsError} />
 
       </div>
     </>
