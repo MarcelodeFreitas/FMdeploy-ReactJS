@@ -11,6 +11,17 @@
     background-color: #F3F3F3;
 }
 
+.searchBars {
+  display: flex;
+  justify-content: "flex-start";
+  background-color: #fff;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  min-width: 450px;
+  border-radius: 15px;
+}
+
   /* Small screens */
   @media only screen and (max-width: 1000px) {
     .main {

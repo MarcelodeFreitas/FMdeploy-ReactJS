@@ -16,3 +16,4 @@ react-flash-message
 @mui/material
 @emotion/react
 @emotion/styled
+@mui/icons-material
