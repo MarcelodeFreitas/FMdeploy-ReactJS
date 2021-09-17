@@ -52,6 +52,8 @@ function My() {
 
   const [myModelsError, setMyModelsError] = useState("")
 
+  const [noModelsMessage, setNoModelsMessage] = useState("")
+
   const [deleteMessage, setDeleteMessage] = useState({
     message: "",
     severity: "",
@@ -123,6 +125,19 @@ function My() {
     setModels(models.filter((model) =>
       model.ai_id !== id
     ))
+
+    const filteredModels = models.filter((model) =>
+      model.ai_id !== id
+    )
+
+    console.log("Delete: ", models)
+    console.log("Delete length: ", models.length)
+    console.log("Delete filter: ", filteredModels)
+    console.log("Delete filter2: ", filteredModels.length)
+
+    if (filteredModels.length === 0) {
+      setNoModelsMessage("No Ai Models found!")
+    }
   }
 
   // public not public ai model
@@ -252,74 +267,74 @@ function My() {
         {(models && models.length > 0) &&
           <div className="searchbars">
             <div className="searchbar-field">
-            {searchType === "id" &&
-              <Autocomplete
-                id="searchByModelId"
-                freeSolo
-                selectOnFocus
-                clearOnBlur
-                value={searchById}
-                sx={{ width: 350, marginLeft: "20px" }}
-                onChange={(event, newValue, reason) => {
-                  handleSearch("id", newValue)
-                  if (reason === "clear") {
+              {searchType === "id" &&
+                <Autocomplete
+                  id="searchByModelId"
+                  freeSolo
+                  selectOnFocus
+                  clearOnBlur
+                  value={searchById}
+                  sx={{ width: 350, marginLeft: "20px" }}
+                  onChange={(event, newValue, reason) => {
+                    handleSearch("id", newValue)
+                    if (reason === "clear") {
+                      setRenderType("default")
+                    }
+                  }}
+                  onInputChange={(event, newValue) => {
+                    setRenderType("searchId")
+                    setSearchById(newValue)
+                    handleSearch("id", newValue)
+                  }}
+                  onOpen={() => {
                     setRenderType("default")
-                  }
-                }}
-                onInputChange={(event, newValue) => {
-                  setRenderType("searchId")
-                  setSearchById(newValue)
-                  handleSearch("id", newValue)
-                }}
-                onOpen={() => {
-                  setRenderType("default")
-                  setSearchById("")
-                  setIdResults([])
-                  setSearchByTitle("")
-                  setTitleResults([])
-                  // setSearchByAuthor("")
-                  // setAuthorResults([])
-                }}
-                options={models.map((option) => option.ai_id)}
-                renderInput={(params) =>
-                  <TextField {...params} label="Search by" color="warning" variant="standard" />}
-              />
-            }
-            {searchType === "title" &&
-            <Autocomplete
-              id="searchByTitle"
-              freeSolo
-              selectOnFocus
-              clearOnBlur
-              value={searchByTitle}
-              sx={{ width: 350, marginLeft: "20px" }}
-              onChange={(event, newValue, reason) => {
-                handleSearch("title", newValue)
-                if (reason === "clear") {
-                  setRenderType("default")
-                }
-              }}
-              onInputChange={(event, newValue) => {
-                setRenderType("searchTitle")
-                setSearchByTitle(newValue)
-                handleSearch("title", newValue)
-              }}
-              onOpen={() => {
-                setRenderType("default")
-                setSearchById("")
-                setIdResults([])
-                setSearchByTitle("")
-                setTitleResults([])
-                // setSearchByAuthor("")
-                // setAuthorResults([])
-              }}
-              options={models.map((option) => option.title)}
-              renderInput={(params) =>
-                <TextField {...params} label="Search by" color="warning" variant="standard" />
+                    setSearchById("")
+                    setIdResults([])
+                    setSearchByTitle("")
+                    setTitleResults([])
+                    // setSearchByAuthor("")
+                    // setAuthorResults([])
+                  }}
+                  options={models.map((option) => option.ai_id)}
+                  renderInput={(params) =>
+                    <TextField {...params} label="Search by" color="warning" variant="standard" />}
+                />
               }
-            />
-            }
-            {/* {searchType === "author" &&
+              {searchType === "title" &&
+                <Autocomplete
+                  id="searchByTitle"
+                  freeSolo
+                  selectOnFocus
+                  clearOnBlur
+                  value={searchByTitle}
+                  sx={{ width: 350, marginLeft: "20px" }}
+                  onChange={(event, newValue, reason) => {
+                    handleSearch("title", newValue)
+                    if (reason === "clear") {
+                      setRenderType("default")
+                    }
+                  }}
+                  onInputChange={(event, newValue) => {
+                    setRenderType("searchTitle")
+                    setSearchByTitle(newValue)
+                    handleSearch("title", newValue)
+                  }}
+                  onOpen={() => {
+                    setRenderType("default")
+                    setSearchById("")
+                    setIdResults([])
+                    setSearchByTitle("")
+                    setTitleResults([])
+                    // setSearchByAuthor("")
+                    // setAuthorResults([])
+                  }}
+                  options={models.map((option) => option.title)}
+                  renderInput={(params) =>
+                    <TextField {...params} label="Search by" color="warning" variant="standard" />
+                  }
+                />
+              }
+              {/* {searchType === "author" &&
               <Autocomplete
                 id="searchByAuthor"
                 freeSolo
@@ -356,25 +371,27 @@ function My() {
             } */}
             </div>
             <div className="searchbar-type">
-            <Box sx={{ minWidth: 80, marginLeft: "20px", marginTop: "12px" }}>
-              <FormControl fullWidth>
-                <Select
-                  value={searchType}
-                  label="Search By"
-                  onChange={handleSearchChange}
-                  autoWidth
-                >
-                  <MenuItem value={"id"}>Id</MenuItem>
-                  <MenuItem value={"title"}>Title</MenuItem>
-                  {/* <MenuItem value={"author"}>Author</MenuItem> */}
-                </Select>
-              </FormControl>
-            </Box>
+              <Box sx={{ minWidth: 80, marginLeft: "20px", marginTop: "12px" }}>
+                <FormControl fullWidth>
+                  <Select
+                    value={searchType}
+                    label="Search By"
+                    onChange={handleSearchChange}
+                    autoWidth
+                  >
+                    <MenuItem value={"id"}>Id</MenuItem>
+                    <MenuItem value={"title"}>Title</MenuItem>
+                    {/* <MenuItem value={"author"}>Author</MenuItem> */}
+                  </Select>
+                </FormControl>
+              </Box>
             </div>
           </div>
         }
 
         <RenderModelList modelList={models} type={renderType} errorMessage={myModelsError} />
+
+        {noModelsMessage && <NoContentCard text={noModelsMessage} />}
 
       </div>
     </>
