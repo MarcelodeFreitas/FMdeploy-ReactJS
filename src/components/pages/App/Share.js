@@ -12,7 +12,7 @@ import * as yup from 'yup'
 import { Field } from "formik"
 import { TextField } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
-import { Button, Container, Box } from '@material-ui/core'
+import { Button, Container, Box, IconButton } from '@material-ui/core'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -21,6 +21,7 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const Share = (props) => {
 
@@ -59,6 +60,29 @@ const Share = (props) => {
     }
   }
 
+  const stopShareAiModel = async (email, aiId) => {
+    try {
+      const response = await axios.post(
+        `${baseUrl}/userai/cancel_share`,
+        {
+          beneficiary_email: email,
+          ai_id: aiId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        }
+      )
+      console.log("stopShareAiModel: ", await response.data)
+      await handleMessage(await response.data, "success")
+    } catch (e) {
+      console.log("stopShareAiModel error: ", e.response)
+      console.log("stopShareAiModel error message: ", e.response.data.detail)
+      await handleMessage(e.response.data.detail, "error")
+    }
+  }
+
   const handleMessage = async (message, severity) => {
     setShareAiMessage(message)
     setShareAiMessageSeverity(severity)
@@ -87,6 +111,7 @@ const Share = (props) => {
     } catch (e) {
       console.log("getBeneficiaries error: ", e.response)
       console.log("getBeneficiaries error message: ", e.response.data.detail)
+      setBeneficiariesList([])
       setBeneficiariesErrorMessage(e.response.data.detail)
     }
   }
@@ -109,6 +134,7 @@ const Share = (props) => {
       } catch (e) {
         console.log("getBeneficiaries error: ", e.response)
         console.log("getBeneficiaries error message: ", e.response.data.detail)
+        setBeneficiariesList([])
         setBeneficiariesErrorMessage(e.response.data.detail)
       }
     }
@@ -195,6 +221,7 @@ const Share = (props) => {
                     <TableRow>
                       <StyledTableCell>Name</StyledTableCell>
                       <StyledTableCell>Email</StyledTableCell>
+                      <StyledTableCell></StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -202,6 +229,14 @@ const Share = (props) => {
                       <StyledTableRow key={beneficiary.name}>
                         <StyledTableCell>{beneficiary.name}</StyledTableCell>
                         <StyledTableCell>{beneficiary.email}</StyledTableCell>
+                        <StyledTableCell align="right">
+                          <IconButton aria-label="delete" onClick={async() => { 
+                            await stopShareAiModel(beneficiary.email, props.location.state.ai_id)
+                            await getBeneficiaries2(props.location.state.ai_id)
+                            }}>
+                            <DeleteIcon/>
+                          </IconButton>
+                        </StyledTableCell>
                       </StyledTableRow>
                     ))}
                   </TableBody>
