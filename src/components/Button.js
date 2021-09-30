@@ -1,9 +1,9 @@
-import React from 'react';
-import './Button.css';
-import {Link} from 'react-router-dom';
+import React from 'react'
+import './Button.css'
+import {Link} from 'react-router-dom'
 
-const STYLES = ['btn--primary', 'btn--outline'];
-const SIZES = ['btn--medium', 'button--large'];
+const STYLES = ['btn--primary', 'btn--outline']
+const SIZES = ['btn--medium', 'button--large']
 
 export const Button = ({children, type, onClick, buttonStyle, buttonSize, path, target}) => {
     const checkButtonStyle = STYLES.includes(buttonStyle)
