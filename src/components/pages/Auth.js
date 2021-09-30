@@ -152,25 +152,25 @@ export default function Auth() {
       <div className={"login-container"}>
         <form className={"form"} onSubmit={submitHandler}>
           <div className={"top"}>
-            <img
+            {/* <img
               className={"login-logo"}
               src={window.location.origin + "/images/logo-orange.png"}
               alt="FMdeploy.jpg"
             />
-            <h1>FMdeploy</h1>
+            <h1>FMdeploy</h1> */}
           </div>
           <div className={"slider"}>
             <div className={"slider-labels"}>
-              {signin && <p className={"slider-text"} style={{ color: "#E76300" }}>Login</p>}
+              {signin && <p className={"slider-text"} style={{ color: "#0385B0" }}>Login</p>}
               {!signin && <p className={"slider-text"}  onClick={() => {setSignin(true); setError("");}}>Login</p>}
 
               {signin && <p className={"slider-text"}  onClick={() => {setSignin(false); setError("");}}>Register</p>}
-              {!signin && <p className={"slider-text"}  style={{ color: "#E76300" }}>Register</p>}
+              {!signin && <p className={"slider-text"}  style={{ color: "#0385B0" }}>Register</p>}
             </div>
-            {signin && <hr style={{ color: "#E76300" }}/>}
+            {signin && <hr style={{ color: "#0385B0" }}/>}
             {!signin && <hr style={{ color: "#fff" }}/>}
             {signin && <hr style={{ color: "#fff" }}/>}
-            {!signin && <hr style={{ color: "#E76300" }}/>}
+            {!signin && <hr style={{ color: "#0385B0" }}/>}
           </div>
           <div className={"inner-form"}>
             {error && (

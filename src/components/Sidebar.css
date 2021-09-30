@@ -1,6 +1,5 @@
 :root {
     font-size: 16px;
-    font-family: 'Open Sans';
     --text-primary: #b6b6b6;
     --text-secondary: #ececec;
     --bg-primary: #23232e;
@@ -84,11 +83,11 @@
   }
   
   .fa-primary {
-    color: #e76300;
+    color: #0385B0;
   }
   
   .fa-secondary {
-    color: #f38e00;
+    color: #51ADCE;
   }
   
   .fa-primary,
@@ -128,7 +127,7 @@
   
   .sidebar:hover .logo svg {
     transform: rotate(-360deg);
-    color: #e76300;
+    color: #0385B0;
   }
   
   /* Small screens */

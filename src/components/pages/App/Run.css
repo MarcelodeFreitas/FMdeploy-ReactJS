@@ -61,7 +61,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #E76300;
+    background-color: #0385B0;
     color: white;
     padding: 10px;
     border-radius: 10px;
@@ -72,7 +72,7 @@
 }
 
 .submit-button:hover {
-    background-color: #F38E00;
+    background-color: #51ADCE;
     cursor: pointer;
 }
 
@@ -80,7 +80,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #E76300;
+    background-color: #0385B0;
     color: white;
     padding: 10px;
     border-radius: 10px;
@@ -104,7 +104,7 @@
 }
 
 .run-labels {
-    color: #E76300;
+    color: #0385B0;
     justify-self: left;
     text-align: left;
     margin-left: 1rem;
@@ -129,7 +129,7 @@
 }
 
 .run-top-label {
-    color: #E76300;
+    color: #0385B0;
     font-weight: bold;
     margin-right: 1rem;
 }

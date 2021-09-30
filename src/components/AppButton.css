@@ -1,7 +1,7 @@
 .main-button {
     margin-left: auto;
     color: #fff;
-    background-color: #E76300;
+    background-color: #0385B0;
     border-radius: 10px;
     padding: 0.7em 2em ;
     cursor: pointer;
@@ -10,7 +10,7 @@
 }
 
 .main-button:hover {
-    background-color: #F38E00;
+    background-color: #51ADCE;
 }
 
 .btn-icon {

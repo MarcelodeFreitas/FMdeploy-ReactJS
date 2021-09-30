@@ -146,7 +146,7 @@ const Share = (props) => {
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: "#E76300",
+      backgroundColor: "#0385B0",
       color: theme.palette.common.white,
     },
     body: {

@@ -32,7 +32,7 @@ function Navbar() {
             <nav className="navbar">
                 <div className="navbar-container">
                     <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-                        <p style={{backgroundColor: "#E76300", padding: "2%", borderRadius: "10%"}}>FM</p>&nbsp;deploy
+                        <p style={{backgroundColor: "#0385B0", padding: "2%", borderRadius: "10%"}}>FM</p>&nbsp;deploy
                     </Link>
                     <div className="menu-icon" onClick={handleClick}>
                         { click ? <FontAwesomeIcon className={"fa-times"} icon={faTimes} /> : <FontAwesomeIcon className={"fa-bars"} icon={faBars} />}

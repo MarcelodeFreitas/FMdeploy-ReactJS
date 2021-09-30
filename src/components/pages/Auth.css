@@ -63,7 +63,7 @@ input, label {
 
 input[type=name] {
     padding:10px; 
-    border:3px solid #E76300; 
+    border:3px solid #0385B0; 
     -webkit-border-radius: 5px;
     border-radius: 5px;
     width: 250px;
@@ -76,7 +76,7 @@ input[type=name]:focus {
 
 .auth-email {
     padding:10px; 
-    border:3px solid #E76300; 
+    border:3px solid #0385B0; 
     -webkit-border-radius: 5px;
     border-radius: 5px;
     width: 250px;
@@ -89,7 +89,7 @@ input[type=name]:focus {
 
 input[type=password] {
     padding:10px; 
-    border:3px solid #E76300; 
+    border:3px solid #0385B0; 
     -webkit-border-radius: 5px;
     border-radius: 5px;
     width: 250px;
@@ -103,7 +103,7 @@ input[type=password]:focus {
 .auth-button {
     width: 250px; 
     height: 35px;
-    background:#E76300; 
+    background:#0385B0; 
     border:0 none;
     cursor:pointer;
     -webkit-border-radius: 5px;
@@ -115,7 +115,7 @@ input[type=password]:focus {
 }
 
 .auth-button:hover {
-    background:#F38E00; 
+    background:#51ADCE; 
 
 }
 

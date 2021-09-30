@@ -1,11 +1,11 @@
 :root {
     --primary: #fff;
-    --secondary: #E76300;
+    --secondary: #0385B0;
 }
 
 .btn{
     padding: 8px 20px;
-    border-radius: 2px;
+    border-radius: 5px;
     outline: none;
     border: none;
     cursor: pointer;

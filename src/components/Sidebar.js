@@ -23,7 +23,7 @@ const Sidebar = () => {
 
                     <li className="side-item">
                         { location.pathname === "/my" ?
-                            <Link to="/my" className="side-link" style={{ filter: 'none', color: '#e76300'}}>
+                            <Link to="/my" className="side-link" style={{ filter: 'none', color: '#0385B0'}}>
                                 <FontAwesomeIcon className="icon" style={{}} icon={faFolder} />
                                 <span className="link-text">My Models</span>
                             </Link>
@@ -37,7 +37,7 @@ const Sidebar = () => {
 
                     <li className="side-item">
                         { location.pathname === "/shared" ?
-                            <Link to="/shared" className="side-link" style={{ filter: 'none', color: '#e76300'}}>
+                            <Link to="/shared" className="side-link" style={{ filter: 'none', color: '#0385B0'}}>
                                 <FontAwesomeIcon className="icon" icon={faFolderOpen} />
                                 <span className="link-text">Shared Models</span>
                             </Link>
@@ -51,7 +51,7 @@ const Sidebar = () => {
 
                     <li className="side-item">
                         { location.pathname === "/public" ?
-                            <Link to="/public" className="side-link" style={{ filter: 'none', color: '#e76300'}}>
+                            <Link to="/public" className="side-link" style={{ filter: 'none', color: '#0385B0'}}>
                                 <FontAwesomeIcon className="icon" icon={faGlobeAmericas} />
                                 <span className="link-text">Public Models</span>
                             </Link>
