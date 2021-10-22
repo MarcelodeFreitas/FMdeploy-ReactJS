@@ -9,6 +9,7 @@ import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import { CircularProgress, Button, Container } from '@material-ui/core'
+import { Anchorme } from 'react-anchorme'
 
 const Run = (props) => {
 
@@ -235,7 +236,9 @@ const Run = (props) => {
           <Container className="run-white-container">
             <p className="run-top-label">DESCRIPTION:</p>
             <br></br>
-            {props.location.state.description}
+            <Anchorme target="_blank" rel="noreferrer noopener">  
+              {props.location.state.description}
+            </Anchorme>
           </Container>
           <div className="run-boxes">
             <InputFilesDropzone />

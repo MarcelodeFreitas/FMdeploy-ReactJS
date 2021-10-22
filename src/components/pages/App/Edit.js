@@ -13,6 +13,7 @@ import * as yup from 'yup'
 import { Field, ErrorMessage } from "formik"
 import { CheckboxWithLabel, TextField, Select } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
+import { Anchorme } from 'react-anchorme'
 
 
 export default class New extends Component {
@@ -119,7 +120,9 @@ export default class New extends Component {
               <Container className="run-white-container">
                 <p className="run-top-label">DESCRIPTION:</p>
                 <br></br>
-                {this.state.responseData.description}
+                <Anchorme target="_blank" rel="noreferrer noopener">
+                  {this.state.responseData.description}
+                </Anchorme>
               </Container>
 
               <Container className="run-white-container">
@@ -248,7 +251,9 @@ export default class New extends Component {
               <Container className="run-white-container">
                 <p className="run-top-label">DESCRIPTION:</p>
                 <br></br>
-                {this.props.location.state.description}
+                <Anchorme target="_blank" rel="noreferrer noopener">
+                  {this.props.location.state.description}
+                </Anchorme>
               </Container>
 
               <Container className="run-white-container">

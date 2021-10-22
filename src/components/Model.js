@@ -3,6 +3,7 @@ import TouchableOpacity from './TouchableOpacity'
 import { useHistory, useLocation } from "react-router-dom"
 import Tooltip from '@material-ui/core/Tooltip'
 import { useState } from 'react'
+import { Anchorme } from 'react-anchorme'
 
 export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy }) => {
     const date = new Date(model.created_in)
@@ -217,7 +218,11 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                         <div className={"item-group"}>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>DESCRIPTION:</p>
-                                <p className={"item-text"}>{model.description}</p>
+                                <p className={"item-text"}>
+                                    <Anchorme target="_blank" rel="noreferrer noopener">
+                                        {model.description}
+                                    </Anchorme>
+                                </p>
                             </div>
                         </div>
                     </div>
