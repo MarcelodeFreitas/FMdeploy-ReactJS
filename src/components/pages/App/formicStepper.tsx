@@ -28,7 +28,7 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
     return <Formik {...props}
         validationSchema={currentChild.props.validationSchema}
         onSubmit={async (values, helpers) => {
-            //calling parent if we are on the last child 
+            //calling parent if we are on the penultimate child 
             if (isPenultimate()) {
                 await props.onSubmit(values, helpers)
                 setCompleted(true)

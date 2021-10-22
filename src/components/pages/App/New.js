@@ -148,15 +148,33 @@ export default class New extends Component {
       <div>
         <div className="submit-result-element">
           <div className="submit-result-label">1. Create Model</div>
-          <div className="submit-result-message">{this.state.aiCreatedMessage}</div>
+          <div className="submit-result-message">
+            {this.state.aiCreatedMessage === 'Model created successfully' ?
+              <p>{this.state.aiCreatedMessage}</p>
+              :
+              <p style={{color: "red"}}>{this.state.aiCreatedMessage}</p>
+            }
+          </div>
         </div>
         <div className="submit-result-element">
           <div className="submit-result-label">2. Submit Python Script</div>
-          <div className="submit-result-message">{this.state.pythonScriptMessage}</div>
+          <div className="submit-result-message">
+            {this.state.pythonScriptMessage === 'Python Script uploaded successfully' ?
+              <p>{this.state.pythonScriptMessage}</p>
+              :
+              <p style={{color: "red"}}>{this.state.pythonScriptMessage}</p>
+            }
+          </div>
         </div>
         <div className="submit-result-element">
           <div className="submit-result-label">3. Submit Model Files</div>
-          <div className="submit-result-message">{this.state.modelFilesMessage}</div>
+          <div className="submit-result-message">
+            {this.state.modelFilesMessage === 'Model Files uploaded successfully' ?
+              <p>{this.state.modelFilesMessage}</p>
+              :
+              <p style={{color: "red"}}>{this.state.modelFilesMessage}</p>
+            }
+          </div>
         </div>
       </div>
 
