@@ -11,9 +11,26 @@ export function FormikStep({ children }: FormikStepProps) {
     return <>{children}</>
 }
 
+const defaultState = {
+    title: "",
+    description: "",
+    inputType: "",
+    outputType: "",
+    isPrivate: true,
+    modelFiles: [],
+    pythonScript: "",
+    errorPythonScript: "",
+    errorModelFiles: "",
+    aiId: "",
+    aiCreatedMessage: "Model created successfully",
+    pythonScriptMessage: "Python Script uploaded successfully",
+    modelFilesMessage: "Model Files uploaded successfully",
+  }
+
 export default function FormikStepper({ children, ...props }: FormikConfig<FormikValues>) {
     const childrenArray = Children.toArray(children) as ReactElement<FormikStepProps>[]
     const [step, setStep] = useState(0)
+    const [state, setState] = useState(defaultState)
     const currentChild = childrenArray[step]
     const [completed, setCompleted] = useState(false)
 
@@ -30,9 +47,10 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
         onSubmit={async (values, helpers) => {
             //calling parent if we are on the penultimate child 
             if (isPenultimate()) {
-                await props.onSubmit(values, helpers)
+                setState(await props.onSubmit(values, helpers))
                 setCompleted(true)
                 setStep(s => s + 1)
+                console.log("state: ", state)
             } else {
                 /* console.log(props) */
                 //next step
@@ -67,30 +85,45 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
                         </Grid>
                     ) : null}
                     {step < 2 ? (
-                    <Grid item>
-                        <Button
-                            startIcon={isSubmitting ? <CircularProgress size="1rem" /> : null}
-                            disabled={isSubmitting}
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                        >
-                            {isSubmitting ? 'Submitting' : isPenultimate() ? 'Submit' : 'Next'}
-                        </Button>
-                    </Grid>
+                        <Grid item>
+                            <Button
+                                startIcon={isSubmitting ? <CircularProgress size="1rem" /> : null}
+                                disabled={isSubmitting}
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                            >
+                                {isSubmitting ? 'Submitting' : isPenultimate() ? 'Submit' : 'Next'}
+                            </Button>
+                        </Grid>
                     ) : null}
+                    {console.log(state)}
+                    {(state.aiCreatedMessage !== "Model created successfully" || state.pythonScriptMessage !== "Python Script uploaded successfully" || state.modelFilesMessage !== "Model Files uploaded successfully") && isLastStep() ? (
+                        
+                        <Grid item>
+                            <Button
+                                disabled={isSubmitting}
+                                variant="contained"
+                                color="primary"
+                                onClick={() => setStep((s) => s - 1)}
+                            >
+                                Back
+                            </Button>
+                        </Grid>)
+                        : null
+                    }
                     {isLastStep() ? (
-                    <Grid item>
-                        <Button
-                            disabled={isSubmitting}
-                            variant="contained"
-                            color="primary"
-                            type="reset"
-                            onClick={() => {resetForm({}); setStep(0)}}
-                        >
-                            New Model
-                        </Button>
-                    </Grid>
+                        <Grid item>
+                            <Button
+                                disabled={isSubmitting}
+                                variant="contained"
+                                color="primary"
+                                type="reset"
+                                onClick={() => { resetForm({}); setStep(0) }}
+                            >
+                                New Model
+                            </Button>
+                        </Grid>
                     ) : null}
                 </Grid>
 

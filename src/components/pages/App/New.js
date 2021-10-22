@@ -24,9 +24,9 @@ const defaultState = {
   errorPythonScript: "",
   errorModelFiles: "",
   aiId: "",
-  aiCreatedMessage: "server feedback message 1",
-  pythonScriptMessage: "server feedback message 2",
-  modelFilesMessage: "server feedback message 3",
+  aiCreatedMessage: "",
+  pythonScriptMessage: "",
+  modelFilesMessage: "",
 }
 
 export default class New extends Component {
@@ -137,7 +137,7 @@ export default class New extends Component {
       return "Model Files uploaded successfully"
 
     } catch (e) {
-      console.log("uploadPythonScript error: ", e.response)
+      console.log("uploadModelFiles error: ", e.response)
       return e.response.data.detail
     }
 
@@ -360,13 +360,14 @@ export default class New extends Component {
                 <CardContent>
                   <FormikStepper
                     initialValues={defaultState}
+                    state={() => this.state}
                     onSubmit={async (values) => {
                       const aiCreatedMessage = await this.createAiModel(this.context.token, await values)
                       const pythonScriptMessage = await this.uploadPythonScript(this.context.token, await values)
                       const modelFilesMessage = await this.uploadModelFiles(this.context.token, await values)
-                      console.log(aiCreatedMessage, pythonScriptMessage, modelFilesMessage)
                       this.setState({ aiCreatedMessage: aiCreatedMessage, pythonScriptMessage: pythonScriptMessage, modelFilesMessage: modelFilesMessage })
-                    }
+                      return this.state
+                      }
                     }
                   >
 
