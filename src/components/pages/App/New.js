@@ -29,6 +29,27 @@ const defaultState = {
   modelFilesMessage: "",
 }
 
+// Delete an AI model
+const deleteModel = async (token, id) => {
+
+  //delete ai model from server
+  try {
+    const response = await axios.delete(
+      `${baseUrl}/ai/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }
+    )
+    console.log("deleteModel response: ", await response)
+    return await response.data.detail
+  } catch (e) {
+    console.log("deleteModel error: ", e)
+    return e.response.data.detail
+  }
+}
+
 export default class New extends Component {
 
   static contextType = StoreContext
@@ -41,13 +62,10 @@ export default class New extends Component {
   }
 
   handleOnDrop = (files, rejectedFiles) => {
-    console.log(files)
+    console.log("handleOnDrop: ", files)
   }
 
   handleFileErrors = () => {
-    /* console.log("pythonscript: ", this.state.pythonScript, "modelfiles: ", this.state.modelfiles)
-    console.log(this.state.pythonScript === "")
-    console.log(this.state.modelFiles.length === 0) */
     if (this.state.pythonScript === "") {
       this.setState({ errorPythonScript: "A Python script is required" })
     }
@@ -63,7 +81,7 @@ export default class New extends Component {
 
   //create ai model in the server
   createAiModel = async (token, values) => {
-    console.log(values)
+    console.log("createAiModel: ", values)
 
     try {
       const response = await axios.post(
@@ -81,23 +99,20 @@ export default class New extends Component {
           },
         }
       )
-      console.log(await response)
+      console.log("createAiModel response: ", await response)
       this.setState({ aiId: await response.data.ai_id }, () => console.log("aiId: ", this.state.aiId))
       if (await response.status === 201) {
-        /* this.setState({ aiCreatedMessage: "Model created successfully" }) */
         return "Model created successfully"
       }
     } catch (e) {
       console.log("createAiModel error: ", e.response)
-      /* this.setState({ aiCreatedMessage: e.response.data.detail }) */
       return e.response.data.detail
     }
-
   }
 
   //add pythonscript to the ai model
-  uploadPythonScript = async (token, values) => {
-
+  uploadPythonScript = async (token, values, ai_id) => {
+    console.log("uploadPythonScript: ", ai_id)
     try {
       const formData = new FormData()
       formData.append('python_file', values.pythonScript)
@@ -107,19 +122,19 @@ export default class New extends Component {
           Authorization: `Bearer ${token}`
         }
       })
-      console.log(await response)
+      console.log("uploadPythonScript response: ", await response)
       return "Python Script uploaded successfully"
     } catch (e) {
       console.log("uploadPythonScript error: ", e.response)
-      /* this.setState({ pythonScriptMessage: e.response.data.detail }) */
+      deleteModel(token, ai_id)
       return e.response.data.detail
     }
 
   }
 
   //add modelfiles to the ai model
-  uploadModelFiles = async (token, values) => {
-
+  uploadModelFiles = async (token, values, ai_id) => {
+    console.log("uploadModelFiles: ", ai_id)
     try {
       const formData = new FormData()
 
@@ -133,7 +148,7 @@ export default class New extends Component {
           Authorization: `Bearer ${token}`
         }
       })
-      console.log(await response)
+      console.log("uploadModelFiles response: ", await response)
       return "Model Files uploaded successfully"
 
     } catch (e) {
@@ -185,7 +200,7 @@ export default class New extends Component {
 
     const ModelFilesDropzone = ({
       field: { value }, // { name, value, onChange, onBlur }
-      form: { touched, errors, setFieldValue, setFieldError }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+      form: { touched, errors, setFieldValue, setFieldError }, // also values, set, handle, isValid, status, etc.
       ...props
     }) => {
 
@@ -363,9 +378,13 @@ export default class New extends Component {
                     state={() => this.state}
                     onSubmit={async (values) => {
                       const aiCreatedMessage = await this.createAiModel(this.context.token, await values)
-                      const pythonScriptMessage = await this.uploadPythonScript(this.context.token, await values)
-                      const modelFilesMessage = await this.uploadModelFiles(this.context.token, await values)
-                      this.setState({ aiCreatedMessage: aiCreatedMessage, pythonScriptMessage: pythonScriptMessage, modelFilesMessage: modelFilesMessage })
+                      const pythonScriptMessage = await this.uploadPythonScript(this.context.token, await values, this.state.aiId)
+                      if (pythonScriptMessage === "Python Script uploaded successfully") {
+                        const modelFilesMessage = await this.uploadModelFiles(this.context.token, await values, this.state.aiId)
+                        this.setState({ aiCreatedMessage: aiCreatedMessage, pythonScriptMessage: pythonScriptMessage, modelFilesMessage: modelFilesMessage })
+                      } else {
+                        this.setState({ aiCreatedMessage: aiCreatedMessage, pythonScriptMessage: pythonScriptMessage, modelFilesMessage: "Error in previous step" })
+                      }
                       return this.state
                       }
                     }

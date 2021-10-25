@@ -50,7 +50,7 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
                 setState(await props.onSubmit(values, helpers))
                 setCompleted(true)
                 setStep(s => s + 1)
-                console.log("state: ", state)
+                /* console.log("state: ", state) */
             } else {
                 /* console.log(props) */
                 //next step
@@ -97,7 +97,6 @@ export default function FormikStepper({ children, ...props }: FormikConfig<Formi
                             </Button>
                         </Grid>
                     ) : null}
-                    {console.log(state)}
                     {(state.aiCreatedMessage !== "Model created successfully" || state.pythonScriptMessage !== "Python Script uploaded successfully" || state.modelFilesMessage !== "Model Files uploaded successfully") && isLastStep() ? (
                         
                         <Grid item>
