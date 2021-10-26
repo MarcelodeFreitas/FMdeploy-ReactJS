@@ -65,7 +65,7 @@ const Run = (props) => {
         },
         responseType: 'arraybuffer', //prevents the file from corrupting
       })
-      console.log(await response)
+      console.log("runAi response: ", await response)
 
       const filename = await response.headers['content-disposition'].split('filename=')[1].split(';')[0]
 
