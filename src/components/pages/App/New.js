@@ -89,7 +89,7 @@ export default class New extends Component {
         {
           title: values.title,
           description: values.description,
-          input_type: values.outputType,
+          input_type: values.inputType,
           output_type: values.outputType,
           is_private: values.isPrivate,
         },
@@ -428,6 +428,7 @@ export default class New extends Component {
                             }}
                           >
                             <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
+                            <MenuItem value={".wav"}>.wav</MenuItem>
                             <MenuItem value={"string"}>string</MenuItem>
                           </Field>
                           <ErrorMessage component="div" className="error-message" name="inputType" />
@@ -442,6 +443,8 @@ export default class New extends Component {
                             }}
                           >
                             <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
+                            <MenuItem value={".csv"}>.csv</MenuItem>
+                            <MenuItem value={".png"}>.png</MenuItem>
                             <MenuItem value={"string"}>string</MenuItem>
                           </Field>
                           <ErrorMessage component="div" className="error-message" name="outputType" />
