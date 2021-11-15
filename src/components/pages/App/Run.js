@@ -97,10 +97,13 @@ const Run = (props) => {
     }
   }
 
+  const [acceptedFileName, setAcceptedFileName] = useState("")
+
   const handleRun = async (token, inputFile, aiId) => {
     if (inputFile) {
       console.log(inputFile)
       setIsRunning(true)
+      setAcceptedFileName(inputFile.name)
       const fileId = await uploadInputFile(token, inputFile)
       await runAi(token, aiId, await fileId)
       setIsRunning(false)
@@ -135,6 +138,7 @@ const Run = (props) => {
       /* onDrop: () => {setOutputFileName("")}, */
       onDropAccepted: acceptedFiles => {
         /* setOutputFileName("") */
+        setAcceptedFileName("")
         setFiles(acceptedFiles[0])
         console.log("files: ", files)
       }
@@ -144,6 +148,7 @@ const Run = (props) => {
       setFiles([])
       acceptedFiles.splice([], 1)
       /* setInputFileID("") */
+      setAcceptedFileName("")
       setOutputFileName("")
     }
 
@@ -164,7 +169,7 @@ const Run = (props) => {
         <h1 className="run-labels">1. INPUT</h1>
         <div {...getRootProps()} className="run-dropzone">
           <input {...getInputProps()} />
-          {acceptedFiles.length === 0 ?
+          {acceptedFiles.length === 0 && acceptedFileName === "" ?
             <div className="center">
               <p>Drop File Here</p>
               <p>- or -</p>
@@ -173,8 +178,11 @@ const Run = (props) => {
               <p className="content-box-text-small">(you can only drop 1 file here)</p>
             </div>
             :
-            <p className="fileName">{acceptedFiles[0].name}</p>
+            <p className="fileName">{acceptedFileName ? acceptedFileName : acceptedFiles[0].name}</p>
           }
+          {/* {acceptedFileName !== "" &&
+            <p className="fileName">{acceptedFileName}</p>
+          } */}
         </div>
         <div className="file-messages">
           {fileRejectionItems.length > 0 &&
