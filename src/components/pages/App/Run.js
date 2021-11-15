@@ -282,7 +282,7 @@ const Run = (props) => {
               <div className="run-box">
                 <h1 className="run-labels">3. OUTPUT PREVIEW</h1>
                   <div className="center">
-                    <img className="image-preview" src={outputFile}/>
+                    <img className="image-preview" src={outputFile} alt="result png preview"/>
                   </div>
               </div>
             </div>
