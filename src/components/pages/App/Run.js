@@ -25,6 +25,10 @@ const Run = (props) => {
 
   const [outputFileName, setOutputFileName] = useState("")
 
+  const [outputFileType, setOutputFileType] = useState("")
+
+  const [outputFile, setOutputFile] = useState("")
+
   const [downloadLink, setDownloadLink] = useState("")
 
   const [isRunning, setIsRunning] = useState(false)
@@ -71,11 +75,15 @@ const Run = (props) => {
 
       setOutputFileName(await filename)
 
+      setOutputFileType(await filename.split(".")[1].slice(0, -1))
+
       const url = window.URL.createObjectURL(
         new Blob([await response.data], {
           type: await response.headers['content-type']
         })
       )
+
+      setOutputFile(url)
 
       const link = document.createElement('a')
       link.href = url
@@ -236,7 +244,7 @@ const Run = (props) => {
           <Container className="run-white-container">
             <p className="run-top-label">DESCRIPTION:</p>
             <br></br>
-            <Anchorme target="_blank" rel="noreferrer noopener">  
+            <Anchorme target="_blank" rel="noreferrer noopener">
               {props.location.state.description}
             </Anchorme>
           </Container>
@@ -261,6 +269,16 @@ const Run = (props) => {
               }
             </div>
           </div>
+          {outputFileType && outputFileType === "png" &&
+            <div className="run-box-preview">
+              <div className="run-box">
+                <h1 className="run-labels">3. OUTPUT PREVIEW</h1>
+                  <div className="center">
+                    <img className="image-preview" src={outputFile}/>
+                  </div>
+              </div>
+            </div>
+          }
         </Container>
       </div>
     </>

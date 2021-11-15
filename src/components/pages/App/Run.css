@@ -38,6 +38,16 @@
     width: 48%;
 }
 
+.run-box-preview {
+    margin-top: 180px
+}
+
+.image-preview {
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+}
+
 .clear-button-fat {
     display: flex;
     align-items: center;
@@ -193,5 +203,9 @@
 
     .run-box {
         width: 100%;
+    }
+
+    .run-box-preview {
+        margin-top: 0px
     }
 }
