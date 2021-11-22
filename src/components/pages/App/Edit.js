@@ -14,6 +14,7 @@ import { Field, ErrorMessage } from "formik"
 import { CheckboxWithLabel, TextField, Select } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
 import { Anchorme } from 'react-anchorme'
+import Cards from '../../Cards'
 
 
 export default class New extends Component {
@@ -352,6 +353,7 @@ export default class New extends Component {
 
             </Container>
           </div>
+          <Cards/>
         </>
       )
     }

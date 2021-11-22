@@ -1,7 +1,7 @@
 import CardItem from './CardItem'
 import './Cards.css'
 
-function Cards() {
+export const Cards = () => {
     return (
         <div className='cards'>
             <div className='cards__title'>

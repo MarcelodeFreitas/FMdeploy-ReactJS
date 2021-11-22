@@ -7,6 +7,7 @@ import querystring from "querystring"
 import axios from "axios"
 import StoreContext from "../Store/Context"
 import Navbar from "../Navbar"
+import Cards from '../Cards'
 
 const initialState = () => {
   return { name: "", email: "", password: "", confirmPassword:"", error: "" }
@@ -152,12 +153,12 @@ export default function Auth() {
       <div className={"login-container"}>
         <form className={"form"} onSubmit={submitHandler}>
           <div className={"top"}>
-            {/* <img
+            <img
               className={"login-logo"}
-              src={window.location.origin + "/images/logo-orange.png"}
+              src={window.location.origin + "/logo192.png"}
               alt="FMdeploy.jpg"
             />
-            <h1>FMdeploy</h1> */}
+            {/* <h1>FMdeploy</h1> */}
           </div>
           <div className={"slider"}>
             <div className={"slider-labels"}>
@@ -244,6 +245,7 @@ export default function Auth() {
           </div>
         </form>
       </div>
+      <Cards/>
     </>
   )
 }

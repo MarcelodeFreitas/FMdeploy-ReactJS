@@ -12,6 +12,7 @@ import { CheckboxWithLabel, TextField, Select } from "formik-material-ui"
 import FormikStepper, { FormikStep } from "./formicStepper"
 import * as yup from 'yup'
 import { useDropzone } from "react-dropzone"
+import Cards from '../../Cards'
 
 const defaultState = {
   title: "",
@@ -523,6 +524,7 @@ export default class New extends Component {
             </div>
           </div>
         </div>
+        <Cards />
       </>
     )
   }

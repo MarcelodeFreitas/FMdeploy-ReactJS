@@ -14,6 +14,7 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import { FormControl, MenuItem, Select } from "@material-ui/core"
 import { Box } from "@mui/system"
+import Cards from '../../Cards'
 
 function My() {
   const history = useHistory()
@@ -394,6 +395,7 @@ function My() {
         {noModelsMessage && <NoContentCard text={noModelsMessage} />}
 
       </div>
+      <Cards/>
     </>
   )
 }

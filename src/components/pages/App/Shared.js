@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import { FormControl, MenuItem, Select } from "@material-ui/core"
 import { Box } from "@mui/system"
+import Cards from '../../Cards'
 
 const Shared = () => {
 
@@ -265,6 +266,7 @@ const Shared = () => {
         <RenderModelList modelList={models} type={renderType} errorMessage={sharedModelsError} />
 
       </div>
+      <Cards />
     </>
   )
 }

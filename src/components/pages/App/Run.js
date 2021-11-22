@@ -10,6 +10,7 @@ import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import { CircularProgress, Button, Container } from '@material-ui/core'
 import { Anchorme } from 'react-anchorme'
+import Cards from '../../Cards'
 
 const Run = (props) => {
 
@@ -289,6 +290,7 @@ const Run = (props) => {
           }
         </Container>
       </div>
+      <Cards/>
     </>
   )
 }

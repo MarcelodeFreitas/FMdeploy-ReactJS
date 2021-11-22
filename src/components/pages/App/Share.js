@@ -22,6 +22,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import DeleteIcon from '@mui/icons-material/Delete'
+import Cards from '../../Cards'
 
 const Share = (props) => {
 
@@ -283,6 +284,7 @@ const Share = (props) => {
           </Container>
         </Container>
       </div>
+      <Cards/>
     </>
   )
 }
