@@ -151,6 +151,8 @@ const Run = (props) => {
       /* setInputFileID("") */
       setAcceptedFileName("")
       setOutputFileName("")
+      setOutputFile("")
+      setOutputFileType("")
     }
 
     const fileRejectionItems = fileRejections.map(({ file, errors }) => {
