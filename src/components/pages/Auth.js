@@ -8,6 +8,7 @@ import axios from "axios"
 import StoreContext from "../Store/Context"
 import Navbar from "../Navbar"
 import Cards from '../Cards'
+import CustomizedSnackbar from "../Alert"
 
 const initialState = () => {
   return { name: "", email: "", password: "", confirmPassword:"", error: "" }
@@ -38,7 +39,13 @@ const login = async (email, password) => {
       token = response.data.access_token
       return { token: token, errorMessage: errorMessage }
     } catch (e) {
-      errorMessage = "Invalid credentials"
+      console.log("login error: ", e)
+      errorMessage = ""
+      if (e.message === "Network Error") {
+        errorMessage = e.message
+      } else {
+        errorMessage = e.response.data.detail
+      }
       return { token: token, errorMessage: errorMessage }
     }
   }
@@ -151,6 +158,7 @@ export default function Auth() {
     <>
       <Navbar/>
       <div className={"login-container"}>
+      {error && <CustomizedSnackbar message={error} severity="error" />}
         <form className={"form"} onSubmit={submitHandler}>
           <div className={"top"}>
             <img
@@ -174,9 +182,9 @@ export default function Auth() {
             {!signin && <hr style={{ color: "#0385B0" }}/>}
           </div>
           <div className={"inner-form"}>
-            {error && (
+            {/* {error && (
               <p style={{ color: "white", textAlign: "center", paddingBottom: "20px" }}>{error}</p>
-            )}
+            )} */}
             {!signin && (
               <div className={"form-group"}>
                 <label className="auth-label" htmlFor="text">Name</label>
