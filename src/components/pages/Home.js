@@ -13,6 +13,7 @@ function Home() {
             <Navbar />
             <HeroSection />
             <HomeButtons />
+            
             <div className="home-content">
                 <Container className="home-content">
                     {/* <div className="home-content-title">

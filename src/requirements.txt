@@ -18,3 +18,4 @@ react-flash-message
 @emotion/styled
 @mui/icons-material
 react-anchorme
+@auth0/auth0-react

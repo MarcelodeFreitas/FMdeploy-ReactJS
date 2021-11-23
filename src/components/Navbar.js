@@ -1,17 +1,18 @@
-import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from './Button';
-import './Navbar.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-
+import {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
+import './Navbar.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons'
+import AuthenticationButton from './AuthenticationButton'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function Navbar() {
-    const [click, setClick] = useState(false);
-    const [button, setButton] = useState(true);
+    const { isAuthenticated } = useAuth0()
+    const [click, setClick] = useState(false)
+    const [button, setButton] = useState(true)
 
-    const handleClick = () => setClick(!click);
-    const closeMobileMenu = () => setClick(false);
+    const handleClick = () => setClick(!click)
+    const closeMobileMenu = () => setClick(false)
 
     const showButton = () => {
         if (window.innerWidth <= 960) {
@@ -39,27 +40,28 @@ function Navbar() {
                     </div>
                     <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                         <li className="nav-item">
-                            <Link to="/" className="nav-links" onClick={closeMobileMenu}>
-                                Home
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to="/services" className="nav-links" onClick={closeMobileMenu}>
+                            <Link to="/profile" className="nav-links" onClick={closeMobileMenu}>
                                 Documentation
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/products" className="nav-links" onClick={closeMobileMenu}>
+                            <Link to="/docs" className="nav-links" onClick={closeMobileMenu}>
                                 API
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link to="/auth" className="nav-links-mobile" onClick={closeMobileMenu}>
-                                LOGIN
-                            </Link>
+                        { isAuthenticated &&
+                            <li className="nav-item">
+                                <Link to="/my" className="nav-links" onClick={closeMobileMenu}>
+                                    App
+                                </Link>
+                            </li>
+                        }
+                        
+                        <li className="nav-item nav-links-mobile">
+                            <AuthenticationButton className="nav-item nav-links-mobile"/>
                         </li>
                     </ul>
-                    {button && <Button path="/auth" buttonStyle='btn--outline'>LOGIN</Button>}
+                    {button && <AuthenticationButton />}
                 </div>
             </nav>
         </>

@@ -9,6 +9,7 @@
     outline: none;
     border: none;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .btn--primary{
@@ -17,6 +18,14 @@
     border: 1px solid var(--primary);
     white-space: nowrap;
     text-align: center;
+}
+
+.btn--full{
+    background-color: var(--secondary);
+    color: #fff;
+    padding: 8px 20px;
+    white-space: nowrap;
+    text-align: center; 
 }
 
 .btn--outline{
@@ -42,5 +51,11 @@
 .btn--medium:hover, .btn--large:hover {
     background: #fff;
     color: var(--secondary);
+    transition: all 0.3s ease-out;
+}
+
+.btn--outline:hover {
+    background: var(--secondary);
+    color: #fff;
     transition: all 0.3s ease-out;
 }

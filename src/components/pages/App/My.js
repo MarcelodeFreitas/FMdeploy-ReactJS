@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from "react"
-import { useHistory, useLocation } from "react-router-dom"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
@@ -15,39 +14,15 @@ import Autocomplete from '@mui/material/Autocomplete'
 import { FormControl, MenuItem, Select } from "@material-ui/core"
 import { Box } from "@mui/system"
 import Cards from '../../Cards'
+import { useAuth0 } from "@auth0/auth0-react"
 
 function My() {
-  const history = useHistory()
-  // console.log(history)
-  let location = useLocation()
-  // console.log(location.pathname)
-  //in the fure prevent changing the url manually too??
-  // let currentURL = window.location.href
-  // console.log(currentURL)
 
-  history.listen((newLocation, action) => {
-    if (action === "PUSH") {
-      if (
-        newLocation.pathname !== location.pathname ||
-        newLocation.search !== location.search
-      ) {
-        // Save new location
-        location.pathname = newLocation.pathname;
-        location.search = newLocation.search;
+  const serverURL = process.env.REACT_APP_SERVER_URL
 
-        // Clone location object and push it to history
-        history.push({
-          pathname: newLocation.pathname,
-          search: newLocation.search,
-        });
-      }
-    } else {
-      // Send user back if they try to navigate back
-      history.go(1)
-    }
-  })
+  const { getAccessTokenSilently } = useAuth0()
 
-  const { token } = useContext(StoreContext)
+  /* const { token } = useContext(StoreContext) */
 
   const [models, setModels] = useState("")
 
@@ -65,6 +40,9 @@ function My() {
     //get ai models owned by current user
     const getMyModels = async () => {
       try {
+        const token = await getAccessTokenSilently()
+        console.log("TOKEN HERE: ", token)
+
         const response = await axios.get(
           `${baseUrl}/userai/owned_list`,
           {
@@ -89,7 +67,7 @@ function My() {
 
     fetchMyModels()
 
-  }, [token])
+  }, [getAccessTokenSilently])
 
   const handleDeleteMessage = (message, severity) => {
     setDeleteMessage({
@@ -107,6 +85,8 @@ function My() {
 
     //delete ai model from server
     try {
+      const token = await getAccessTokenSilently()
+
       const response = await axios.delete(
         `${baseUrl}/ai/${id}`,
         {
@@ -144,6 +124,8 @@ function My() {
   // public not public ai model
   const modelPrivacy = async (aiId, privacy) => {
     try {
+      const token = await getAccessTokenSilently()
+
       const response = await axios.put(
         `${baseUrl}/ai`,
         {
