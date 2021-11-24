@@ -82,12 +82,16 @@ const register = async (name, email, password, confirmPassword) => {
 };
 
 export default function Auth() {
+
   const [details, setDetails] = useState({ name: "", email: "", password: "", confirmPassword: "" })
   const [error, setError] = useState("")
   const [signin, setSignin] = useState(true)
 
   const { setToken } = useContext(StoreContext)
+
   const history = useHistory()
+
+  console.log(history)
 
   const onChange = (event) => {
     const { value, name } = event.target

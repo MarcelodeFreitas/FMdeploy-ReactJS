@@ -1,12 +1,11 @@
 import './App.css'
-import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Home from "./components/pages/Home"
 import Products from "./components/pages/Products"
 import Services from "./components/pages/Services"
 import Auth from "./components/pages/Auth"
 import StoreProvider from './components/Store/Provider'
-import RoutesPrivate from './components/Routes/Private/Private'
+import { RoutesPrivate, RoutesNotPrivate } from './components/Routes/Private/Private'
 import My from './components/pages/App/My'
 import Public from './components/pages/App/Public'
 import Shared from './components/pages/App/Shared'
@@ -16,6 +15,7 @@ import Edit from './components/pages/App/Edit'
 import Share from './components/pages/App/Share'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './components/theme/theme'
+import baseUrl from './components/server/server'
 
 const App = () => {
 
@@ -28,10 +28,10 @@ const App = () => {
               <Route path="/" exact component={Home} />
               <Route path="/products" exact component={Products} />
               <Route path="/services" exact component={Services} />
-              <Route path="/auth" exact component={Auth} />
-              <Route path='/docs' exact component={() => {
-                window.location.href = 'http://127.0.0.1:8000/';
-                return null;
+              <RoutesNotPrivate path="/auth" exact component={Auth} />
+              <Route path='/api' exact component={() => {
+                window.location.href = baseUrl
+                return null
               }} />
               <RoutesPrivate path="/my" exact component={My} />
               <RoutesPrivate path="/shared" exact component={Shared} />
