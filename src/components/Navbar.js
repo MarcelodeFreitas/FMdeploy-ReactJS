@@ -8,7 +8,6 @@ import StoreContext from './Store/Context'
 
 function Navbar() {
     const { token, setToken } = useContext(StoreContext)
-    console.log("top: ", token)
 
     const [click, setClick] = useState(false)
     const [button, setButton] = useState(true)

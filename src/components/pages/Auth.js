@@ -91,8 +91,6 @@ export default function Auth() {
 
   const history = useHistory()
 
-  console.log(history)
-
   const onChange = (event) => {
     const { value, name } = event.target
     setDetails({
