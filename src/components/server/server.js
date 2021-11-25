@@ -1,3 +1,3 @@
-const baseUrl = "http://127.0.0.1:8000"
+const baseUrl = "http://mivbox.di.uminho.pt:36080"
 
 export default baseUrl
