@@ -13,7 +13,6 @@ import * as yup from 'yup'
 import { Field } from "formik"
 import { TextField } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
-import DeleteModal from "../../DeleteModal"
 
 export default class UserSettings extends Component {
 
