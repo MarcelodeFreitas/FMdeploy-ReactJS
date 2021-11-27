@@ -172,7 +172,8 @@ const Run = (props) => {
         <h1 className="run-labels">1. INPUT</h1>
         <div {...getRootProps()} className="run-dropzone">
           <input {...getInputProps()} />
-          {acceptedFiles.length === 0 && acceptedFileName === "" ?
+          {/* {acceptedFiles.length === 0 && acceptedFileName === "" ? */}
+          {acceptedFiles.length === 0 ?
             <div className="center">
               <p>Drop File Here</p>
               <p>- or -</p>
@@ -181,8 +182,9 @@ const Run = (props) => {
               <p className="content-box-text-small">(you can only drop 1 file here)</p>
             </div>
             :
-            <p className="fileName">{acceptedFileName ? acceptedFileName : acceptedFiles[0].name}</p>
+            <p className="fileName">{acceptedFiles[0].name}</p>
           }
+          {/* <p className="fileName">{acceptedFileName ? acceptedFileName : acceptedFiles[0].name}</p> */}
           {/* {acceptedFileName !== "" &&
             <p className="fileName">{acceptedFileName}</p>
           } */}
