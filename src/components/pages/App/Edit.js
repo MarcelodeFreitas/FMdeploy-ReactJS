@@ -50,7 +50,7 @@ export default class New extends Component {
           ai_id: aiId,
           title: values.title,
           description: values.description,
-          input_type: values.outputType,
+          input_type: values.inputType,
           output_type: values.outputType,
           is_private: values.isPrivate,
         },
@@ -178,7 +178,7 @@ export default class New extends Component {
                           }}
                         >
                           <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
-                          <MenuItem value={"string"}>string</MenuItem>
+                          <MenuItem value={".wav"}>.wav</MenuItem>
                         </Field>
                         <ErrorMessage component="div" className="error-message" name="inputType" />
                       </Box>
@@ -192,7 +192,8 @@ export default class New extends Component {
                           }}
                         >
                           <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
-                          <MenuItem value={"string"}>string</MenuItem>
+                          <MenuItem value={".csv"}>.csv</MenuItem>
+                          <MenuItem value={".png"}>.png</MenuItem>
                         </Field>
                         <ErrorMessage component="div" className="error-message" name="outputType" />
                       </Box>
@@ -309,7 +310,7 @@ export default class New extends Component {
                           }}
                         >
                           <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
-                          <MenuItem value={"string"}>string</MenuItem>
+                          <MenuItem value={".wav"}>.wav</MenuItem>
                         </Field>
                         <ErrorMessage component="div" className="error-message" name="inputType" />
                       </Box>
@@ -322,8 +323,9 @@ export default class New extends Component {
                             id: 'outputType',
                           }}
                         >
-                          <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
-                          <MenuItem value={"string"}>string</MenuItem>
+                            <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
+                            <MenuItem value={".csv"}>.csv</MenuItem>
+                            <MenuItem value={".png"}>.png</MenuItem>
                         </Field>
                         <ErrorMessage component="div" className="error-message" name="outputType" />
                       </Box>
@@ -353,7 +355,7 @@ export default class New extends Component {
 
             </Container>
           </div>
-          <Cards/>
+          <Cards />
         </>
       )
     }
