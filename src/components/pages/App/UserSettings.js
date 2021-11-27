@@ -7,12 +7,13 @@ import { Component } from "react"
 import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
-import { CircularProgress, Button, Container, Box } from '@material-ui/core'
+import { CircularProgress, Button, Container, Box, Modal } from '@material-ui/core'
 import { Form, Formik } from 'formik'
 import * as yup from 'yup'
 import { Field } from "formik"
 import { TextField } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
+import DeleteModal from "../../DeleteModal"
 
 export default class UserSettings extends Component {
 
@@ -30,6 +31,7 @@ export default class UserSettings extends Component {
       responseData: "",
       name: "",
       email: "",
+      open: true,
     }
   }
 
@@ -193,14 +195,37 @@ export default class UserSettings extends Component {
                   disabled={this.state.isSubmitting}
                   variant="contained"
                   color="secondary"
-                  onClick={() => this.deleteAccount(this.context.token)}
+                  onClick={() => this.setState({ open: true})}
                 >
                   {this.state.isSubmitting ? 'Deleting' : 'Delete'}
                 </Button>
               </div>
             </Container>
-
-
+            <Modal
+              open={this.state.open}
+              onClose={() => this.setState({ open: false})}
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              style={{display: "flex", alignItems: "center", justifyContent: "center"}}
+            >
+              <div style={{ backgroundColor: "white", padding: 20, display: "flex", alignItems: "center", justifyContent: "center", width: "60%", borderRadius: 5, flexDirection: "column"}}>
+                <p className="run-top-label">Do you really want to delete your account?</p>
+                <div style={{ padding: 10 }}>
+                      This option will delete all account details and all ai models. Note that shared models will no longer be available to the people you shared them with.
+                    </div>
+                <div style={{ paddingTop: 40 }}>
+                <Button
+                  startIcon={this.state.isSubmitting ? <CircularProgress size="1rem" /> : null}
+                  disabled={this.state.isSubmitting}
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => this.deleteAccount(this.context.token)}
+                >
+                  {this.state.isSubmitting ? 'Deleting' : 'Delete'}
+                </Button>
+              </div>
+              </div>
+            </Modal>
           </Container>
         </div>
       </>
