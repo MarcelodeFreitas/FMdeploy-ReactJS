@@ -98,13 +98,13 @@ const Run = (props) => {
     }
   }
 
-  const [acceptedFileName, setAcceptedFileName] = useState("")
+  /* const [acceptedFileName, setAcceptedFileName] = useState("") */
 
   const handleRun = async (token, inputFile, aiId) => {
     if (inputFile) {
       console.log(inputFile)
       setIsRunning(true)
-      setAcceptedFileName(inputFile.name)
+      /* setAcceptedFileName(inputFile.name) */
       const fileId = await uploadInputFile(token, inputFile)
       await runAi(token, aiId, await fileId)
       setIsRunning(false)
@@ -139,7 +139,7 @@ const Run = (props) => {
       /* onDrop: () => {setOutputFileName("")}, */
       onDropAccepted: acceptedFiles => {
         /* setOutputFileName("") */
-        setAcceptedFileName("")
+        /* setAcceptedFileName("") */
         setFiles(acceptedFiles[0])
         console.log("files: ", files)
       }
@@ -149,7 +149,7 @@ const Run = (props) => {
       setFiles([])
       acceptedFiles.splice([], 1)
       /* setInputFileID("") */
-      setAcceptedFileName("")
+      /* setAcceptedFileName("") */
       setOutputFileName("")
       setOutputFile("")
       setOutputFileType("")

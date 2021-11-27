@@ -13,6 +13,7 @@ import New from './components/pages/App/New'
 import Run from './components/pages/App/Run'
 import Edit from './components/pages/App/Edit'
 import Share from './components/pages/App/Share'
+import UserSettings from './components/pages/App/UserSettings'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './components/theme/theme'
 import baseUrl from './components/server/server'
@@ -40,6 +41,7 @@ const App = () => {
               <RoutesPrivate path="/run" exact component={Run} />
               <RoutesPrivate path="/edit" exact component={Edit} />
               <RoutesPrivate path="/share" exact component={Share} />
+              <RoutesPrivate path="/user-settings" exact component={UserSettings} />
             </Switch>
           </StoreProvider>
         </BrowserRouter>
