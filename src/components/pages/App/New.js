@@ -431,6 +431,7 @@ export default class New extends Component {
                           >
                             <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
                             <MenuItem value={".wav"}>.wav</MenuItem>
+                            <MenuItem value={".mp3"}>.mp3</MenuItem>
                           </Field>
                           <ErrorMessage component="div" className="error-message" name="inputType" />
                         </Box>
@@ -446,6 +447,7 @@ export default class New extends Component {
                             <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
                             <MenuItem value={".csv"}>.csv</MenuItem>
                             <MenuItem value={".png"}>.png</MenuItem>
+                            <MenuItem value={".wav"}>.wav</MenuItem>
                           </Field>
                           <ErrorMessage component="div" className="error-message" name="outputType" />
                         </Box>
