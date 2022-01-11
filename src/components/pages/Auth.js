@@ -9,6 +9,7 @@ import StoreContext from "../Store/Context"
 import Navbar from "../Navbar"
 import Cards from '../Cards'
 import CustomizedSnackbar from "../Alert"
+import AuthModal from "./AuthModal"
 
 const initialState = () => {
   return { name: "", email: "", password: "", confirmPassword: "", error: "" }
@@ -257,6 +258,7 @@ export default function Auth() {
           </div>
         </form>
       </div>
+      <AuthModal />
       <Cards />
     </>
   )
