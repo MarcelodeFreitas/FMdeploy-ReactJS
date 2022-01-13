@@ -76,7 +76,7 @@ const register = async (name, email, password, confirmPassword) => {
     }
     return { errorMessage: e.response.data.detail }
   }
-};
+}
 
 export default function Auth() {
 
