@@ -106,7 +106,7 @@ export default class New extends Component {
         return "Model created successfully"
       }
     } catch (e) {
-      console.log("createAiModel error: ", e.response)
+      console.log("createAiModel error: ", e.response, e.response.data.detail)
       return e.response.data.detail
     }
   }
