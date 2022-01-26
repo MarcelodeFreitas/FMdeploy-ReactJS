@@ -65,7 +65,7 @@ export default class UserSettings extends Component {
   getCurrentUser = async (token) => {
     try {
       const response = await axios.get(
-        `${baseUrl}/user/current`,
+        `${baseUrl}/user`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -76,14 +76,14 @@ export default class UserSettings extends Component {
       this.setState({ responseData: await response.data })
     } catch (e) {
       console.log("getCurrentUser error: ", e.response)
-      this.setState({ message: e.response.data.detail })
+      this.setState({ message: e.response.data.detail, severity: "error" })
     }
   }
 
   deleteAccount = async (token) => {
     try {
       const response = await axios.delete(
-        `${baseUrl}/user/current`,
+        `${baseUrl}/user/account`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -95,7 +95,8 @@ export default class UserSettings extends Component {
       this.context.setToken('')
     } catch (e) {
       console.log("deleteAccount error: ", e.response)
-      this.setState({ message: e.response.data.detail })
+      console.log("deleteAccount error detail: ", e.response.data.detail)
+      this.setState({ open: false, message: e.response.data.detail, severity: "error"  })
     }
   }
 
