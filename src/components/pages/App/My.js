@@ -268,7 +268,7 @@ function My() {
                   }}
                   options={models.map((option) => option.ai_id)}
                   renderInput={(params) =>
-                    <TextField {...params} label="Search by" color="warning" variant="standard" />}
+                    <TextField {...params} label="Search by" color="primary" variant="standard" />}
                 />
               }
               {searchType === "title" &&
@@ -336,7 +336,7 @@ function My() {
                 }}
                 options={models.map((option) => option.author)}
                 renderInput={(params) =>
-                  <TextField {...params} label="Search by" color="warning" variant="standard" />
+                  <TextField {...params} label="Search by" color="primary" variant="standard" />
                 }
               />
             } */}

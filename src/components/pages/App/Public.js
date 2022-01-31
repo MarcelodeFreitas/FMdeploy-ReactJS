@@ -171,7 +171,7 @@ const Public = () => {
                   }}
                   options={models.map((option) => option.ai_id)}
                   renderInput={(params) =>
-                    <TextField {...params} label="Search by" color="warning" variant="standard" />}
+                    <TextField {...params} label="Search by" color="primary" variant="standard" />}
                 />
               }
               {searchType === "title" &&
@@ -204,7 +204,7 @@ const Public = () => {
                   }}
                   options={models.map((option) => option.title)}
                   renderInput={(params) =>
-                    <TextField {...params} label="Search by" color="warning" variant="standard" />
+                    <TextField {...params} label="Search by" color="primary" variant="standard" />
                   }
                 />
               }
@@ -239,7 +239,7 @@ const Public = () => {
                   }}
                   options={models.map((option) => option.author)}
                   renderInput={(params) =>
-                    <TextField {...params} label="Search by" color="warning" variant="standard" />
+                    <TextField {...params} label="Search by" color="primary" variant="standard" />
                   }
                 />
               }
