@@ -19,8 +19,7 @@ function Home() {
                     WHO USES FMDEPLOY?
                 </div> */}
                     <Container className="home-content-text">
-                        FMdeploy is an open-source project being created by Marcelo Marreiros. FMdeploy is
-                        freely available, based on Python for server side computing and React to enabled
+                        FMdeploy is an open-source project freely available, based on Python for server side computing and React to enabled
                         quick and easy user interaction. It provides the ability to generate an easy-to-use demo
                         for Python scripts, from machine learning models to simple functions with only a few line of code.
                     </Container>

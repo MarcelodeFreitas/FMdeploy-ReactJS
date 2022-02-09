@@ -29,11 +29,16 @@ function Navbar() {
 
     window.addEventListener('resize', showButton)
 
+    const logout = () => { 
+        setToken('')
+        setClick(false)
+    }
+
     const AuthenticationButton = () => {
         if (token) {
             return (
                 
-                <Button onClick={() => setToken('')} buttonStyle='btn--outline'>LOGOUT</Button>
+                <Button onClick={logout} buttonStyle='btn--outline'>LOGOUT</Button>
             )
         } else {
             return (
@@ -55,7 +60,7 @@ function Navbar() {
                     <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                         <li className="nav-item">
                             <Link to="/services" className="nav-links" onClick={closeMobileMenu}>
-                                Documentation
+                                Docs
                             </Link>
                         </li>
                         <li className="nav-item">
@@ -71,9 +76,16 @@ function Navbar() {
                             </li>
                         }
                         <li className="nav-item">
+                            {token ?
+                            <Link to="/" className="nav-links-mobile" onClick={logout}>
+                                LOGOUT
+                            </Link>
+                            :
                             <Link to="/auth" className="nav-links-mobile" onClick={closeMobileMenu}>
                                 LOGIN
                             </Link>
+                            
+                            }
                         </li>
                     </ul>
                     {button && <AuthenticationButton />}

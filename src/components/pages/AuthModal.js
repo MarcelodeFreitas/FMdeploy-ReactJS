@@ -189,7 +189,7 @@ export default function AuthModal() {
                             alt="FMdeploy.jpg"
                         />
                         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            RasBet
+                            FMdeploy
                         </Typography>
                     </Box>
                 </Box>

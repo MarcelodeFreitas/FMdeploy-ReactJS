@@ -6,7 +6,7 @@ import "./New.css"
 import baseUrl from "../../server/server"
 import axios from "axios"
 import StoreContext from "../../Store/Context"
-import { Card, CardContent, MenuItem, Box, InputLabel } from "@material-ui/core"
+import { Card, CardContent, MenuItem, Box, InputLabel, Container } from "@material-ui/core"
 import { Field, ErrorMessage } from "formik"
 import { CheckboxWithLabel, TextField, Select } from "formik-material-ui"
 import FormikStepper, { FormikStep } from "./formicStepper"
@@ -374,6 +374,7 @@ export default class New extends Component {
             <div className="material-ui-card">
               <Card>
                 <CardContent>
+                  <Container>
                   <FormikStepper
                     initialValues={defaultState}
                     state={() => this.state}
@@ -519,6 +520,7 @@ export default class New extends Component {
 
                     </FormikStep>
                   </FormikStepper>
+                  </Container>
                 </CardContent>
               </Card>
 
