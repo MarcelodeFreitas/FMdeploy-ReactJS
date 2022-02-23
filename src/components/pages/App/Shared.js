@@ -4,7 +4,6 @@ import "./Main.css"
 import AppHeader from "../../AppHeader"
 import { useContext, useEffect, useState } from "react"
 import StoreContext from "../../Store/Context"
-import axios from "axios"
 import baseUrl from "../../server/server"
 import Models from "../../Models"
 import NoContentCard from "../../NoContentCard"
@@ -13,6 +12,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import { FormControl, MenuItem, Select } from "@material-ui/core"
 import { Box } from "@mui/system"
 import Cards from '../../Cards'
+import axiosInstance from "../../axios/axiosInstance"
 
 const Shared = () => {
 
@@ -27,7 +27,7 @@ const Shared = () => {
     //get ai models owned by current user
     const getSharedModels = async () => {
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `${baseUrl}/userai/shared_list`,
           {
             headers: {

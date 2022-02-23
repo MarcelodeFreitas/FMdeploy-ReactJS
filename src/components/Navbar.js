@@ -38,7 +38,7 @@ function Navbar() {
         if (token) {
             return (
                 
-                <Button onClick={logout} buttonStyle='btn--outline'>LOGOUT</Button>
+                <Button path="/" onClick={logout} buttonStyle='btn--outline'>LOGOUT</Button>
             )
         } else {
             return (

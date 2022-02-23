@@ -5,12 +5,12 @@ import "./Run.css"
 import AppHeader from "../../AppHeader"
 import { useDropzone } from "react-dropzone"
 import { useState, useContext } from "react"
-import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import { CircularProgress, Button, Container } from '@material-ui/core'
 import { Anchorme } from 'react-anchorme'
 import Cards from '../../Cards'
+import axiosInstance from "../../axios/axiosInstance"
 
 const Run = (props) => {
 
@@ -41,7 +41,7 @@ const Run = (props) => {
     try {
       const formData = new FormData()
       formData.append('input_file', inputFile)
-      const response = await axios.post(`${baseUrl}/files/inputfile`, formData, {
+      const response = await axiosInstance.post(`${baseUrl}/files/inputfile`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
@@ -61,7 +61,7 @@ const Run = (props) => {
   const runAi = async (token, aiId, fileId) => {
     console.log(aiId, fileId)
     try {
-      const response = await axios.post(`${baseUrl}/ai/run`, {
+      const response = await axiosInstance.post(`${baseUrl}/ai/run`, {
         ai_id: aiId,
         input_file_id: fileId,
       }, {

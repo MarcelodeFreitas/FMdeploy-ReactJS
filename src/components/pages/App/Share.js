@@ -4,7 +4,6 @@ import "./Main.css"
 import "./Run.css"
 import AppHeader from "../../AppHeader"
 import { useContext, useEffect, useState } from "react"
-import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import { Form, Formik } from "formik"
@@ -23,6 +22,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Cards from '../../Cards'
+import axiosInstance from "../../axios/axiosInstance"
 
 const Share = (props) => {
 
@@ -40,7 +40,7 @@ const Share = (props) => {
 
   const shareAiModel = async (email, aiId) => {
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${baseUrl}/userai/share`,
         {
           beneficiary_email: email,
@@ -63,7 +63,7 @@ const Share = (props) => {
 
   const stopShareAiModel = async (email, aiId) => {
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${baseUrl}/userai/cancel_share`,
         {
           beneficiary_email: email,
@@ -99,7 +99,7 @@ const Share = (props) => {
   //get list of beneficiaries from the ai id
   const getBeneficiaries2 = async (aiId) => {
     try {
-      const response = await axios.get(
+      const response = await axiosInstance.get(
         `${baseUrl}/userai/beneficiaries/${aiId}`,
         {
           headers: {
@@ -122,7 +122,7 @@ const Share = (props) => {
     //get list of beneficiaries from the ai id
     const getBeneficiaries = async (aiId) => {
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `${baseUrl}/userai/beneficiaries/${aiId}`,
           {
             headers: {

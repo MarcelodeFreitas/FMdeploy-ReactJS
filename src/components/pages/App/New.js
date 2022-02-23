@@ -4,7 +4,6 @@ import Sidebar from "../../Sidebar"
 import "./Main.css"
 import "./New.css"
 import baseUrl from "../../server/server"
-import axios from "axios"
 import StoreContext from "../../Store/Context"
 import { Card, CardContent, MenuItem, Box, InputLabel, Container } from "@material-ui/core"
 import { Field, ErrorMessage } from "formik"
@@ -13,6 +12,7 @@ import FormikStepper, { FormikStep } from "./formicStepper"
 import * as yup from 'yup'
 import { useDropzone } from "react-dropzone"
 import Cards from '../../Cards'
+import axiosInstance from "../../axios/axiosInstance"
 
 const defaultState = {
   title: "",
@@ -35,7 +35,7 @@ const deleteModel = async (token, id) => {
 
   //delete ai model from server
   try {
-    const response = await axios.delete(
+    const response = await axiosInstance.delete(
       `${baseUrl}/ai/${id}`,
       {
         headers: {
@@ -85,7 +85,7 @@ export default class New extends Component {
     console.log("createAiModel: ", values)
 
     try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${baseUrl}/ai`,
         {
           title: values.title,
@@ -117,7 +117,7 @@ export default class New extends Component {
     try {
       const formData = new FormData()
       formData.append('python_file', values.pythonScript)
-      const response = axios.post(`${baseUrl}/files/pythonscript/${this.state.aiId}`, formData, {
+      const response = axiosInstance.post(`${baseUrl}/files/pythonscript/${this.state.aiId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
@@ -143,7 +143,7 @@ export default class New extends Component {
         formData.append('model_files', item)
       })
 
-      const response = axios.post(`${baseUrl}/files/modelfiles/${this.state.aiId}`, formData, {
+      const response = axiosInstance.post(`${baseUrl}/files/modelfiles/${this.state.aiId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`

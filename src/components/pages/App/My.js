@@ -5,7 +5,6 @@ import "./Main.css"
 import Models from "../../Models"
 import AppHeader from "../../AppHeader"
 import NoContentCard from "../../NoContentCard"
-import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import CustomizedSnackbar from "../../Alert"
@@ -14,6 +13,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import { FormControl, MenuItem, Select } from "@material-ui/core"
 import { Box } from "@mui/system"
 import Cards from '../../Cards'
+import axiosInstance from "../../axios/axiosInstance"
 
 function My() {
 
@@ -35,7 +35,7 @@ function My() {
     //get ai models owned by current user
     const getMyModels = async () => {
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           `${baseUrl}/userai/owned_list`,
           {
             headers: {
@@ -77,7 +77,7 @@ function My() {
 
     //delete ai model from server
     try {
-      const response = await axios.delete(
+      const response = await axiosInstance.delete(
         `${baseUrl}/ai/${id}`,
         {
           headers: {
@@ -114,7 +114,7 @@ function My() {
   // public not public ai model
   const modelPrivacy = async (aiId, privacy) => {
     try {
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         `${baseUrl}/ai`,
         {
           ai_id: aiId,

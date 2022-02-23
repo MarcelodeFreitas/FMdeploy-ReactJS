@@ -2,14 +2,13 @@ import { useState, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import "../../App.css"
 import "./Auth.css"
-import baseUrl from "../server/server"
 import querystring from "querystring"
-import axios from "axios"
 import StoreContext from "../Store/Context"
 import Navbar from "../Navbar"
 import Cards from '../Cards'
 import CustomizedSnackbar from "../Alert"
 import AuthModal from "./AuthModal"
+import axiosInstance from "../axios/axiosInstance"
 
 const initialState = () => {
   return { name: "", email: "", password: "", confirmPassword: "", error: "" }
@@ -25,8 +24,8 @@ const login = async (email, password) => {
     return { token: token, errorMessage: errorMessage }
   } else {
     try {
-      const response = await axios.post(
-        `${baseUrl}/login`,
+      const response = await axiosInstance.post(
+        "/login",
         querystring.stringify({
           username: email,
           password: password,
@@ -57,8 +56,8 @@ const register = async (name, email, password, confirmPassword) => {
     return { errorMessage: errorMessage }
   }
   try {
-    await axios.post(
-      `${baseUrl}/user`, {
+    await axiosInstance.post(
+      "/user", {
       name: name,
       email: email,
       password: password,

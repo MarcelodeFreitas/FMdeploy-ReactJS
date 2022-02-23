@@ -4,9 +4,9 @@ import Sidebar from "../../Sidebar"
 import "./Main.css"
 import "./New.css"
 import baseUrl from "../../server/server"
-import axios from "axios"
 import StoreContext from "../../Store/Context"
 import { useDropzone } from "react-dropzone"
+import axiosInstance from "../../axios/axiosInstance"
 
 const initialState = () => {
   return { title: "", description: "", inputType: "", outputType: "", isPrivate: true }
@@ -15,7 +15,7 @@ const initialState = () => {
 //Function to create a new model
 const newModel = async (token, title, description, outputType, isPrivate) => {
   try {
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${baseUrl}/ai`,
         {
           title: title,

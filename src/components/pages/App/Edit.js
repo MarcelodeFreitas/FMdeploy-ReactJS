@@ -4,7 +4,6 @@ import "./Main.css"
 import "./Run.css"
 import AppHeader from "../../AppHeader"
 import { Component } from "react"
-import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import { CircularProgress, Button, Container, Box, InputLabel, MenuItem } from '@material-ui/core'
@@ -15,6 +14,7 @@ import { CheckboxWithLabel, TextField, Select } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
 import { Anchorme } from 'react-anchorme'
 import Cards from '../../Cards'
+import axiosInstance from "../../axios/axiosInstance"
 
 
 export default class New extends Component {
@@ -44,7 +44,7 @@ export default class New extends Component {
     console.log(token, aiId, values)
 
     try {
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         `${baseUrl}/ai`,
         {
           ai_id: aiId,
@@ -71,7 +71,7 @@ export default class New extends Component {
   getModelsById = async (token, aiId) => {
     console.log(aiId)
     try {
-      const response = await axios.get(
+      const response = await axiosInstance.get(
         `${baseUrl}/ai/${aiId}`,
         {
           headers: {

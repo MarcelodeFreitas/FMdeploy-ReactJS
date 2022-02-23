@@ -4,7 +4,6 @@ import "./Main.css"
 import "./Run.css"
 import AppHeader from "../../AppHeader"
 import { Component } from "react"
-import axios from "axios"
 import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import { CircularProgress, Button, Container, Box, Modal } from '@material-ui/core'
@@ -13,6 +12,7 @@ import * as yup from 'yup'
 import { Field } from "formik"
 import { TextField } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
+import axiosInstance from "../../axios/axiosInstance"
 
 export default class UserSettings extends Component {
 
@@ -42,7 +42,7 @@ export default class UserSettings extends Component {
   updateUser = async (token, values) => {
     console.log("updateUser: ", values)
     try {
-      const response = await axios.put(
+      const response = await axiosInstance.put(
         `${baseUrl}/user`,
         {
           new_name: values.name,
@@ -64,7 +64,7 @@ export default class UserSettings extends Component {
 
   getCurrentUser = async (token) => {
     try {
-      const response = await axios.get(
+      const response = await axiosInstance.get(
         `${baseUrl}/user`,
         {
           headers: {
@@ -82,7 +82,7 @@ export default class UserSettings extends Component {
 
   deleteAccount = async (token) => {
     try {
-      const response = await axios.delete(
+      const response = await axiosInstance.delete(
         `${baseUrl}/user/account`,
         {
           headers: {
