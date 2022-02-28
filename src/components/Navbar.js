@@ -1,10 +1,11 @@
-import {useState, useEffect, useContext} from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from './Button'
 import './Navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons'
 import StoreContext from './Store/Context'
+import AccountMenu from './AccountMenu'
 
 function Navbar() {
     const { token, setToken } = useContext(StoreContext)
@@ -23,22 +24,23 @@ function Navbar() {
         }
     }
 
-    useEffect( () => {
+    useEffect(() => {
         showButton()
     }, [])
 
     window.addEventListener('resize', showButton)
 
-    const logout = () => { 
+    const logout = () => {
         setToken('')
         setClick(false)
     }
 
+    {/* <Button path="/" onClick={logout} buttonStyle='btn--outline'>LOGOUT</Button> */}
+
     const AuthenticationButton = () => {
         if (token) {
             return (
-                
-                <Button path="/" onClick={logout} buttonStyle='btn--outline'>LOGOUT</Button>
+                <AccountMenu/>                
             )
         } else {
             return (
@@ -52,10 +54,10 @@ function Navbar() {
             <nav className="navbar">
                 <div className="navbar-container">
                     <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-                        <p style={{backgroundColor: "#0385B0", padding: "2%", borderRadius: "10%"}}>FM</p>&nbsp;deploy
+                        <p style={{ backgroundColor: "#0385B0", padding: "2%", borderRadius: "10%" }}>FM</p>&nbsp;deploy
                     </Link>
                     <div className="menu-icon" onClick={handleClick}>
-                        { click ? <FontAwesomeIcon className={"fa-times"} icon={faTimes} /> : <FontAwesomeIcon className={"fa-bars"} icon={faBars} />}
+                        {click ? <FontAwesomeIcon className={"fa-times"} icon={faTimes} /> : <FontAwesomeIcon className={"fa-bars"} icon={faBars} />}
                     </div>
                     <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                         <li className="nav-item">
@@ -77,14 +79,14 @@ function Navbar() {
                         }
                         <li className="nav-item">
                             {token ?
-                            <Link to="/" className="nav-links-mobile" onClick={logout}>
-                                LOGOUT
-                            </Link>
-                            :
-                            <Link to="/auth" className="nav-links-mobile" onClick={closeMobileMenu}>
-                                LOGIN
-                            </Link>
-                            
+                                <Link to="/" className="nav-links-mobile" onClick={logout}>
+                                    LOGOUT
+                                </Link>
+                                :
+                                <Link to="/auth" className="nav-links-mobile" onClick={closeMobileMenu}>
+                                    LOGIN
+                                </Link>
+
                             }
                         </li>
                     </ul>

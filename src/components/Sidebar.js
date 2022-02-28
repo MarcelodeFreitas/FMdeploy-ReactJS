@@ -15,7 +15,7 @@ const Sidebar = () => {
             <nav className="sidebar">
                 <ul className="sidebar-side">
                     <li className="logo">
-                        <Link to="/my" className="side-link">
+                        <Link to="/" className="side-link">
                             <span className="logo-text">FMdeploy</span>
                             <FontAwesomeIcon className="icon" icon={faBrain} />
                         </Link>
