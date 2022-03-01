@@ -1,11 +1,11 @@
 import React from 'react'
 import '../../App.css'
-import Navbar from '../Navbar'
+import ResponsiveAppBar from '../AppBar'
 
 export default function Services() {
     return(
     <>
-        <Navbar/>
+        <ResponsiveAppBar />
         <h1 className="services" style={{backgroundImage: "url(/images/img-1.jpg)"}}>
             Documentation
         </h1>

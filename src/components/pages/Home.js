@@ -6,11 +6,12 @@ import Navbar from '../Navbar'
 import HomeButtons from '../HomeButtons'
 import './Home.css'
 import { Card, Container } from '@material-ui/core'
+import ResponsiveAppBar from '../AppBar'
 
 function Home() {
     return (
         <>
-            <Navbar />
+            <ResponsiveAppBar />
             <HeroSection />
             <HomeButtons />
             <div className="home-content">

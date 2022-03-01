@@ -9,6 +9,7 @@ import Cards from '../Cards'
 import CustomizedSnackbar from "../Alert"
 import AuthModal from "./AuthModal"
 import axiosInstance from "../axios/axiosInstance"
+import ResponsiveAppBar from "../AppBar"
 
 const initialState = () => {
   return { name: "", email: "", password: "", confirmPassword: "", error: "" }
@@ -161,7 +162,7 @@ export default function Auth() {
 
   return (
     <>
-      <Navbar />
+      <ResponsiveAppBar />
       <div className={"login-container"}>
         {error && <CustomizedSnackbar message={error} severity="error" />}
         <form className={"form"} onSubmit={submitHandler}>

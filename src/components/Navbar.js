@@ -1,11 +1,11 @@
 import { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from './Button'
-import './Navbar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons'
 import StoreContext from './Store/Context'
 import AccountMenu from './AccountMenu'
+import './Navbar.css'
 
 function Navbar() {
     const { token, setToken } = useContext(StoreContext)

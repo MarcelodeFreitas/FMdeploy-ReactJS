@@ -16,7 +16,6 @@ import Share from './components/pages/App/Share'
 import UserSettings from './components/pages/App/UserSettings'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './components/theme/theme'
-import baseUrl from './components/server/server'
 
 const App = () => {
 
@@ -31,7 +30,7 @@ const App = () => {
               <Route path="/services" exact component={Services} />
               <RoutesNotPrivate path="/auth" exact component={Auth} />
               <Route path='/api' exact component={() => {
-                window.location.href = baseUrl
+                window.location.href = process.env.REACT_APP_BACKEND_URL
                 return null
               }} />
               <RoutesPrivate path="/my" exact component={My} />
