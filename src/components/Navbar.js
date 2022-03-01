@@ -35,14 +35,9 @@ function Navbar() {
         setClick(false)
     }
 
-    {/* <Button path="/" onClick={logout} buttonStyle='btn--outline'>LOGOUT</Button> */}
-
     const AuthenticationButton = () => {
-        if (token) {
-            return (
-                <AccountMenu/>                
-            )
-        } else {
+        if (token) return <AccountMenu />
+        else {
             return (
                 <Button path="/auth" buttonStyle='btn--outline'>LOGIN</Button>
             )

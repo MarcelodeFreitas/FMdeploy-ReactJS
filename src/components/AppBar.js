@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import './Navbar.css'
 import AccountMenu from './AccountMenu'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const pages = [
     { name: "Docs", path: "/services", target: "", rel: "" },
@@ -20,10 +20,7 @@ const pages = [
 
 const ResponsiveAppBar = () => {
 
-    const history = useHistory()
     const location = useLocation()
-
-    console.log(location.pathname)
 
     const [anchorElNav, setAnchorElNav] = React.useState(null)
 

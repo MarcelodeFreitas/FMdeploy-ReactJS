@@ -4,7 +4,6 @@ import "../../App.css"
 import "./Auth.css"
 import querystring from "querystring"
 import StoreContext from "../Store/Context"
-import Navbar from "../Navbar"
 import Cards from '../Cards'
 import CustomizedSnackbar from "../Alert"
 import AuthModal from "./AuthModal"
