@@ -9,9 +9,24 @@ import CustomizedSnackbar from "../Alert"
 import AuthModal from "./AuthModal"
 import axiosInstance from "../axios/axiosInstance"
 import ResponsiveAppBar from "../AppBar"
+import AuthContainer from "./AuthContainer"
+import { Box } from "@material-ui/core"
 
 const initialState = () => {
   return { name: "", email: "", password: "", confirmPassword: "", error: "" }
+}
+
+const style = {
+  minWidth: '320px',
+  marginBottom: '50px',
+  bgcolor: 'background.paper',
+  borderRadius: 5,
+  boxShadow: 24,
+  p: 4,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 }
 
 //login function
@@ -45,7 +60,7 @@ const login = async (email, password) => {
       return { token: token, errorMessage: errorMessage }
     }
   }
-};
+}
 
 //register function
 const register = async (name, email, password, confirmPassword) => {
@@ -163,6 +178,7 @@ export default function Auth() {
     <>
       <ResponsiveAppBar />
       <div className={"login-container"}>
+      <Box sx={style}>
         {error && <CustomizedSnackbar message={error} severity="error" />}
         <form className={"form"} onSubmit={submitHandler}>
           <div className={"top"}>
@@ -256,8 +272,12 @@ export default function Auth() {
             }
           </div>
         </form>
+        </Box>
       </div>
-      <AuthModal />
+      {/* <div className={"login-container"}>
+        <AuthContainer />
+      </div>
+      <AuthModal /> */}
       <Cards />
     </>
   )

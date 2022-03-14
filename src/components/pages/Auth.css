@@ -6,7 +6,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 6vh;
+    margin-top: 4vh;
 }
 
 .form{
@@ -14,7 +14,6 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding-bottom: 100px;
 }
 
 .inner-form {
@@ -26,7 +25,7 @@ body {
 
 .form-group{
     padding: 0.3em;
-    color: #fff;
+    color: #0000;
     display: block;
 }
 
@@ -36,9 +35,7 @@ body {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
-    margin-top: 10%;
-    margin-bottom: 10%;
+    width: 45%;
 }
 
 .top > h1 {
@@ -54,6 +51,7 @@ body {
 .auth-label {
     padding: 0 1em 0.2em;
     font-size: 14px;
+    color: #000;
 }
 
 .auth-input {
@@ -124,15 +122,17 @@ body {
 }
 
 .slider {
-    margin-top: 1em;
-    margin-bottom: 2em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    color: #000;
 }
 
 .slider-labels {
-    color: #fff;
+    color: #000;
 }
 
 .slider-text {
+    color: #000;
     display: inline-block;
     text-align: center;
     width: 125px;
