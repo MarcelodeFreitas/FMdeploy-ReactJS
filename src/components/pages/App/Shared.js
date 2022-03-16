@@ -125,7 +125,7 @@ const Shared = () => {
       }
       if (searchBy === "author") {
         setAuthorResults(projects.filter((project) =>
-          project.author.toLowerCase().includes(search.toLowerCase())
+          project.name.toLowerCase().includes(search.toLowerCase())
         ))
       }
     }

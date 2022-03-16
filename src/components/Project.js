@@ -170,7 +170,7 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
                         </div>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>AUTHOR:</p>
-                            <p className={"item-text"}>{project.author}</p>
+                            <p className={"item-text"}>{project.name}</p>
                         </div>
                     </div>
                 </Tooltip>
@@ -201,7 +201,7 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
                         <div className={"item-group"}>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>AUTHOR:</p>
-                                <p className={"item-text"}>{project.author}</p>
+                                <p className={"item-text"}>{project.name}</p>
                             </div>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>PRIVATE:</p>

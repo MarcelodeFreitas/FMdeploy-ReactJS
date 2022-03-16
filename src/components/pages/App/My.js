@@ -148,8 +148,8 @@ function My() {
   const [idResults, setIdResults] = useState([])
   const [searchByTitle, setSearchByTitle] = useState("")
   const [titleResults, setTitleResults] = useState([])
-  // const [searchByAuthor, setSearchByAuthor] = useState("")
-  // const [authorResults, setAuthorResults] = useState([])
+  const [searchByAuthor, setSearchByAuthor] = useState("")
+  const [authorResults, setAuthorResults] = useState([])
 
   const [renderType, setRenderType] = useState("default")
 
@@ -183,13 +183,13 @@ function My() {
           </div>
         )
       }
-      // if (type === "searchAuthor") {
-      //   return (
-      //     <div className={"content-table"}>
-      //       <Projects projects={authorResults} infoLevel="MyProjects" actionButtons="all" onDelete={deleteProject} handlePrivacy={projectPrivacy} />
-      //     </div>
-      //   )
-      // }
+      if (type === "searchAuthor") {
+        return (
+          <div className={"content-table"}>
+            <Projects projects={authorResults} infoLevel="MyProjects" actionButtons="all" onDelete={deleteProject} handlePrivacy={projectPrivacy} />
+          </div>
+        )
+      }
     } else {
       if (errorMessage !== "") {
         return (
@@ -218,11 +218,11 @@ function My() {
           project.title.toLowerCase().includes(search.toLowerCase())
         ))
       }
-      // if (searchBy === "author") {
-      //   setAuthorResults(projects.filter((project) =>
-      //     project.author.toLowerCase().includes(search.toLowerCase())
-      //   ))
-      // }
+      if (searchBy === "author") {
+        setAuthorResults(projects.filter((project) =>
+          project.name.toLowerCase().includes(search.toLowerCase())
+        ))
+      }
     }
   }
 
@@ -262,8 +262,8 @@ function My() {
                     setIdResults([])
                     setSearchByTitle("")
                     setTitleResults([])
-                    // setSearchByAuthor("")
-                    // setAuthorResults([])
+                    setSearchByAuthor("")
+                    setAuthorResults([])
                   }}
                   options={projects.map((option) => option.project_id)}
                   renderInput={(params) =>
@@ -295,8 +295,8 @@ function My() {
                     setIdResults([])
                     setSearchByTitle("")
                     setTitleResults([])
-                    // setSearchByAuthor("")
-                    // setAuthorResults([])
+                    setSearchByAuthor("")
+                    setAuthorResults([])
                   }}
                   options={projects.map((option) => option.title)}
                   renderInput={(params) =>
@@ -304,7 +304,7 @@ function My() {
                   }
                 />
               }
-              {/* {searchType === "author" &&
+              {searchType === "author" &&
               <Autocomplete
                 id="searchByAuthor"
                 freeSolo
@@ -338,7 +338,7 @@ function My() {
                   <TextField {...params} label="Search by" color="primary" variant="standard" />
                 }
               />
-            } */}
+            }
             </div>
             <div className="searchbar-type">
               <Box sx={{ minWidth: 80, marginLeft: "20px", marginTop: "12px" }}>
@@ -351,7 +351,7 @@ function My() {
                   >
                     <MenuItem value={"id"}>Id</MenuItem>
                     <MenuItem value={"title"}>Title</MenuItem>
-                    {/* <MenuItem value={"author"}>Author</MenuItem> */}
+                    <MenuItem value={"author"}>Author</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -364,7 +364,7 @@ function My() {
         {noProjectsMessage && <NoContentCard text={noProjectsMessage} />}
 
       </div>
-      <Cards/>
+      <Cards />
     </>
   )
 }
