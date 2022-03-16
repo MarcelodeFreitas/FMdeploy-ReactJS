@@ -21,7 +21,7 @@ function Home() {
                     <Container className="home-content-text">
                         FMdeploy is an open-source project freely available, based on Python for server side computing and React to enabled
                         quick and easy user interaction. It provides the ability to generate an easy-to-use demo
-                        for Python scripts, from machine learning models to simple functions with only a few line of code.
+                        for Python scripts, from machine learning projects to simple functions with only a few line of code.
                     </Container>
                     <Container className="home-content-text">
                         FMdeploy also includes tools to enable demo sharing and the creation of public demos,
@@ -29,7 +29,7 @@ function Home() {
                     </Container>
                     <Container className="home-content-text">
                         This projects aims to enable users to create a simple way for anyone to make use
-                        of TensorFlow or XGBoost models, or any other python functions.
+                        of TensorFlow or XGBoost projects, or any other python functions.
                     </Container>
                 </Container>
                 <Container className="home-content">

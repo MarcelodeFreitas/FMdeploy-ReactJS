@@ -16,15 +16,15 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use((response) => new Promise((resolve, reject) => {
     resolve(response)
 }), (error) => {
-    if(!error.response) {
+    if (!error.response) {
         return new Promise((resolve, reject) => {
             reject(error)
         })
     }
-    if(error.response.status===401) {
+    if (error.response.status === 401) {
         localStorage.removeItem("token")
         console.log("ERROR 401")
-        window.location = "/auth"
+        /* window.location = "/auth" */
     } else {
         return new Promise((resolve, reject) => {
             reject(error)

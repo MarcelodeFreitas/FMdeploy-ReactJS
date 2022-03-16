@@ -5,11 +5,10 @@ import "./Run.css"
 import AppHeader from "../../AppHeader"
 import { useDropzone } from "react-dropzone"
 import { useState, useContext } from "react"
-import baseUrl from "../../server/server"
-import StoreContext from '../../Store/Context'
-import { CircularProgress, Button, Container } from '@material-ui/core'
-import { Anchorme } from 'react-anchorme'
-import Cards from '../../Cards'
+import StoreContext from "../../Store/Context"
+import { CircularProgress, Button, Container } from "@material-ui/core"
+import { Anchorme } from "react-anchorme"
+import Cards from "../../Cards"
 import axiosInstance from "../../axios/axiosInstance"
 
 const Run = (props) => {
@@ -41,7 +40,7 @@ const Run = (props) => {
     try {
       const formData = new FormData()
       formData.append('input_file', inputFile)
-      const response = await axiosInstance.post(`${baseUrl}/files/inputfile`, formData, {
+      const response = await axiosInstance.post("/files/inputfile", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`
@@ -57,12 +56,12 @@ const Run = (props) => {
     }
   }
 
-  //run model providing input file id and ai id
-  const runAi = async (token, aiId, fileId) => {
-    console.log(aiId, fileId)
+  //run project providing input file id and project id
+  const runAi = async (token, projectId, fileId) => {
+    console.log(projectId, fileId)
     try {
-      const response = await axiosInstance.post(`${baseUrl}/ai/run`, {
-        ai_id: aiId,
+      const response = await axiosInstance.post("/project/run", {
+        project_id: projectId,
         input_file_id: fileId,
       }, {
         headers: {
@@ -100,13 +99,13 @@ const Run = (props) => {
 
   /* const [acceptedFileName, setAcceptedFileName] = useState("") */
 
-  const handleRun = async (token, inputFile, aiId) => {
+  const handleRun = async (token, inputFile, projectId) => {
     if (inputFile) {
       console.log(inputFile)
       setIsRunning(true)
       /* setAcceptedFileName(inputFile.name) */
       const fileId = await uploadInputFile(token, inputFile)
-      await runAi(token, aiId, await fileId)
+      await runAi(token, projectId, await fileId)
       setIsRunning(false)
     } else {
       console.log(inputFile)
@@ -208,7 +207,7 @@ const Run = (props) => {
             variant="contained"
             color="primary"
             type="submit"
-            onClick={() => handleRun(token, acceptedFiles[0], props.location.state.ai_id)}
+            onClick={() => handleRun(token, acceptedFiles[0], props.location.state.project_id)}
           >
             Submit
           </Button>
@@ -225,12 +224,12 @@ const Run = (props) => {
         <AppHeader title={`RUN: ${props.location.state.title}`} button="BACK" buttonIcon="" path={props.location.state.path} />
         <Container>
           <Container className="run-white-container">
-            <div className="run-data-line"><p className="run-top-label">AI ID:</p> {props.location.state.ai_id}</div>
+            <div className="run-data-line"><p className="run-top-label">PROJECT ID:</p> {props.location.state.project_id}</div>
             <br></br>
             <div className="run-row">
               <div className="run-column">
                 <div className="run-data-line">
-                  <p className="run-top-label">AUTHOR:</p> {props.location.state.name}
+                  <p className="run-top-label">AUTHOR:</p> {props.location.state.author}
                 </div>
               </div>
               <div className="run-column">
@@ -283,15 +282,15 @@ const Run = (props) => {
             <div className="run-box-preview">
               <div className="run-box">
                 <h1 className="run-labels">3. OUTPUT PREVIEW</h1>
-                  <div className="center">
-                    <img className="image-preview" src={outputFile} alt="result png preview"/>
-                  </div>
+                <div className="center">
+                  <img className="image-preview" src={outputFile} alt="result png preview" />
+                </div>
               </div>
             </div>
           }
         </Container>
       </div>
-      <Cards/>
+      <Cards />
     </>
   )
 }

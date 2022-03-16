@@ -2,10 +2,9 @@ import { useState, useEffect, useContext } from "react"
 import Sidebar from "../../Sidebar"
 import "../../Sidebar.css"
 import "./Main.css"
-import Models from "../../Models"
+import Projects from "../../Projects"
 import AppHeader from "../../AppHeader"
 import NoContentCard from "../../NoContentCard"
-import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import CustomizedSnackbar from "../../Alert"
 import TextField from '@mui/material/TextField'
@@ -19,11 +18,11 @@ function My() {
 
   const { token } = useContext(StoreContext)
 
-  const [models, setModels] = useState("")
+  const [projects, setProjects] = useState("")
 
-  const [myModelsError, setMyModelsError] = useState("")
+  const [myProjectsError, setMyProjectsError] = useState("")
 
-  const [noModelsMessage, setNoModelsMessage] = useState("")
+  const [noProjectsMessage, setNoProjectsMessage] = useState("")
 
   const [deleteMessage, setDeleteMessage] = useState({
     message: "",
@@ -32,32 +31,32 @@ function My() {
 
   useEffect(() => {
 
-    //get ai models owned by current user
-    const getMyModels = async () => {
+    //get projects owned by current user
+    const getMyProjects = async () => {
       try {
         const response = await axiosInstance.get(
-          `${baseUrl}/userai/owned_list`,
+          "/userproject/owned_list",
           {
             headers: {
               Authorization: `Bearer ${token}`
             },
           }
         )
-        console.log("getMyModels: ", await response.data)
+        console.log("getMyProjects: ", await response.data)
         return await response.data.reverse()
       } catch (e) {
-        console.log("getMyModels error: ", e.response)
-        console.log("getMyModels error detail: ", e.response.data.detail)
-        setMyModelsError(e.response.data.detail)
+        console.log("getMyProjects error: ", e.response)
+        console.log("getMyProjects error detail: ", e.response.data.detail)
+        setMyProjectsError(e.response.data.detail)
       }
     }
 
-    const fetchMyModels = async () => {
-      const modelsFromServer = await getMyModels()
-      setModels(modelsFromServer)
+    const fetchMyProjects = async () => {
+      const projectsFromServer = await getMyProjects()
+      setProjects(projectsFromServer)
     }
 
-    fetchMyModels()
+    fetchMyProjects()
 
   }, [token])
 
@@ -72,13 +71,13 @@ function My() {
     }), 6100)
   }
 
-  // Delete an AI model
-  const deleteModel = async (id) => {
+  // Delete project
+  const deleteProject = async (id) => {
 
-    //delete ai model from server
+    //delete project from server
     try {
       const response = await axiosInstance.delete(
-        `${baseUrl}/ai/${id}`,
+        `/project/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -92,32 +91,32 @@ function My() {
       handleDeleteMessage(e.response.data.detail, "error")
     }
 
-    //delete AI model from state
-    setModels(models.filter((model) =>
-      model.ai_id !== id
+    //delete project from state
+    setProjects(projects.filter((project) =>
+      project.project_id !== id
     ))
 
-    const filteredModels = models.filter((model) =>
-      model.ai_id !== id
+    const filteredProjects = projects.filter((project) =>
+      project.project_id !== id
     )
 
-    console.log("Delete: ", models)
-    console.log("Delete length: ", models.length)
-    console.log("Delete filter: ", filteredModels)
-    console.log("Delete filter2: ", filteredModels.length)
+    console.log("Delete: ", projects)
+    console.log("Delete length: ", projects.length)
+    console.log("Delete filter: ", filteredProjects)
+    console.log("Delete filter2: ", filteredProjects.length)
 
-    if (filteredModels.length === 0) {
-      setNoModelsMessage("No Ai Models found!")
+    if (filteredProjects.length === 0) {
+      setNoProjectsMessage("No Projects found!")
     }
   }
 
-  // public not public ai model
-  const modelPrivacy = async (aiId, privacy) => {
+  // publish non public project
+  const projectPrivacy = async (projectId, privacy) => {
     try {
       const response = await axiosInstance.put(
-        `${baseUrl}/ai`,
+        "/project",
         {
-          ai_id: aiId,
+          project_id: projectId,
           is_private: privacy,
         },
         {
@@ -127,22 +126,22 @@ function My() {
         }
       )
       // this.setState({ message: await response.data.detail, severity: "success" })
-      console.log("modelPrivacy response: ", await response)
+      console.log("projectPrivacy response: ", await response)
     } catch (e) {
       // this.setState({ message: await e.response.data.detail, severity: "error" })
-      console.log("modelPrivacy error: ", e.response.data.detail)
+      console.log("projectPrivacy error: ", e.response.data.detail)
     }
 
-    //update AI model from state
-    const updatedModelList = models.map((model) => {
-      if (model.ai_id === aiId) {
-        return { ...model, is_private: !model.is_private }
+    //update project from state
+    const updatedProjectList = projects.map((project) => {
+      if (project.project_id === projectId) {
+        return { ...project, is_private: !project.is_private }
       } else {
-        return { ...model, is_private: model.is_private }
+        return { ...project, is_private: project.is_private }
       }
     })
 
-    setModels(updatedModelList)
+    setProjects(updatedProjectList)
   }
 
   const [searchById, setSearchById] = useState("")
@@ -161,33 +160,33 @@ function My() {
     setSearchType(event.target.value)
   }
 
-  const RenderModelList = ({ modelList, type, errorMessage }) => {
-    if (modelList && modelList.length > 0) {
+  const RenderProjectList = ({ projectList, type, errorMessage }) => {
+    if (projectList && projectList.length > 0) {
       if (type === "default") {
         return (
           <div className={"content-table"}>
-            <Models models={models} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
+            <Projects projects={projects} infoLevel="MyProjects" actionButtons="all" onDelete={deleteProject} handlePrivacy={projectPrivacy} />
           </div>
         )
       }
       if (type === "searchId") {
         return (
           <div className={"content-table"}>
-            <Models models={idResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
+            <Projects projects={idResults} infoLevel="MyProjects" actionButtons="all" onDelete={deleteProject} handlePrivacy={projectPrivacy} />
           </div>
         )
       }
       if (type === "searchTitle") {
         return (
           <div className={"content-table"}>
-            <Models models={titleResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
+            <Projects projects={titleResults} infoLevel="MyProjects" actionButtons="all" onDelete={deleteProject} handlePrivacy={projectPrivacy} />
           </div>
         )
       }
       // if (type === "searchAuthor") {
       //   return (
       //     <div className={"content-table"}>
-      //       <Models models={authorResults} infoLevel="MyModels" actionButtons="all" onDelete={deleteModel} handlePrivacy={modelPrivacy} />
+      //       <Projects projects={authorResults} infoLevel="MyProjects" actionButtons="all" onDelete={deleteProject} handlePrivacy={projectPrivacy} />
       //     </div>
       //   )
       // }
@@ -210,18 +209,18 @@ function My() {
   const handleSearch = (searchBy, search) => {
     if (search !== null) {
       if (searchBy === "id") {
-        setIdResults(models.filter((model) =>
-          model.ai_id.includes(search)
+        setIdResults(projects.filter((project) =>
+          project.project_id.includes(search)
         ))
       }
       if (searchBy === "title") {
-        setTitleResults(models.filter((model) =>
-          model.title.toLowerCase().includes(search.toLowerCase())
+        setTitleResults(projects.filter((project) =>
+          project.title.toLowerCase().includes(search.toLowerCase())
         ))
       }
       // if (searchBy === "author") {
-      //   setAuthorResults(models.filter((model) =>
-      //     model.author.toLowerCase().includes(search.toLowerCase())
+      //   setAuthorResults(projects.filter((project) =>
+      //     project.author.toLowerCase().includes(search.toLowerCase())
       //   ))
       // }
     }
@@ -231,16 +230,16 @@ function My() {
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title="My Models" button="NEW" buttonIcon="plus" path="/new" />
+        <AppHeader title="My Projects" button="NEW" buttonIcon="plus" path="/new" />
 
         {deleteMessage.message && <CustomizedSnackbar message={deleteMessage.message} severity={deleteMessage.severity} />}
 
-        {(models && models.length > 0) &&
+        {(projects && projects.length > 0) &&
           <div className="searchbars">
             <div className="searchbar-field">
               {searchType === "id" &&
                 <Autocomplete
-                  id="searchByModelId"
+                  id="searchByProjectId"
                   freeSolo
                   selectOnFocus
                   clearOnBlur
@@ -266,7 +265,7 @@ function My() {
                     // setSearchByAuthor("")
                     // setAuthorResults([])
                   }}
-                  options={models.map((option) => option.ai_id)}
+                  options={projects.map((option) => option.project_id)}
                   renderInput={(params) =>
                     <TextField {...params} label="Search by" color="primary" variant="standard" />}
                 />
@@ -299,7 +298,7 @@ function My() {
                     // setSearchByAuthor("")
                     // setAuthorResults([])
                   }}
-                  options={models.map((option) => option.title)}
+                  options={projects.map((option) => option.title)}
                   renderInput={(params) =>
                     <TextField {...params} label="Search by" color="primary" variant="standard" />
                   }
@@ -334,7 +333,7 @@ function My() {
                   setSearchByAuthor("")
                   setAuthorResults([])
                 }}
-                options={models.map((option) => option.author)}
+                options={projects.map((option) => option.author)}
                 renderInput={(params) =>
                   <TextField {...params} label="Search by" color="primary" variant="standard" />
                 }
@@ -360,9 +359,9 @@ function My() {
           </div>
         }
 
-        <RenderModelList modelList={models} type={renderType} errorMessage={myModelsError} />
+        <RenderProjectList projectList={projects} type={renderType} errorMessage={myProjectsError} />
 
-        {noModelsMessage && <NoContentCard text={noModelsMessage} />}
+        {noProjectsMessage && <NoContentCard text={noProjectsMessage} />}
 
       </div>
       <Cards/>

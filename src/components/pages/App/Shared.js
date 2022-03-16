@@ -4,8 +4,7 @@ import "./Main.css"
 import AppHeader from "../../AppHeader"
 import { useContext, useEffect, useState } from "react"
 import StoreContext from "../../Store/Context"
-import baseUrl from "../../server/server"
-import Models from "../../Models"
+import Projects from "../../Projects"
 import NoContentCard from "../../NoContentCard"
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -18,37 +17,37 @@ const Shared = () => {
 
   const { token } = useContext(StoreContext)
 
-  const [models, setModels] = useState("")
+  const [projects, setProjects] = useState("")
 
-  const [sharedModelsError, setSharedModelsError] = useState("")
+  const [sharedProjectsError, setsharedProjectsError] = useState("")
 
   useEffect(() => {
 
-    //get ai models owned by current user
-    const getSharedModels = async () => {
+    //get projects owned by current user
+    const getSharedProjects = async () => {
       try {
         const response = await axiosInstance.get(
-          `${baseUrl}/userai/shared_list`,
+          "/userproject/shared_list",
           {
             headers: {
               Authorization: `Bearer ${token}`
             },
           }
         )
-        console.log("getSharedModels: ", await response.data)
+        console.log("getSharedProjects: ", await response.data)
         return await response.data.reverse()
       } catch (e) {
-        console.log("getSharedModels error: ", e.response)
-        setSharedModelsError(e.response.data.detail)
+        console.log("getSharedProjects error: ", e.response)
+        setsharedProjectsError(e.response.data.detail)
       }
     }
 
-    const fetchMyModels = async () => {
-      const modelsFromServer = await getSharedModels()
-      setModels(modelsFromServer)
+    const getProjects = async () => {
+      const projectsFromServer = await getSharedProjects()
+      setProjects(projectsFromServer)
     }
 
-    fetchMyModels()
+    getProjects()
 
   }, [token])
 
@@ -68,33 +67,33 @@ const Shared = () => {
     setSearchType(event.target.value)
   }
 
-  const RenderModelList = ({ modelList, type, errorMessage }) => {
-    if (modelList && modelList.length > 0) {
+  const RenderProjectList = ({ projectList, type, errorMessage }) => {
+    if (projectList && projectList.length > 0) {
       if (type === "default") {
         return (
           <div className={"content-table"}>
-            <Models models={models} infoLevel="Public" actionButtons="run" />
+            <Projects projects={projects} infoLevel="Public" actionButtons="run" />
           </div>
         )
       }
       if (type === "searchId") {
         return (
           <div className={"content-table"}>
-            <Models models={idResults} infoLevel="Public" actionButtons="run" />
+            <Projects projects={idResults} infoLevel="Public" actionButtons="run" />
           </div>
         )
       }
       if (type === "searchTitle") {
         return (
           <div className={"content-table"}>
-            <Models models={titleResults} infoLevel="Public" actionButtons="run" />
+            <Projects projects={titleResults} infoLevel="Public" actionButtons="run" />
           </div>
         )
       }
       if (type === "searchAuthor") {
         return (
           <div className={"content-table"}>
-            <Models models={authorResults} infoLevel="Public" actionButtons="run" />
+            <Projects projects={authorResults} infoLevel="Public" actionButtons="run" />
           </div>
         )
       }
@@ -115,18 +114,18 @@ const Shared = () => {
   const handleSearch = (searchBy, search) => {
     if (search !== null) {
       if (searchBy === "id") {
-        setIdResults(models.filter((model) =>
-          model.ai_id.includes(search)
+        setIdResults(projects.filter((project) =>
+          project.project_id.includes(search)
         ))
       }
       if (searchBy === "title") {
-        setTitleResults(models.filter((model) =>
-          model.title.toLowerCase().includes(search.toLowerCase())
+        setTitleResults(projects.filter((project) =>
+          project.title.toLowerCase().includes(search.toLowerCase())
         ))
       }
       if (searchBy === "author") {
-        setAuthorResults(models.filter((model) =>
-          model.author.toLowerCase().includes(search.toLowerCase())
+        setAuthorResults(projects.filter((project) =>
+          project.author.toLowerCase().includes(search.toLowerCase())
         ))
       }
     }
@@ -136,14 +135,14 @@ const Shared = () => {
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title="Shared Models" />
+        <AppHeader title="Shared Projects" />
 
-        {(models && models.length > 0) &&
+        {(projects && projects.length > 0) &&
           <div className="searchbars">
             <div className="searchbar-field">
               {searchType === "id" &&
                 <Autocomplete
-                  id="searchByModelId"
+                  id="searchByProjectId"
                   freeSolo
                   selectOnFocus
                   clearOnBlur
@@ -169,7 +168,7 @@ const Shared = () => {
                     setSearchByAuthor("")
                     setAuthorResults([])
                   }}
-                  options={models.map((option) => option.ai_id)}
+                  options={projects.map((option) => option.project_id)}
                   renderInput={(params) =>
                     <TextField {...params} label="Search by" color="primary" variant="standard" />}
                 />
@@ -202,7 +201,7 @@ const Shared = () => {
                     setSearchByAuthor("")
                     setAuthorResults([])
                   }}
-                  options={models.map((option) => option.title)}
+                  options={projects.map((option) => option.title)}
                   renderInput={(params) =>
                     <TextField {...params} label="Search by" color="primary" variant="standard" />
                   }
@@ -237,7 +236,7 @@ const Shared = () => {
                     setSearchByAuthor("")
                     setAuthorResults([])
                   }}
-                  options={models.map((option) => option.author)}
+                  options={projects.map((option) => option.author)}
                   renderInput={(params) =>
                     <TextField {...params} label="Search by" color="primary" variant="standard" />
                   }
@@ -263,7 +262,7 @@ const Shared = () => {
           </div>
         }
 
-        <RenderModelList modelList={models} type={renderType} errorMessage={sharedModelsError} />
+        <RenderProjectList projectList={projects} type={renderType} errorMessage={sharedProjectsError} />
 
       </div>
       <Cards />

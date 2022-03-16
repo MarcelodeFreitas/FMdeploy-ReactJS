@@ -1,54 +1,54 @@
-import Sidebar from "../../Sidebar"
+import { useContext, useEffect, useState } from "react"
+import axiosInstance from "../../axios/axiosInstance"
 import "../../Sidebar.css"
 import "./Main.css"
+import Sidebar from "../../Sidebar"
 import AppHeader from "../../AppHeader"
-import { useContext, useEffect, useState } from "react"
 import StoreContext from "../../Store/Context"
-import baseUrl from "../../server/server"
-import Models from "../../Models"
+import Projects from "../../Projects"
+import Cards from '../../Cards'
 import NoContentCard from "../../NoContentCard"
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import { FormControl, MenuItem, Select } from "@material-ui/core"
 import { Box } from "@mui/system"
-import Cards from '../../Cards'
-import axiosInstance from "../../axios/axiosInstance"
+
 
 const Public = () => {
 
   const { token } = useContext(StoreContext)
 
-  const [models, setModels] = useState("")
+  const [projects, setProjects] = useState("")
 
-  const [publicModelsError, setPublicModelsError] = useState("")
+  const [publicProjectsError, setPublicProjectsError] = useState("")
 
   useEffect(() => {
 
-    //get ai models owned by current user
-    const getPublicModels = async () => {
+    //get projects owned by current user
+    const getPublicProjects = async () => {
       try {
         const response = await axiosInstance.get(
-          `${baseUrl}/ai/public`,
+          "/project/public",
           {
             headers: {
               Authorization: `Bearer ${token}`
             },
           }
         )
-        console.log("getPublicModels: ", await response.data)
+        console.log("getPublicProjects: ", await response.data)
         return await response.data.reverse()
       } catch (e) {
-        console.log("getPublicModels error: ", e.response)
-        setPublicModelsError(e.response.data.detail)
+        console.log("getPublicProjects error: ", e.response)
+        setPublicProjectsError(e.response.data.detail)
       }
     }
 
-    const fetchMyModels = async () => {
-      const modelsFromServer = await getPublicModels()
-      setModels(modelsFromServer)
+    const getProjects = async () => {
+      const projectsFromServer = await getPublicProjects()
+      setProjects(projectsFromServer)
     }
 
-    fetchMyModels()
+    getProjects()
 
   }, [token])
 
@@ -68,33 +68,33 @@ const Public = () => {
     setSearchType(event.target.value)
   }
 
-  const RenderModelList = ({ modelList, type, errorMessage }) => {
-    if (modelList && modelList.length > 0) {
+  const RenderProjectList = ({ projectList, type, errorMessage }) => {
+    if (projectList && projectList.length > 0) {
       if (type === "default") {
         return (
           <div className={"content-table"}>
-            <Models models={models} infoLevel="Public" actionButtons="run" />
+            <Projects projects={projects} infoLevel="Public" actionButtons="run" />
           </div>
         )
       }
       if (type === "searchId") {
         return (
           <div className={"content-table"}>
-            <Models models={idResults} infoLevel="Public" actionButtons="run" />
+            <Projects projects={idResults} infoLevel="Public" actionButtons="run" />
           </div>
         )
       }
       if (type === "searchTitle") {
         return (
           <div className={"content-table"}>
-            <Models models={titleResults} infoLevel="Public" actionButtons="run" />
+            <Projects projects={titleResults} infoLevel="Public" actionButtons="run" />
           </div>
         )
       }
       if (type === "searchAuthor") {
         return (
           <div className={"content-table"}>
-            <Models models={authorResults} infoLevel="Public" actionButtons="run" />
+            <Projects projects={authorResults} infoLevel="Public" actionButtons="run" />
           </div>
         )
       }
@@ -115,18 +115,18 @@ const Public = () => {
   const handleSearch = (searchBy, search) => {
     if (search !== null) {
       if (searchBy === "id") {
-        setIdResults(models.filter((model) =>
-          model.ai_id.includes(search)
+        setIdResults(projects.filter((project) =>
+          project.project_id.includes(search)
         ))
       }
       if (searchBy === "title") {
-        setTitleResults(models.filter((model) =>
-          model.title.toLowerCase().includes(search.toLowerCase())
+        setTitleResults(projects.filter((project) =>
+          project.title.toLowerCase().includes(search.toLowerCase())
         ))
       }
       if (searchBy === "author") {
-        setAuthorResults(models.filter((model) =>
-          model.author.toLowerCase().includes(search.toLowerCase())
+        setAuthorResults(projects.filter((project) =>
+          project.author.toLowerCase().includes(search.toLowerCase())
         ))
       }
     }
@@ -136,14 +136,14 @@ const Public = () => {
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title="Public Models" />
+        <AppHeader title="Public Projects" />
 
-        {(models && models.length > 0) &&
+        {(projects && projects.length > 0) &&
           <div className="searchbars">
             <div className="searchbar-field">
               {searchType === "id" &&
                 <Autocomplete
-                  id="searchByModelId"
+                  id="searchByProjectId"
                   freeSolo
                   selectOnFocus
                   clearOnBlur
@@ -169,7 +169,7 @@ const Public = () => {
                     setSearchByAuthor("")
                     setAuthorResults([])
                   }}
-                  options={models.map((option) => option.ai_id)}
+                  options={projects.map((option) => option.project_id)}
                   renderInput={(params) =>
                     <TextField {...params} label="Search by" color="primary" variant="standard" />}
                 />
@@ -202,7 +202,7 @@ const Public = () => {
                     setSearchByAuthor("")
                     setAuthorResults([])
                   }}
-                  options={models.map((option) => option.title)}
+                  options={projects.map((option) => option.title)}
                   renderInput={(params) =>
                     <TextField {...params} label="Search by" color="primary" variant="standard" />
                   }
@@ -237,7 +237,7 @@ const Public = () => {
                     setSearchByAuthor("")
                     setAuthorResults([])
                   }}
-                  options={models.map((option) => option.author)}
+                  options={projects.map((option) => option.author)}
                   renderInput={(params) =>
                     <TextField {...params} label="Search by" color="primary" variant="standard" />
                   }
@@ -263,7 +263,7 @@ const Public = () => {
           </div>
         }
 
-        <RenderModelList modelList={models} type={renderType} errorMessage={publicModelsError} />
+        <RenderProjectList projectList={projects} type={renderType} errorMessage={publicProjectsError} />
       </div>
       <Cards />
     </>

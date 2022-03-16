@@ -4,7 +4,6 @@ import "./Main.css"
 import "./Run.css"
 import AppHeader from "../../AppHeader"
 import { Component } from "react"
-import baseUrl from "../../server/server"
 import StoreContext from '../../Store/Context'
 import { CircularProgress, Button, Container, Box, Modal } from '@material-ui/core'
 import { Form, Formik } from 'formik'
@@ -43,7 +42,7 @@ export default class UserSettings extends Component {
     console.log("updateUser: ", values)
     try {
       const response = await axiosInstance.put(
-        `${baseUrl}/user`,
+        "/user",
         {
           new_name: values.name,
           new_email: values.email,
@@ -65,7 +64,7 @@ export default class UserSettings extends Component {
   getCurrentUser = async (token) => {
     try {
       const response = await axiosInstance.get(
-        `${baseUrl}/user`,
+        "/user",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -83,7 +82,7 @@ export default class UserSettings extends Component {
   deleteAccount = async (token) => {
     try {
       const response = await axiosInstance.delete(
-        `${baseUrl}/user/account`,
+        "/user/account",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -184,7 +183,7 @@ export default class UserSettings extends Component {
                   <div className="run-data-line">
                     <p className="run-top-label">DELETE ACCOUNT: </p>
                     <div style={{ padding: 10 }}>
-                      This option will delete all account details and all ai models. Note that shared models will no longer be available to the people you shared them with.
+                      This option will delete all account details and all ai projects. Note that shared projects will no longer be available to the people you shared them with.
                     </div>
                   </div>
                 </div>
@@ -211,7 +210,7 @@ export default class UserSettings extends Component {
               <div style={{ backgroundColor: "white", padding: 20, display: "flex", alignItems: "center", justifyContent: "center", width: "60%", borderRadius: 5, flexDirection: "column"}}>
                 <p className="run-top-label">Do you really want to delete your account?</p>
                 <div style={{ padding: 10 }}>
-                      This option will delete all account details and all ai models. Note that shared models will no longer be available to the people you shared them with.
+                      This option will delete all account details and all ai projects. Note that shared projects will no longer be available to the people you shared them with.
                     </div>
                 <div style={{ paddingTop: 40 }}>
                 <Button

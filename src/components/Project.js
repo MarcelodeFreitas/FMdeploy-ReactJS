@@ -1,12 +1,13 @@
-import './Model.css'
-import TouchableOpacity from './TouchableOpacity'
+import { useState } from "react"
+import { Anchorme } from "react-anchorme"
+import "./Project.css"
+import TouchableOpacity from "./TouchableOpacity"
 import { useHistory, useLocation } from "react-router-dom"
-import Tooltip from '@material-ui/core/Tooltip'
-import { useState } from 'react'
-import { Anchorme } from 'react-anchorme'
+import Tooltip from "@material-ui/core/Tooltip"
 
-export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy }) => {
-    const date = new Date(model.created_in)
+
+export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePrivacy }) => {
+    const date = new Date(project.created_in)
     const formatedDate = new Intl.DateTimeFormat().format(date)
     const history = useHistory()
     const location = useLocation()
@@ -27,7 +28,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                         <TouchableOpacity>
                             <Tooltip title="Delete" arrow>
                                 <img className={"icon"}
-                                    onClick={() => onDelete(model.ai_id)}
+                                    onClick={() => onDelete(project.project_id)}
                                     src="images/trash.png"
                                     alt="delete" />
                             </Tooltip>
@@ -41,13 +42,13 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                                     alt="share"
                                     onClick={() => {
                                         history.replace(
-                                            '/edit', { ...model }
+                                            '/edit', { ...project }
                                         )
                                     }} />
                             </Tooltip>
                         </TouchableOpacity>
                     </div>
-                    {model.is_private ?
+                    {project.is_private ?
                         <div className={"icon-container"}>
                             <TouchableOpacity>
                                 <Tooltip title="Private" arrow>
@@ -55,7 +56,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                                         src="images/private.png"
                                         alt="private"
                                         onClick={() => {
-                                            handlePrivacy(model.ai_id, !model.is_private)
+                                            handlePrivacy(project.project_id, !project.is_private)
                                         }} />
                                 </Tooltip>
                             </TouchableOpacity>
@@ -68,7 +69,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                                         src="images/public.png"
                                         alt="share"
                                         onClick={() => {
-                                            handlePrivacy(model.ai_id, !model.is_private)
+                                            handlePrivacy(project.project_id, !project.is_private)
                                         }} />
                                 </Tooltip>
                             </TouchableOpacity>
@@ -83,7 +84,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                                     alt="share"
                                     onClick={() => {
                                         history.replace(
-                                            '/share', { ...model }
+                                            '/share', { ...project }
                                         )
                                     }} />
                             </Tooltip>
@@ -97,7 +98,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                                     alt="run"
                                     onClick={() => {
                                         history.replace(
-                                            '/run', { ...model, path: currentUrl }
+                                            '/run', { ...project, path: currentUrl }
                                         )
                                     }} />
                             </Tooltip>
@@ -118,7 +119,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                                     alt="run"
                                     onClick={() => {
                                         history.replace(
-                                            '/run', { ...model, path: currentUrl }
+                                            '/run', { ...project, path: currentUrl }
                                         )
                                     }} />
                             </Tooltip>
@@ -130,13 +131,13 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
     }
 
     const RenderInfo = ({ isExpanded }) => {
-        if (infoLevel === "MyModels") {
+        if (infoLevel === "MyProjects") {
             return (
                 <Tooltip title="Click for more info" arrow>
                     <div className={"data-items"}>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>ID:</p>
-                            <p className={"item-text"}>{model.ai_id}</p>
+                            <p className={"item-text"}>{project.project_id}</p>
                         </div>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>DATE:</p>
@@ -144,7 +145,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                         </div>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>TITLE:</p>
-                            <p className={"item-text"}>{model.title}</p>
+                            <p className={"item-text"}>{project.title}</p>
                         </div>
                     </div>
                 </Tooltip>
@@ -157,7 +158,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                     <div className={"data-items"}>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>ID:</p>
-                            <p className={"item-text"}>{model.ai_id}</p>
+                            <p className={"item-text"}>{project.project_id}</p>
                         </div>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>DATE:</p>
@@ -165,11 +166,11 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                         </div>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>TITLE:</p>
-                            <p className={"item-text"}>{model.title}</p>
+                            <p className={"item-text"}>{project.title}</p>
                         </div>
                         <div className={"item"}>
                             <p className={"item-text-colored"}>AUTHOR:</p>
-                            <p className={"item-text"}>{model.author}</p>
+                            <p className={"item-text"}>{project.author}</p>
                         </div>
                     </div>
                 </Tooltip>
@@ -186,7 +187,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                         <div className={"item-group"}>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>ID:</p>
-                                <p className={"item-text"}>{model.ai_id}</p>
+                                <p className={"item-text"}>{project.project_id}</p>
                             </div>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>DATE:</p>
@@ -194,25 +195,25 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                             </div>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>TITLE:</p>
-                                <p className={"item-text"}>{model.title}</p>
+                                <p className={"item-text"}>{project.title}</p>
                             </div>
                         </div>
                         <div className={"item-group"}>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>AUTHOR:</p>
-                                <p className={"item-text"}>{model.author}</p>
+                                <p className={"item-text"}>{project.author}</p>
                             </div>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>PRIVATE:</p>
-                                <p className={"item-text"}>{model.is_private.toString()}</p>
+                                <p className={"item-text"}>{project.is_private.toString()}</p>
                             </div>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>INPUT TYPE:</p>
-                                <p className={"item-text"}>{model.input_type}</p>
+                                <p className={"item-text"}>{project.input_type}</p>
                             </div>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>OUTPUT TYPE:</p>
-                                <p className={"item-text"}>{model.output_type}</p>
+                                <p className={"item-text"}>{project.output_type}</p>
                             </div>
                         </div>
                         <div className={"item-group"}>
@@ -220,7 +221,7 @@ export const Model = ({ model, infoLevel, actionButtons, onDelete, handlePrivacy
                                 <p className={"item-text-colored"}>DESCRIPTION:</p>
                                 <p className={"item-text"}>
                                     <Anchorme target="_blank" rel="noreferrer noopener">
-                                        {model.description}
+                                        {project.description}
                                     </Anchorme>
                                 </p>
                             </div>
