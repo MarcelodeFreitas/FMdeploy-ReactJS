@@ -4,13 +4,7 @@ import "./Main.css"
 import AppHeader from "../../AppHeader"
 import { useContext, useEffect, useState } from "react"
 import StoreContext from "../../Store/Context"
-import Projects from "../../Projects"
-import NoContentCard from "../../NoContentCard"
-import TextField from '@mui/material/TextField'
-import Autocomplete from '@mui/material/Autocomplete'
-import { FormControl, MenuItem, Select } from "@material-ui/core"
-import { Box } from "@mui/system"
-import Cards from '../../Cards'
+import Cards from "../../Cards"
 import axiosInstance from "../../axios/axiosInstance"
 import SmartSearch from "../../SmartSearch"
 
@@ -39,7 +33,10 @@ const Shared = () => {
         return await response.data.reverse()
       } catch (e) {
         console.log("getSharedProjects error: ", e.response)
-        setsharedProjectsError(e.response.data.detail)
+        if (e.response) {
+          console.log("getSharedProjects error detail: ", e.response.data.detail)
+          setsharedProjectsError(e.response.data.detail)
+        }
       }
     }
 

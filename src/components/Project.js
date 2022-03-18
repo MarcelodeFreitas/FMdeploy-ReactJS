@@ -1,12 +1,47 @@
-import { useState } from "react"
+import { useState, useContext, useEffect } from "react"
 import { Anchorme } from "react-anchorme"
 import "./Project.css"
 import TouchableOpacity from "./TouchableOpacity"
 import { useHistory, useLocation } from "react-router-dom"
 import Tooltip from "@material-ui/core/Tooltip"
+import StoreContext from "./Store/Context"
+import axiosInstance from "./axios/axiosInstance"
 
 
 export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePrivacy }) => {
+
+    const { token } = useContext(StoreContext)
+
+    const [author, setAuthor] = useState(null)
+
+    useEffect(() => {
+        //get author for shared projects
+        const getOwner = async (project, token) => {
+            try {
+                const response = await axiosInstance.get(
+                    `/userproject/get_owner/${project.project_id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                    }
+                )
+                console.log("getOwner: ", await response.data)
+                setAuthor(await response.data.name)
+            } catch (e) {
+                console.log("getOwner error: ", e.response)
+                if (e.response) {
+                    console.log("getOwner error detail: ", e.response.data.detail)
+                }
+            }
+        }
+
+        if (infoLevel === "Shared") {
+            getOwner(project, token)
+        }
+
+    }, [token, project, infoLevel])
+
     const date = new Date(project.created_in)
     const formatedDate = new Intl.DateTimeFormat('pt').format(date)
     const history = useHistory()
@@ -19,6 +54,8 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
         console.log("click")
         setExpand(!expand)
     }
+
+
 
     const RenderButtons = () => {
         if (actionButtons === "all") {
@@ -98,7 +135,7 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
                                     alt="run"
                                     onClick={() => {
                                         history.replace(
-                                            '/run', { ...project, path: currentUrl }
+                                            `/runs/${project.project_id}`, { ...project, path: currentUrl }
                                         )
                                     }} />
                             </Tooltip>
@@ -150,9 +187,30 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
                     </div>
                 </Tooltip>
             )
-        }
-
-        if (infoLevel === "Public" || infoLevel === "Shared") {
+        } else if (infoLevel === "Shared") {
+            return (
+                <Tooltip title="Click for more info" arrow>
+                    <div className={"data-items"}>
+                        <div className={"item"}>
+                            <p className={"item-text-colored"}>ID:</p>
+                            <p className={"item-text"}>{project.project_id}</p>
+                        </div>
+                        <div className={"item"}>
+                            <p className={"item-text-colored"}>DATE:</p>
+                            <p className={"item-text"}>{formatedDate}</p>
+                        </div>
+                        <div className={"item"}>
+                            <p className={"item-text-colored"}>TITLE:</p>
+                            <p className={"item-text"}>{project.title}</p>
+                        </div>
+                        <div className={"item"}>
+                            <p className={"item-text-colored"}>AUTHOR:</p>
+                            <p className={"item-text"}>{author}</p>
+                        </div>
+                    </div>
+                </Tooltip>
+            )
+        } else if (infoLevel === "Public") {
             return (
                 <Tooltip title="Click for more info" arrow>
                     <div className={"data-items"}>
@@ -176,6 +234,8 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
                 </Tooltip>
             )
         }
+
+
     }
 
     return (
@@ -201,7 +261,10 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
                         <div className={"item-group"}>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>AUTHOR:</p>
-                                <p className={"item-text"}>{project.name}</p>
+                                {project.name ? <p className={"item-text"}>{project.name}</p>
+                                    :
+                                    <p className={"item-text"}>{author}</p>
+                                }
                             </div>
                             <div className={"item"}>
                                 <p className={"item-text-colored"}>PRIVATE:</p>

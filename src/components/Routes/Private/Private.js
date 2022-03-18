@@ -4,6 +4,7 @@ import StoreContext from '../../Store/Context'
 
 const RoutesPrivate = ({ component: Component, ...rest}) => {
     const { token } = useContext(StoreContext)
+    console.log("rest: ", rest)
     return(
         <>
             <Route
@@ -11,7 +12,7 @@ const RoutesPrivate = ({ component: Component, ...rest}) => {
                 render={() => token ? 
                     <Component {...rest}/>
                     :
-                    <Redirect to="/"/>
+                    <Redirect to="/auth"/>
                 }
             />
         </>

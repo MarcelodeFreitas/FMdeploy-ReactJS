@@ -5,13 +5,7 @@ import "./Main.css"
 import Sidebar from "../../Sidebar"
 import AppHeader from "../../AppHeader"
 import StoreContext from "../../Store/Context"
-import Projects from "../../Projects"
 import Cards from '../../Cards'
-import NoContentCard from "../../NoContentCard"
-import TextField from '@mui/material/TextField'
-import Autocomplete from '@mui/material/Autocomplete'
-import { FormControl, MenuItem, Select } from "@material-ui/core"
-import { Box } from "@mui/system"
 import SmartSearch from "../../SmartSearch"
 
 
@@ -40,7 +34,10 @@ const Public = () => {
         return await response.data.reverse()
       } catch (e) {
         console.log("getPublicProjects error: ", e.response)
-        setPublicProjectsError(e.response.data.detail)
+        if (e.response) {
+          console.log("getPublicProjects error detail: ", e.response.data.detail)
+          setPublicProjectsError(e.response.data.detail)
+        }
       }
     }
 

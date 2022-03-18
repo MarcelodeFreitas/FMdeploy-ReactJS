@@ -23,8 +23,8 @@ axiosInstance.interceptors.response.use((response) => new Promise((resolve, reje
     }
     if (error.response.status === 401) {
         localStorage.removeItem("token")
-        console.log("ERROR 401")
-        /* window.location = "/auth" */
+        console.log("AxiosInstance: ERROR 401")
+        window.location = "/auth"
     } else {
         return new Promise((resolve, reject) => {
             reject(error)

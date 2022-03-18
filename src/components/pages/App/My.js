@@ -4,9 +4,9 @@ import "../../Sidebar.css"
 import "./Main.css"
 import AppHeader from "../../AppHeader"
 import NoContentCard from "../../NoContentCard"
-import StoreContext from '../../Store/Context'
+import StoreContext from "../../Store/Context"
 import CustomizedSnackbar from "../../Alert"
-import Cards from '../../Cards'
+import Cards from "../../Cards"
 import axiosInstance from "../../axios/axiosInstance"
 import SmartSearch from "../../SmartSearch"
 
@@ -40,9 +40,11 @@ function My() {
         console.log("getMyProjects: ", await response.data)
         return await response.data.reverse()
       } catch (e) {
-        console.log("getMyProjects error: ", e.response)
-        console.log("getMyProjects error detail: ", e.response.data.detail)
-        setMyProjectsError(e.response.data.detail)
+        console.log("getMyProjects error: ", await e.response)
+        if (e.response) {
+          console.log("getMyProjects error detail: ", e.response.data.detail)
+          setMyProjectsError(e.response.data.detail)
+        }
       }
     }
 
@@ -148,6 +150,8 @@ function My() {
         <SmartSearch infoLevel="MyProjects" projects={projects} deleteProject={deleteProject} projectPrivacy={projectPrivacy} errorMessage={myProjectsError} />
 
         {noProjectsMessage && <NoContentCard text={noProjectsMessage} />}
+
+        {myProjectsError && <NoContentCard text={myProjectsError} /> }
 
       </div>
       <Cards />
