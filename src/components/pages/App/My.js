@@ -10,7 +10,6 @@ import CustomizedSnackbar from "../../Alert"
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import { FormControl, MenuItem, Select } from "@material-ui/core"
-import { Box } from "@mui/system"
 import Cards from '../../Cards'
 import axiosInstance from "../../axios/axiosInstance"
 
@@ -30,7 +29,6 @@ function My() {
   })
 
   useEffect(() => {
-
     //get projects owned by current user
     const getMyProjects = async () => {
       try {
@@ -73,7 +71,6 @@ function My() {
 
   // Delete project
   const deleteProject = async (id) => {
-
     //delete project from server
     try {
       const response = await axiosInstance.delete(
@@ -90,7 +87,6 @@ function My() {
       console.log(e)
       handleDeleteMessage(e.response.data.detail, "error")
     }
-
     //delete project from state
     setProjects(projects.filter((project) =>
       project.project_id !== id
@@ -219,6 +215,7 @@ function My() {
         ))
       }
       if (searchBy === "author") {
+        console.log("author: ", projects)
         setAuthorResults(projects.filter((project) =>
           project.name.toLowerCase().includes(search.toLowerCase())
         ))
@@ -236,7 +233,7 @@ function My() {
 
         {(projects && projects.length > 0) &&
           <div className="searchbars">
-            <div className="searchbar-field">
+            <div>
               {searchType === "id" &&
                 <Autocomplete
                   id="searchByProjectId"
@@ -244,7 +241,7 @@ function My() {
                   selectOnFocus
                   clearOnBlur
                   value={searchById}
-                  sx={{ width: 350, marginLeft: "20px" }}
+                  sx={{ width: 350, marginLeft: "10px" }}
                   onChange={(event, newValue, reason) => {
                     handleSearch("id", newValue)
                     if (reason === "clear") {
@@ -267,7 +264,7 @@ function My() {
                   }}
                   options={projects.map((option) => option.project_id)}
                   renderInput={(params) =>
-                    <TextField {...params} label="Search by" color="primary" variant="standard" />}
+                    <TextField {...params} label="Search by" color="primary" variant="standard" size="small" />}
                 />
               }
               {searchType === "title" &&
@@ -277,7 +274,7 @@ function My() {
                   selectOnFocus
                   clearOnBlur
                   value={searchByTitle}
-                  sx={{ width: 350, marginLeft: "20px" }}
+                  sx={{ width: 350, marginLeft: "10px" }}
                   onChange={(event, newValue, reason) => {
                     handleSearch("title", newValue)
                     if (reason === "clear") {
@@ -305,56 +302,53 @@ function My() {
                 />
               }
               {searchType === "author" &&
-              <Autocomplete
-                id="searchByAuthor"
-                freeSolo
-                selectOnFocus
-                clearOnBlur
-                value={searchByAuthor}
-                sx={{ width: 350, marginLeft: "20px" }}
-                onChange={(event, newValue, reason) => {
-                  handleSearch("author", newValue)
-                  if (reason === "clear") {
+                <Autocomplete
+                  id="searchByAuthor"
+                  freeSolo
+                  selectOnFocus
+                  clearOnBlur
+                  value={searchByAuthor}
+                  sx={{ width: 350, marginLeft: "10px" }}
+                  onChange={(event, newValue, reason) => {
+                    handleSearch("author", newValue)
+                    if (reason === "clear") {
+                      setRenderType("default")
+                    }
+                  }}
+                  onInputChange={(event, newValue) => {
+                    setRenderType("searchAuthor")
+                    console.log(newValue)
+                    setSearchByAuthor(newValue)
+                    handleSearch("author", newValue)
+                  }}
+                  onOpen={() => {
                     setRenderType("default")
+                    setSearchById("")
+                    setIdResults([])
+                    setSearchByTitle("")
+                    setTitleResults([])
+                    setSearchByAuthor("")
+                    setAuthorResults([])
+                  }}
+                  options={projects.map((option) => option.name)}
+                  renderInput={(params) =>
+                    <TextField {...params} label="Search by" color="primary" variant="standard" />
                   }
-                }}
-                onInputChange={(event, newValue) => {
-                  setRenderType("searchAuthor")
-                  console.log(newValue)
-                  setSearchByAuthor(newValue)
-                  handleSearch("author", newValue)
-                }}
-                onOpen={() => {
-                  setRenderType("default")
-                  setSearchById("")
-                  setIdResults([])
-                  setSearchByTitle("")
-                  setTitleResults([])
-                  setSearchByAuthor("")
-                  setAuthorResults([])
-                }}
-                options={projects.map((option) => option.author)}
-                renderInput={(params) =>
-                  <TextField {...params} label="Search by" color="primary" variant="standard" />
-                }
-              />
-            }
+                />
+              }
             </div>
-            <div className="searchbar-type">
-              <Box sx={{ minWidth: 80, marginLeft: "20px", marginTop: "12px" }}>
-                <FormControl fullWidth>
-                  <Select
-                    value={searchType}
-                    label="Search By"
-                    onChange={handleSearchChange}
-                    autoWidth
-                  >
-                    <MenuItem value={"id"}>Id</MenuItem>
-                    <MenuItem value={"title"}>Title</MenuItem>
-                    <MenuItem value={"author"}>Author</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
+            <div style={{ minWidth: 80, marginLeft: "20px", marginTop: "10px" }}>
+              <FormControl variant="standard" size="medium" fullWidth>
+                <Select
+                  value={searchType}
+                  label="Search By"
+                  onChange={handleSearchChange}
+                >
+                  <MenuItem value={"id"}>Id</MenuItem>
+                  <MenuItem value={"title"}>Title</MenuItem>
+                  <MenuItem value={"author"}>Author</MenuItem>
+                </Select>
+              </FormControl>
             </div>
           </div>
         }

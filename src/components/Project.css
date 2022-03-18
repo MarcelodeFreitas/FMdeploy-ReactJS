@@ -52,6 +52,7 @@
 .item-text-colored {
     color: var(--secondary);
     padding-right: 0.4em;
+    font-weight: bold;
 }
 
 .icon-container {

@@ -407,6 +407,7 @@ export default class New extends Component {
                               name="title"
                               type="text"
                               label="Title"
+                              variant="standard"
                             />
                           </Box>
                           <Box paddingBottom={4}>
@@ -416,6 +417,7 @@ export default class New extends Component {
                               type="text"
                               label="Description"
                               InputProps={{ multiline: true }}
+                              variant="standard"
                             />
                           </Box>
                           <Box paddingBottom={4}>
@@ -427,6 +429,7 @@ export default class New extends Component {
                               inputProps={{
                                 id: 'inputType',
                               }}
+                              variant="standard"
                             >
                               <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
                               <MenuItem value={".wav"}>.wav</MenuItem>
@@ -442,6 +445,7 @@ export default class New extends Component {
                               inputProps={{
                                 id: 'outputType',
                               }}
+                              variant="standard"
                             >
                               <MenuItem value={".nii.gz"}>.nii.gz</MenuItem>
                               <MenuItem value={".csv"}>.csv</MenuItem>

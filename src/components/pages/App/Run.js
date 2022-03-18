@@ -15,7 +15,7 @@ const Run = (props) => {
 
   const date = new Date(props.location.state.created_in)
 
-  const formatedDate = new Intl.DateTimeFormat().format(date)
+  const formatedDate = new Intl.DateTimeFormat('pt').format(date)
 
   const { token } = useContext(StoreContext)
 

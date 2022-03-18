@@ -8,7 +8,7 @@ import Tooltip from "@material-ui/core/Tooltip"
 
 export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePrivacy }) => {
     const date = new Date(project.created_in)
-    const formatedDate = new Intl.DateTimeFormat().format(date)
+    const formatedDate = new Intl.DateTimeFormat('pt').format(date)
     const history = useHistory()
     const location = useLocation()
     const currentUrl = location.pathname

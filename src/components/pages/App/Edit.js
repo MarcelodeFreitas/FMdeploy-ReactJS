@@ -20,7 +20,7 @@ export default class Edit extends Component {
 
   date = new Date(this.props.location.state.created_in)
 
-  formatedDate = new Intl.DateTimeFormat().format(this.date)
+  formatedDate = new Intl.DateTimeFormat('pt').format(this.date)
 
   defaultState = {
     message: "",

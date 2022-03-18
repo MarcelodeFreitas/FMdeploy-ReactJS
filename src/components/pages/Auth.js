@@ -6,10 +6,8 @@ import querystring from "querystring"
 import StoreContext from "../Store/Context"
 import Cards from '../Cards'
 import CustomizedSnackbar from "../Alert"
-import AuthModal from "./AuthModal"
 import axiosInstance from "../axios/axiosInstance"
 import ResponsiveAppBar from "../AppBar"
-import AuthContainer from "./AuthContainer"
 import { Box } from "@material-ui/core"
 
 const initialState = () => {
