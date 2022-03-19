@@ -25,7 +25,7 @@ export default function AuthRedirect(props) {
 
     const history = useHistory()
 
-   /*  const [mode, setMode] = useState(false) */
+    /*  const [mode, setMode] = useState(false) */
 
     const [values, setValues] = useState({
         name: '',

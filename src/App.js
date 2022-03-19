@@ -5,7 +5,7 @@ import Products from "./components/pages/Products"
 import Services from "./components/pages/Services"
 import Auth from "./components/pages/Auth"
 import StoreProvider from './components/Store/Provider'
-import { RoutesPrivate, RoutesNotPrivate } from './components/Routes/Private/Private'
+import { RoutesPrivate, RoutesNotPrivate, RoutesPrivateShareable } from './components/Routes/Private/Private'
 import My from './components/pages/App/My'
 import Public from './components/pages/App/Public'
 import Shared from './components/pages/App/Shared'
@@ -41,7 +41,7 @@ const App = () => {
               <RoutesPrivate path="/public" exact component={Public} />
               <RoutesPrivate path="/new" exact component={New} />
               <RoutesPrivate path="/run" exact component={Run} />
-              <RoutesPrivate path="/runs/:projectId" component={RunLinkable} />
+              <RoutesPrivateShareable path="/runs/:projectId" component={RunLinkable} />
               <RoutesPrivate path="/edit" exact component={Edit} />
               <RoutesPrivate path="/share" exact component={Share} />
               <RoutesPrivate path="/user-settings" exact component={UserSettings} />

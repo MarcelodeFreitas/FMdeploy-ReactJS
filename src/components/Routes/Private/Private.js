@@ -12,6 +12,23 @@ const RoutesPrivate = ({ component: Component, ...rest}) => {
                 render={() => token ? 
                     <Component {...rest}/>
                     :
+                    <Redirect to="/auth"/>
+                }
+            />
+        </>
+    )
+}
+
+const RoutesPrivateShareable = ({ component: Component, ...rest}) => {
+    const { token } = useContext(StoreContext)
+    console.log("rest: ", rest.location.pathname)
+    return(
+        <>
+            <Route
+                {...rest}
+                render={() => token ? 
+                    <Component {...rest}/>
+                    :
                     <Redirect to={{
                         pathname: "/auth-redirect",
                         state: {...rest}
@@ -38,4 +55,4 @@ const RoutesNotPrivate = ({ component: Component, ...rest}) => {
     )
 }
 
-export { RoutesPrivate, RoutesNotPrivate }
+export { RoutesPrivate, RoutesNotPrivate, RoutesPrivateShareable }

@@ -11,6 +11,7 @@ import { Anchorme } from "react-anchorme"
 import Cards from "../../Cards"
 import axiosInstance from "../../axios/axiosInstance"
 import { useParams, useHistory, useLocation } from "react-router-dom"
+import NoContentCard from "../../NoContentCard"
 
 const Run = () => {
 
@@ -20,12 +21,19 @@ const Run = () => {
   const location = useLocation()
   console.log("location:", location)
 
+  history.listen((newLocation, action) => {
+    if (newLocation.pathname === "/auth-redirect") {
+      history.push("/my")
+    }
+  })
+
   const { token } = useContext(StoreContext)
 
   console.log("run linkable project id: ", projectId)
 
   const [project, setProject] = useState("")
   /* const [author, setAuthor] = useState("") */
+  const [errorMessage, setErrorMessage] = useState("")
 
   useEffect(() => {
     //get project info from id
@@ -45,6 +53,7 @@ const Run = () => {
         console.log("getProjectById error: ", e.response)
         if (e.response) {
           console.log("getProjectById error detail: ", e.response.data.detail)
+          setErrorMessage(e.response.data.detail)
         }
       }
     }
@@ -77,7 +86,7 @@ const Run = () => {
 
 
   /* const date = new Date(project.created_in)
-
+  
   const formatedDate = new Intl.DateTimeFormat('pt').format(date) */
 
   const [outputFileName, setOutputFileName] = useState("")
@@ -276,74 +285,81 @@ const Run = () => {
     <>
       <Sidebar />
       <div className="main">
-        <AppHeader title={`RUN: ${project.title}`} button="BACK" goBack={() => history.goBack()} buttonIcon="" path={project.path} />
-        <Container>
-          <Container className="run-white-container">
-            <div className="run-data-line"><p className="run-top-label">PROJECT ID:</p> {project.project_id}</div>
-            <br></br>
-            <div className="run-row">
-              <div className="run-column">
-                <div className="run-data-line">
-                  <p className="run-top-label">AUTHOR:</p> {project.name}
-                </div>
-              </div>
-              <div className="run-column">
-                <div className="run-data-line">
-                  <p className="run-top-label">DATE:</p> {project.created_in && new Intl.DateTimeFormat('pt').format(new Date(project.created_in))}
-                </div>
-              </div>
-            </div>
-            <br></br>
-            <div className="run-row">
-              <div className="run-column">
-                <div className="run-data-line">
-                  <p className="run-top-label">INPUT FILE TYPE:</p> {project.input_type}
-                </div>
-              </div>
-              <div className="run-column">
-                <div className="run-data-line">
-                  <p className="run-top-label">PRIVATE:</p> {project.is_private && project.is_private.toString()}
-                </div>
-              </div>
-            </div>
-          </Container>
+        <AppHeader title={`RUN: ${project.title}`} />
 
-          <Container className="run-white-container">
-            <p className="run-top-label">DESCRIPTION:</p>
-            <br></br>
-            <Anchorme target="_blank" rel="noreferrer noopener">
-              {project.description}
-            </Anchorme>
-          </Container>
-          <div className="run-boxes">
-            <InputFilesDropzone />
-            <div className="run-box">
-              <h1 className="run-labels">2. OUTPUT</h1>
-              <div className="run-dropzone">
-                <div className="center">
-                  {outputFileName && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
-                </div>
-              </div>
-              {outputFileName &&
-                <div className="run-button">
-                  <div className="submit-button" onClick={() => downloadLink.click()}>
-                    DOWNLOAD
+        {errorMessage ?
+          <NoContentCard text={errorMessage} />
+          :
+          <Container>
+            <Container className="run-white-container">
+              <div className="run-data-line"><p className="run-top-label">PROJECT ID:</p> {project.project_id}</div>
+              <br></br>
+              <div className="run-row">
+                <div className="run-column">
+                  <div className="run-data-line">
+                    <p className="run-top-label">AUTHOR:</p> {project.name}
                   </div>
                 </div>
-              }
-            </div>
-          </div>
-          {outputFileType && outputFileType === "png" &&
-            <div className="run-box-preview">
-              <div className="run-box">
-                <h1 className="run-labels">3. OUTPUT PREVIEW</h1>
-                <div className="center">
-                  <img className="image-preview" src={outputFile} alt="result png preview" />
+                <div className="run-column">
+                  <div className="run-data-line">
+                    <p className="run-top-label">DATE:</p> {project.created_in && new Intl.DateTimeFormat('pt').format(new Date(project.created_in))}
+                  </div>
                 </div>
               </div>
+              <br></br>
+              <div className="run-row">
+                <div className="run-column">
+                  <div className="run-data-line">
+                    <p className="run-top-label">INPUT FILE TYPE:</p> {project.input_type}
+                  </div>
+                </div>
+                <div className="run-column">
+                  <div className="run-data-line">
+                    <p className="run-top-label">PRIVATE:</p> {project && project.is_private.toString()}
+                  </div>
+                </div>
+              </div>
+            </Container>
+
+            <Container className="run-white-container">
+              <p className="run-top-label">DESCRIPTION:</p>
+              <br></br>
+              <Anchorme target="_blank" rel="noreferrer noopener">
+                {project.description}
+              </Anchorme>
+            </Container>
+            <div className="run-boxes">
+              <InputFilesDropzone />
+              <div className="run-box">
+                <h1 className="run-labels">2. OUTPUT</h1>
+                <div className="run-dropzone">
+                  <div className="center">
+                    {outputFileName && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
+                  </div>
+                </div>
+                {outputFileName &&
+                  <div className="run-button">
+                    <div className="submit-button" onClick={() => downloadLink.click()}>
+                      DOWNLOAD
+                    </div>
+                  </div>
+                }
+              </div>
             </div>
-          }
-        </Container>
+            {outputFileType && outputFileType === "png" &&
+              <div className="run-box-preview">
+                <div className="run-box">
+                  <h1 className="run-labels">3. OUTPUT PREVIEW</h1>
+                  <div className="center">
+                    <img className="image-preview" src={outputFile} alt="result png preview" />
+                  </div>
+                </div>
+              </div>
+            }
+          </Container>
+        }
+
+
       </div>
       <Cards />
     </>

@@ -168,7 +168,7 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
     }
 
     const RenderInfo = ({ isExpanded }) => {
-        if (infoLevel === "MyProjects") {
+        if (infoLevel) {
             return (
                 <Tooltip title="Click for more info" arrow>
                     <div className={"data-items"}>
@@ -187,7 +187,7 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
                     </div>
                 </Tooltip>
             )
-        } else if (infoLevel === "Shared") {
+        } /* else if (infoLevel === "Shared") {
             return (
                 <Tooltip title="Click for more info" arrow>
                     <div className={"data-items"}>
@@ -233,9 +233,7 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
                     </div>
                 </Tooltip>
             )
-        }
-
-
+        } */
     }
 
     return (
