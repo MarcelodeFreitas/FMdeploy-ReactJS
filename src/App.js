@@ -15,6 +15,7 @@ import RunLinkable from './components/pages/App/RunLinkable'
 import Edit from './components/pages/App/Edit'
 import Share from './components/pages/App/Share'
 import UserSettings from './components/pages/App/UserSettings'
+import AuthRedirect from './components/pages/AuthRedirect'
 import { ThemeProvider } from '@material-ui/styles'
 import theme from './components/theme/theme'
 
@@ -34,6 +35,7 @@ const App = () => {
                 window.location.href = process.env.REACT_APP_BACKEND_URL
                 return null
               }} />
+              <Route path="/auth-redirect" exact component={AuthRedirect} />
               <RoutesPrivate path="/my" exact component={My} />
               <RoutesPrivate path="/shared" exact component={Shared} />
               <RoutesPrivate path="/public" exact component={Public} />

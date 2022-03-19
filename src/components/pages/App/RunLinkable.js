@@ -10,7 +10,7 @@ import { CircularProgress, Button, Container } from "@material-ui/core"
 import { Anchorme } from "react-anchorme"
 import Cards from "../../Cards"
 import axiosInstance from "../../axios/axiosInstance"
-import { useParams, useHistory, browserHistory, useLocation } from "react-router-dom"
+import { useParams, useHistory, useLocation } from "react-router-dom"
 
 const Run = () => {
 
@@ -25,7 +25,7 @@ const Run = () => {
   console.log("run linkable project id: ", projectId)
 
   const [project, setProject] = useState("")
-  const [author, setAuthor] = useState("")
+  /* const [author, setAuthor] = useState("") */
 
   useEffect(() => {
     //get project info from id
@@ -49,7 +49,7 @@ const Run = () => {
       }
     }
 
-    //get author for shared projects
+    /* //get author for shared projects
     const getOwner = async (projectId, token) => {
       try {
         const response = await axiosInstance.get(
@@ -68,10 +68,10 @@ const Run = () => {
           console.log("getOwner error detail: ", e.response.data.detail)
         }
       }
-    }
+    } */
 
     getProjectById(projectId, token)
-    getOwner(projectId, token)
+    /* getOwner(projectId, token) */
 
   }, [token, projectId])
 
@@ -278,9 +278,6 @@ const Run = () => {
       <div className="main">
         <AppHeader title={`RUN: ${project.title}`} button="BACK" goBack={() => history.goBack()} buttonIcon="" path={project.path} />
         <Container>
-          <Button onClick={() => history.goBack()}>
-            here
-          </Button>
           <Container className="run-white-container">
             <div className="run-data-line"><p className="run-top-label">PROJECT ID:</p> {project.project_id}</div>
             <br></br>

@@ -132,8 +132,6 @@ export default function AuthContainer() {
         
     }
 
-    
-
     return (
         <Box sx={style}>
             <Box>
@@ -271,7 +269,6 @@ export default function AuthContainer() {
                             :
                             <Button variant="contained" sx={{ bgColor: '#0385B0', width: '100%', height: '50px' }} onClick={() => login(values)}>LOGIN</Button>
                         }
-
                     </Box>
                 </Box>
 

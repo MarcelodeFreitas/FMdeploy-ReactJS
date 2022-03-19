@@ -4,7 +4,7 @@ import StoreContext from '../../Store/Context'
 
 const RoutesPrivate = ({ component: Component, ...rest}) => {
     const { token } = useContext(StoreContext)
-    console.log("rest: ", rest)
+    console.log("rest: ", rest.location.pathname)
     return(
         <>
             <Route
@@ -12,7 +12,10 @@ const RoutesPrivate = ({ component: Component, ...rest}) => {
                 render={() => token ? 
                     <Component {...rest}/>
                     :
-                    <Redirect to="/auth"/>
+                    <Redirect to={{
+                        pathname: "/auth-redirect",
+                        state: {...rest}
+                    }} />
                 }
             />
         </>
