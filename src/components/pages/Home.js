@@ -4,7 +4,6 @@ import HeroSection from '../HeroSection'
 import Footer from '../Footer'
 import HomeButtons from '../HomeButtons'
 import './Home.css'
-import { Card, Container } from '@material-ui/core'
 import ResponsiveAppBar from '../AppBar'
 
 function Home() {
@@ -14,10 +13,10 @@ function Home() {
             <HeroSection />
             <HomeButtons />
             <div className="home-content">
+               
+            </div>
+            {/* <div className="home-content">
                 <Container className="home-content">
-                    {/* <div className="home-content-title">
-                    WHO USES FMDEPLOY?
-                </div> */}
                     <Container className="home-content-text">
                         FMdeploy is an open-source project freely available, based on Python for server side computing and React to enabled
                         quick and easy user interaction. It provides the ability to generate an easy-to-use demo
@@ -58,7 +57,7 @@ function Home() {
                         </Container>
                     </Card>
                 </Container>
-            </div>
+            </div> */}
             <Cards />
             <Footer />
         </>

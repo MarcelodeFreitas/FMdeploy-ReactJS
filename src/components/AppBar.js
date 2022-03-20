@@ -14,7 +14,7 @@ import AccountMenu from './AccountMenu'
 import { Link, useLocation } from 'react-router-dom'
 
 const pages = [
-    { name: "Docs", path: "/services", target: "", rel: "" },
+    { name: "Docs", path: "/docs", target: "", rel: "" },
     { name: "API", path: "/api", target: "_blank", rel: "noopener noreferrer" },
 ]
 

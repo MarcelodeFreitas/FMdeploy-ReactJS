@@ -2,7 +2,7 @@ import './App.css'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Home from "./components/pages/Home"
 import Products from "./components/pages/Products"
-import Services from "./components/pages/Services"
+import Documents from "./components/pages/Documents"
 import Auth from "./components/pages/Auth"
 import StoreProvider from './components/Store/Provider'
 import { RoutesPrivate, RoutesNotPrivate, RoutesPrivateShareable } from './components/Routes/Private/Private'
@@ -29,7 +29,7 @@ const App = () => {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/products" exact component={Products} />
-              <Route path="/services" exact component={Services} />
+              <Route path="/docs" exact component={Documents} />
               <RoutesNotPrivate path="/auth" exact component={Auth} />
               <Route path='/api' exact component={() => {
                 window.location.href = process.env.REACT_APP_BACKEND_URL

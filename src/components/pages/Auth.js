@@ -5,6 +5,7 @@ import "./Auth.css"
 import querystring from "querystring"
 import StoreContext from "../Store/Context"
 import Cards from '../Cards'
+import Footer from '../Footer'
 import CustomizedSnackbar from "../Alert"
 import axiosInstance from "../axios/axiosInstance"
 import ResponsiveAppBar from "../AppBar"
@@ -16,7 +17,7 @@ const initialState = () => {
 
 const style = {
   minWidth: '320px',
-  marginBottom: '50px',
+  marginBottom: '40px',
   bgcolor: 'background.paper',
   borderRadius: 5,
   boxShadow: 24,
@@ -277,6 +278,7 @@ export default function Auth() {
       </div>
       <AuthModal /> */}
       <Cards />
+      <Footer />
     </>
   )
 }
