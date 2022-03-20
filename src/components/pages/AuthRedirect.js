@@ -13,10 +13,9 @@ import StoreContext from "../Store/Context"
 import querystring from "querystring"
 import { useHistory } from "react-router-dom"
 import "./AuthRedirect.css"
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Alert, Stack } from '@mui/material'
 import { Box } from '@material-ui/core'
-import CustomizedSnackbar from '../Alert'
 
 export default function AuthRedirect(props) {
 
@@ -25,6 +24,14 @@ export default function AuthRedirect(props) {
     const { setToken } = useContext(StoreContext)
 
     const history = useHistory()
+
+    useEffect(() => {
+        return () => {
+            if (history.action === 'POP') {
+                history.go(1)
+            }
+        }
+    }, [history])
 
     /*  const [mode, setMode] = useState(false) */
 
@@ -123,7 +130,6 @@ export default function AuthRedirect(props) {
 
     return (
         <div className="auth-redirect-container">
-            {props.location.state.message && <CustomizedSnackbar message={props.location.state.message} severity={props.location.state.severity} />}
             <div>
                 <div className="auth-redirect-header">
                     <div>
