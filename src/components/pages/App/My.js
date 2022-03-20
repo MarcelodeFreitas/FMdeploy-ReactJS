@@ -149,9 +149,9 @@ function My() {
 
         <SmartSearch infoLevel="MyProjects" projects={projects} deleteProject={deleteProject} projectPrivacy={projectPrivacy} errorMessage={myProjectsError} />
 
-        {noProjectsMessage && <NoContentCard text={noProjectsMessage} />}
+        {/* {noProjectsMessage && <NoContentCard text={noProjectsMessage} />} */}
 
-        {myProjectsError && <NoContentCard text={myProjectsError} /> }
+        {/* {myProjectsError && <NoContentCard text={myProjectsError} /> } */}
 
       </div>
       <Cards />

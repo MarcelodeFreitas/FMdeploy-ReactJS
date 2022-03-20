@@ -121,7 +121,7 @@ const Run = () => {
   }
 
   //run project providing input file id and project id
-  const runAi = async (token, projectId, fileId) => {
+  const runProject = async (token, projectId, fileId) => {
     console.log(projectId, fileId)
     try {
       const response = await axiosInstance.post("/project/run", {
@@ -133,13 +133,13 @@ const Run = () => {
         },
         responseType: 'arraybuffer', //prevents the file from corrupting
       })
-      console.log("runAi response: ", await response)
+      console.log("runProject response: ", await response)
 
       const filename = await response.headers['content-disposition'].split('filename=')[1].split(';')[0]
 
-      setOutputFileName(await filename)
+      setOutputFileName(filename)
 
-      setOutputFileType(await filename.split(".")[1].slice(0, -1))
+      setOutputFileType(filename.split(".")[1].slice(0, -1))
 
       const blob = new Blob([await response.data], {
         type: await response.headers['content-type']
@@ -156,20 +156,26 @@ const Run = () => {
       setDownloadLink(link)
 
     } catch (e) {
-      console.log(e)
-      console.log("runAi error: ", e.response)
+      console.log("runProject e: ", await e)
+      console.log("runProject error: ", await e.response)
+      if (await e.response) {
+        console.log("runProject error detail: ", await e.response.data.detail)
+      }
     }
   }
 
   /* const [acceptedFileName, setAcceptedFileName] = useState("") */
 
   const handleRun = async (token, inputFile, projectId) => {
+    setOutputFileName("")
+    setOutputFile("")
+    setOutputFileType("")
     if (inputFile) {
       console.log(inputFile)
       setIsRunning(true)
       /* setAcceptedFileName(inputFile.name) */
       const fileId = await uploadInputFile(token, inputFile)
-      await runAi(token, projectId, await fileId)
+      await runProject(token, projectId, await fileId)
       setIsRunning(false)
     } else {
       console.log(inputFile)
@@ -334,7 +340,7 @@ const Run = () => {
                 <h1 className="run-labels">2. OUTPUT</h1>
                 <div className="run-dropzone">
                   <div className="center">
-                    {outputFileName && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
+                    {outputFileName && downloadLink && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
                   </div>
                 </div>
                 {outputFileName &&

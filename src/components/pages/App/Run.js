@@ -57,7 +57,7 @@ const Run = (props) => {
   }
 
   //run project providing input file id and project id
-  const runAi = async (token, projectId, fileId) => {
+  const runProject = async (token, projectId, fileId) => {
     console.log(projectId, fileId)
     try {
       const response = await axiosInstance.post("/project/run", {
@@ -69,7 +69,7 @@ const Run = (props) => {
         },
         responseType: 'arraybuffer', //prevents the file from corrupting
       })
-      console.log("runAi response: ", await response)
+      console.log("runProject response: ", await response)
 
       const filename = await response.headers['content-disposition'].split('filename=')[1].split(';')[0]
 
@@ -93,7 +93,7 @@ const Run = (props) => {
 
     } catch (e) {
       console.log(e)
-      console.log("runAi error: ", e.response)
+      console.log("runProject error: ", e.response)
     }
   }
 
@@ -105,7 +105,7 @@ const Run = (props) => {
       setIsRunning(true)
       /* setAcceptedFileName(inputFile.name) */
       const fileId = await uploadInputFile(token, inputFile)
-      await runAi(token, projectId, await fileId)
+      await runProject(token, projectId, await fileId)
       setIsRunning(false)
     } else {
       console.log(inputFile)
@@ -266,7 +266,7 @@ const Run = (props) => {
               <h1 className="run-labels">2. OUTPUT</h1>
               <div className="run-dropzone">
                 <div className="center">
-                  {outputFileName && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
+                  {outputFileName && downloadLink && <p className="run-fileName" onClick={() => downloadLink.click()}>{outputFileName}</p>}
                 </div>
               </div>
               {outputFileName &&

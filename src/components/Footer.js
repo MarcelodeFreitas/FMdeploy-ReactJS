@@ -62,7 +62,7 @@ function Fotter() {
                         <p style={{backgroundColor: "#0385B0", padding: "2%", borderRadius: "10%"}}>FM</p>&nbsp;deploy 
                     </Link>
                 </div>
-                <small className='website-rights'>FMdeploy © 2021</small>
+                <small className='website-rights'>FMdeploy © 2022</small>
                 <div className='social-icons'>
                     <Link
                     className='social-icon-link facebook'

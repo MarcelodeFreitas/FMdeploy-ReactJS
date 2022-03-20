@@ -16,6 +16,7 @@ import "./AuthRedirect.css"
 import { useContext, useState } from 'react'
 import { Alert, Stack } from '@mui/material'
 import { Box } from '@material-ui/core'
+import CustomizedSnackbar from '../Alert'
 
 export default function AuthRedirect(props) {
 
@@ -122,6 +123,7 @@ export default function AuthRedirect(props) {
 
     return (
         <div className="auth-redirect-container">
+            {props.location.state.message && <CustomizedSnackbar message={props.location.state.message} severity={props.location.state.severity} />}
             <div>
                 <div className="auth-redirect-header">
                     <div>
@@ -129,9 +131,15 @@ export default function AuthRedirect(props) {
                             {/* {mode ? <p>Register</p> : <p>Login - Redirect</p>} */}
                             <p>Login - Redirect</p>
                         </Typography>
-                        <div style={{ fontSize: "14px", marginTop: "5px", display: "flex" }}>
-                            Redirect requires authentication.
-                        </div>
+                        {props.location.state.location.pathname === 'user-settings' ?
+                            <div style={{ fontSize: "14px", marginTop: "5px", display: "flex" }}>
+                                Use updated fields.
+                            </div>
+                            :
+                            <div style={{ fontSize: "14px", marginTop: "5px", display: "flex" }}>
+                                Action requires authentication.
+                            </div>
+                        }
                     </div>
                     <div>
                         <img
@@ -154,6 +162,9 @@ export default function AuthRedirect(props) {
 
                     {message.content && message.type === "warning" &&
                         <Alert severity="warning">{message.content}</Alert>
+                    }
+                    {props.location.state.message &&
+                        <Alert severity={props.location.state.severity}>{props.location.state.message}</Alert>
                     }
                 </Stack>
 

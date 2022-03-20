@@ -4,7 +4,6 @@ import StoreContext from '../../Store/Context'
 
 const RoutesPrivate = ({ component: Component, ...rest}) => {
     const { token } = useContext(StoreContext)
-    console.log("rest: ", rest.location.pathname)
     return(
         <>
             <Route
@@ -21,7 +20,6 @@ const RoutesPrivate = ({ component: Component, ...rest}) => {
 
 const RoutesPrivateShareable = ({ component: Component, ...rest}) => {
     const { token } = useContext(StoreContext)
-    console.log("rest: ", rest.location.pathname)
     return(
         <>
             <Route

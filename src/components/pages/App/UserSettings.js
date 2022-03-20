@@ -12,30 +12,38 @@ import { Field } from "formik"
 import { TextField } from "formik-material-ui"
 import CustomizedSnackbar from "../../Alert"
 import axiosInstance from "../../axios/axiosInstance"
+import { withRouter } from 'react-router-dom'
 
-export default class UserSettings extends Component {
+const defaultState = {
+  message: "",
+  severity: "",
+}
+
+class UserSettings extends Component {
 
   static contextType = StoreContext
-
-  defaultState = {
-    message: "",
-    severity: "error",
-  }
 
   constructor(props) {
     super(props)
     this.state = {
+      ...defaultState,
       isSubmitting: false,
       responseData: "",
       name: "",
       email: "",
+      password: "",
       open: false,
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     console.log(this.context.token)
+    console.log("HISTORY: ", this.props.history)
     this.getCurrentUser(this.context.token)
+  }
+
+  updateAlert = (message, severity) => {
+    this.setState({ message: message, severity: severity })
   }
 
   updateUser = async (token, values) => {
@@ -46,6 +54,7 @@ export default class UserSettings extends Component {
         {
           new_name: values.name,
           new_email: values.email,
+          new_password: values.password,
         },
         {
           headers: {
@@ -53,11 +62,11 @@ export default class UserSettings extends Component {
           },
         }
       )
-      this.setState({ message: "User data updated successfuly!", severity: "success" })
+      this.updateAlert("User data updated successfuly!", "success")
       console.log(await response)
     } catch (e) {
-      this.setState({ message: await e.response.data.detail, severity: "error" })
       console.log("updateUser error: ", e.response.data.detail)
+      this.updateAlert(e.response.data.detail, "error")
     }
   }
 
@@ -95,7 +104,7 @@ export default class UserSettings extends Component {
     } catch (e) {
       console.log("deleteAccount error: ", e.response)
       console.log("deleteAccount error detail: ", e.response.data.detail)
-      this.setState({ open: false, message: e.response.data.detail, severity: "error"  })
+      this.setState({ open: false, message: e.response.data.detail, severity: "error" })
     }
   }
 
@@ -131,15 +140,28 @@ export default class UserSettings extends Component {
                   initialValues={{
                     name: this.state.responseData.name,
                     email: this.state.responseData.email,
+                    password: "",
                   }}
                   validationSchema={yup.object().shape({
                     name: yup.string(),
                     email: yup.string().email(),
+                    password: yup.string().matches(
+                      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/,
+                      "Must Contain 8 Characters, One Uppercase, One Lowercase, and One Number"
+                    )
                   })}
                   onSubmit={async (values) => {
                     console.log(await values)
                     await this.updateUser(this.context.token, await values)
+                    if (values.email || values.password) {
+                      console.log("HISTORY2: ", this.props.history)
+                      this.props.history.push({
+                        pathname: `/auth-redirect`,
+                        state: { location: { pathname: 'user-settings' }, message: this.state.message, severity: this.state.severity }
+                      })
+                    }
                     await this.getCurrentUser(this.context.token)
+                    this.updateAlert(this.state.message, this.state.severity)
                   }}
                 >
                   <Form>
@@ -149,17 +171,25 @@ export default class UserSettings extends Component {
                           component={TextField}
                           name="name"
                           type="text"
-                          label="Name"
+                          label="New Name"
                         />
                       </Box>
-                      {/* <Box paddingBottom={4}>
+                      <Box paddingBottom={2}>
                         <Field fullWidth
                           component={TextField}
                           name="email"
                           type="text"
-                          label="Email"
+                          label="New Email"
                         />
-                      </Box> */}
+                      </Box>
+                      <Box paddingBottom={4}>
+                        <Field fullWidth
+                          component={TextField}
+                          name="password"
+                          type="password"
+                          label="New Password"
+                        />
+                      </Box>
                     </Box>
 
                     <Button
@@ -183,7 +213,7 @@ export default class UserSettings extends Component {
                   <div className="run-data-line">
                     <p className="run-top-label">DELETE ACCOUNT: </p>
                     <div style={{ padding: 10 }}>
-                      This option will delete all account details and all ai projects. Note that shared projects will no longer be available to the people you shared them with.
+                      This option will delete all account details and all projects. Note that shared projects will no longer be available to the people you shared them with.
                     </div>
                   </div>
                 </div>
@@ -194,7 +224,7 @@ export default class UserSettings extends Component {
                   disabled={this.state.isSubmitting}
                   variant="contained"
                   color="secondary"
-                  onClick={() => this.setState({ open: true})}
+                  onClick={() => this.setState({ open: true })}
                 >
                   {this.state.isSubmitting ? 'Deleting' : 'Delete'}
                 </Button>
@@ -202,27 +232,27 @@ export default class UserSettings extends Component {
             </Container>
             <Modal
               open={this.state.open}
-              onClose={() => this.setState({ open: false})}
+              onClose={() => this.setState({ open: false })}
               aria-labelledby="simple-modal-title"
               aria-describedby="simple-modal-description"
-              style={{display: "flex", alignItems: "center", justifyContent: "center"}}
+              style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
             >
-              <div style={{ backgroundColor: "white", padding: 20, display: "flex", alignItems: "center", justifyContent: "center", width: "60%", borderRadius: 5, flexDirection: "column"}}>
+              <div style={{ backgroundColor: "white", padding: 20, display: "flex", alignItems: "center", justifyContent: "center", width: "60%", maxWidth: "700px", borderRadius: 5, flexDirection: "column" }}>
                 <p className="run-top-label">Do you really want to delete your account?</p>
                 <div style={{ padding: 10 }}>
-                      This option will delete all account details and all ai projects. Note that shared projects will no longer be available to the people you shared them with.
-                    </div>
+                  This option will delete all account details and all projects. Note that shared projects will no longer be available to the people you shared them with.
+                </div>
                 <div style={{ paddingTop: 40 }}>
-                <Button
-                  startIcon={this.state.isSubmitting ? <CircularProgress size="1rem" /> : null}
-                  disabled={this.state.isSubmitting}
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => this.deleteAccount(this.context.token)}
-                >
-                  {this.state.isSubmitting ? 'Deleting' : 'Delete'}
-                </Button>
-              </div>
+                  <Button
+                    startIcon={this.state.isSubmitting ? <CircularProgress size="1rem" /> : null}
+                    disabled={this.state.isSubmitting}
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => this.deleteAccount(this.context.token)}
+                  >
+                    {this.state.isSubmitting ? 'Deleting' : 'Delete'}
+                  </Button>
+                </div>
               </div>
             </Modal>
           </Container>
@@ -231,3 +261,5 @@ export default class UserSettings extends Component {
     )
   }
 }
+
+export default withRouter(UserSettings)

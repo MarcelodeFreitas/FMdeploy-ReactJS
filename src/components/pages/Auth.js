@@ -238,7 +238,7 @@ export default function Auth() {
                 onChange={onChange}
                 value={details.password}
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                title="at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                title="Must Contain 8 Characters, One Uppercase, One Lowercase, and One Number"
                 required
               />
             </div>
