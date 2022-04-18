@@ -6,6 +6,8 @@ import { useHistory, useLocation } from "react-router-dom"
 import Tooltip from "@material-ui/core/Tooltip"
 import StoreContext from "./Store/Context"
 import axiosInstance from "./axios/axiosInstance"
+import { Modal, Typography } from "@mui/material"
+import { Button } from "@material-ui/core"
 
 
 export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePrivacy }) => {
@@ -13,6 +15,8 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
     const { token } = useContext(StoreContext)
 
     const [author, setAuthor] = useState(null)
+
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         //get author for shared projects
@@ -65,7 +69,7 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
                         <TouchableOpacity>
                             <Tooltip title="Delete" arrow>
                                 <img className={"icon"}
-                                    onClick={() => onDelete(project.project_id)}
+                                    onClick={() => setOpen(true)}/* onDelete(project.project_id) */
                                     src="images/trash.png"
                                     alt="delete" />
                             </Tooltip>
@@ -294,6 +298,43 @@ export const Project = ({ project, infoLevel, actionButtons, onDelete, handlePri
 
             </div>
             <RenderButtons />
+            <Modal
+                open={open}
+                onClose={() => setOpen(false)}
+                style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+            >
+                <div style={{ backgroundColor: "white", padding: 20, display: "flex", alignItems: "center", justifyContent: "center", width: "60%", maxWidth: "700px", minWidth: "350px", borderRadius: 5, flexDirection: "column" }}>
+                    <Typography variant="h6" style={{ color: "#0385B0", fontWeight: "bold" }}>Do you really want to delete your project?</Typography>
+                    <div style={{ paddingTop: 20, paddingLeft: 20, paddingRight: 20 }}>
+                        <Typography variant="body1">
+                            This option will delete this project incuding python script, model files, input files and output files.
+                        </Typography>
+                    </div>
+                    <div style={{ textAlign: "left" }}>
+                        <div style={{ paddingBottom: 10, paddingTop: 10 }}> 
+                            <Typography variant="body1" style={{ color: "#0385B0", fontWeight: "bold" }}>
+                                Project ID:
+                            </Typography>
+                            {project.project_id}
+                        </div>
+                        <div>
+                            <Typography variant="body1" style={{ color: "#0385B0", fontWeight: "bold" }}>
+                                Project Title:
+                            </Typography>
+                            {project.title}
+                        </div>
+                    </div>
+                    <div style={{ paddingTop: 20 }}>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => onDelete(project.project_id)}
+                        >
+                            Delete
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     )
 }
