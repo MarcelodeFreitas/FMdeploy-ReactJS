@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { useLocation } from "react-router-dom"
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBrain, faFolder, faFolderOpen, faGlobeAmericas, faUserCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faBrain, faFolder, faFolderOpen, faGlobeAmericas, faUserCog, faSignOutAlt, faHistory } from '@fortawesome/free-solid-svg-icons'
 import StoreContext from './Store/Context'
 import './Sidebar.css'
 
@@ -59,6 +59,20 @@ const Sidebar = () => {
                             <Link to="/public" className="side-link">
                                 <FontAwesomeIcon className="icon" icon={faGlobeAmericas} />
                                 <span className="link-text">Public Projects</span>
+                            </Link>
+                        }
+                    </li>
+
+                    <li className="side-item">
+                        {location.pathname === "/run-history" ?
+                            <Link to="/run-history" className="side-link" style={{ filter: 'none', color: '#0385B0' }}>
+                                <FontAwesomeIcon className="icon" icon={faHistory} />
+                                <span className="link-text">Run History</span>
+                            </Link>
+                            :
+                            <Link to="/run-history" className="side-link">
+                                <FontAwesomeIcon className="icon" icon={faHistory} />
+                                <span className="link-text">Run History</span>
                             </Link>
                         }
                     </li>
