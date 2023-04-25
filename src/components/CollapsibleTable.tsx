@@ -71,7 +71,7 @@ export default function CollapsibleTable(props: { historyList: any[] }) {
   return (
     <>
       {rows ? (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ marginTop: "3%" }}>
           <Table aria-label="collapsible table">
             <TableHead
               sx={{
