@@ -20,9 +20,9 @@ const Run = () => {
 
   const [open, setOpen] = useState(false);
 
-  const [value, setValue] = useState("");
+  const [flagDescription, setFlagDescription] = useState("");
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setFlagDescription(event.target.value);
   };
 
   const history = useHistory();
@@ -115,10 +115,7 @@ const Run = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const input_response = await response;
-      console.log("uploadInputFile data:", await response.data);
-      setInputFileID(await input_response.data.input_file_id);
-      console.log("inputFileID: ", inputFileID);
+      console.log("uploadInputFile data:", response.data);
       return await response.data.input_file_id;
     } catch (e) {
       console.log(e);
@@ -128,7 +125,13 @@ const Run = () => {
 
   //run project providing input file id and project id
   const runProject = async (token, projectId, fileId) => {
-    console.log(projectId, fileId);
+    setInputFileID(fileId);
+    console.log(
+      "runProject project id: ",
+      projectId,
+      "runProject input file id: ",
+      fileId
+    );
     try {
       const response = await axiosInstance.post(
         "/project/run",
@@ -172,6 +175,36 @@ const Run = () => {
       if (await e.response) {
         console.log("runProject error detail: ", await e.response.data.detail);
       }
+    }
+  };
+
+  const flagOutputFile = async (token, fileId, flagged, flagDescription) => {
+    console.log(
+      "fileId: ",
+      fileId,
+      "flagged: ",
+      flagged,
+      "flagDescription: ",
+      flagDescription
+    );
+    try {
+      const response = await axiosInstance.put(
+        "/runhistory/flag",
+        {
+          input_file_id: fileId,
+          flagged: flagged,
+          flag_description: flagDescription,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("flagOutputFile response: ", await response);
+    } catch (e) {
+      console.log("flagOutputFile error: ", e.response.data.detail);
+      setErrorMessage(e.response.data.detail);
     }
   };
 
@@ -351,7 +384,7 @@ const Run = () => {
               <TextField
                 fullWidth
                 label="Description"
-                value={value}
+                value={flagDescription}
                 onChange={handleChange}
                 multiline
                 rows={4}
@@ -362,7 +395,9 @@ const Run = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => console.log("sup")}
+                onClick={() =>
+                  flagOutputFile(token, inputFileID, true, flagDescription)
+                }
               >
                 SUBMIT
               </Button>
