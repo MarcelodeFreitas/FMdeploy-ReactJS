@@ -14,11 +14,13 @@ import { useParams, useHistory, useLocation } from "react-router-dom";
 import NoContentCard from "../../NoContentCard";
 import { Modal, Typography } from "@mui/material";
 import TextField from "@material-ui/core/TextField";
+import CustomizedSnackbar from "../../Alert";
 
 const Run = () => {
   const { projectId } = useParams();
 
   const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState({ message: "", severity: "" });
 
   const [flagDescription, setFlagDescription] = useState("");
   const handleChange = (event) => {
@@ -178,6 +180,7 @@ const Run = () => {
     }
   };
 
+  //flag output file, providing the input file id and flag description (optional)
   const flagOutputFile = async (token, fileId, flagged, flagDescription) => {
     console.log(
       "fileId: ",
@@ -202,9 +205,29 @@ const Run = () => {
         }
       );
       console.log("flagOutputFile response: ", await response);
+      setMessage({
+        message: "",
+        severity: "",
+      });
+      setMessage({
+        message: await response.data.detail,
+        severity: "success",
+      });
     } catch (e) {
       console.log("flagOutputFile error: ", e.response.data.detail);
-      setErrorMessage(e.response.data.detail);
+      setMessage({ message: e.response.data.detail, severity: "error" });
+    }
+  };
+
+  const handleSubmit = async (token, inputFileID, flagDescription) => {
+    try {
+      //perform the flag request
+      await flagOutputFile(token, inputFileID, true, flagDescription);
+      setOpen(false);
+      setFlagDescription("");
+    } catch (e) {
+      console.log("handleSubmit error: ", e.response.data.detail);
+      setMessage({ message: e.response.data.detail, severity: "error" });
     }
   };
 
@@ -342,6 +365,10 @@ const Run = () => {
   return (
     <>
       <Sidebar />
+      <CustomizedSnackbar
+        message={message.message}
+        severity={message.severity}
+      />
       <div className="main">
         <AppHeader title={`RUN: ${project.title}`} />
         <Modal
@@ -396,7 +423,7 @@ const Run = () => {
                 variant="contained"
                 color="primary"
                 onClick={() =>
-                  flagOutputFile(token, inputFileID, true, flagDescription)
+                  handleSubmit(token, inputFileID, true, flagDescription)
                 }
               >
                 SUBMIT
