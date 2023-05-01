@@ -98,6 +98,8 @@ const Run = () => {
 
   const [outputFile, setOutputFile] = useState("");
 
+  const [inputFileID, setInputFileID] = useState("");
+
   const [downloadLink, setDownloadLink] = useState("");
 
   const [isRunning, setIsRunning] = useState(false);
@@ -113,9 +115,10 @@ const Run = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(await response);
-      console.log(await response.data);
-      /* setInputFileID(await response.data.input_file_id) */
+      const input_response = await response;
+      console.log("uploadInputFile data:", await response.data);
+      setInputFileID(await input_response.data.input_file_id);
+      console.log("inputFileID: ", inputFileID);
       return await response.data.input_file_id;
     } catch (e) {
       console.log(e);
@@ -306,66 +309,67 @@ const Run = () => {
   return (
     <>
       <Sidebar />
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div
+      <div className="main">
+        <AppHeader title={`RUN: ${project.title}`} />
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
           style={{
-            backgroundColor: "white",
-            padding: 20,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            width: "60%",
-            maxWidth: "700px",
-            minWidth: "350px",
-            borderRadius: 5,
-            flexDirection: "column",
           }}
         >
-          <Typography
-            variant="h6"
-            style={{ color: "#0385B0", fontWeight: "bold" }}
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: 20,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "60%",
+              maxWidth: "700px",
+              minWidth: "350px",
+              borderRadius: 5,
+              flexDirection: "column",
+            }}
           >
-            Flag erroneous output
-          </Typography>
-          <div style={{ padding: "4%" }}>
-            <Typography variant="body1">
-              Flag an output if you notice something wrong or unexpected, and
-              describe the issue or error you have observed in the provided text
-              box.
-            </Typography>
-          </div>
-          <div style={{ display: "flex", width: "90%", paddingBottom: "4%" }}>
-            <TextField
-              fullWidth
-              label="Description"
-              value={value}
-              onChange={handleChange}
-              multiline
-              rows={4}
-              inputProps={{ maxLength: 255 }}
-            />
-          </div>
-          <div style={{ paddingTop: 20 }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => console.log("sup")}
+            <Typography
+              variant="h6"
+              style={{ color: "#0385B0", fontWeight: "bold" }}
             >
-              SUBMIT
-            </Button>
+              Flag erroneous output
+            </Typography>
+            <div style={{ padding: "4%" }}>
+              <Typography variant="body1">
+                Flag an output if you notice something wrong or unexpected, and
+                describe the issue or error you have observed in the provided
+                text box.
+              </Typography>
+            </div>
+            <div style={{ display: "flex", width: "90%", paddingBottom: "4%" }}>
+              <TextField
+                fullWidth
+                label="Description"
+                value={value}
+                onChange={handleChange}
+                multiline
+                rows={4}
+                inputProps={{ maxLength: 255 }}
+              />
+            </div>
+            <div style={{ paddingTop: 20 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => console.log("sup")}
+              >
+                SUBMIT
+              </Button>
+            </div>
           </div>
-        </div>
-      </Modal>
-      <div className="main">
-        <AppHeader title={`RUN: ${project.title}`} />
+        </Modal>
+
         {errorMessage ? (
           <NoContentCard text={errorMessage} />
         ) : (
