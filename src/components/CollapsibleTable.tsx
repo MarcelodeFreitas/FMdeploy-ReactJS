@@ -13,11 +13,81 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import "./CollapsibleTable.css";
+import { Button, TextField } from "@material-ui/core";
+import { Flag, FlagOutlined } from "@material-ui/icons";
+import { useState } from "react";
+import axiosInstance from "./axios/axiosInstance";
+import CustomizedSnackbar from "./Alert";
 
-function Row(props: { row: any }) {
+function Row(props: { row: any; token: string; handleMessage: Function }) {
   const { row } = props;
-  console.log("ROW:", row);
+  const { token } = props;
+  const { handleMessage } = props;
+  const inputFileID = row.fk_input_file_id;
+  /*  console.log("ROW:", row);
+  console.log("TOKEN:", token); */
   const [open, setOpen] = React.useState(false);
+  const [flagDescription, setFlagDescription] = useState("");
+  const handleChange = (event: any) => {
+    setFlagDescription(event.target.value);
+  };
+
+  //flag output file, providing the input file id and flag description (optional)
+  const flagOutputFile = async (
+    token: string,
+    fileId: string,
+    flagged: boolean,
+    flagDescription: string
+  ) => {
+    console.log(
+      "fileId: ",
+      fileId,
+      "flagged: ",
+      flagged,
+      "flagDescription: ",
+      flagDescription
+    );
+    try {
+      const response = await axiosInstance.put(
+        "/runhistory/flag",
+        {
+          input_file_id: fileId,
+          flagged: flagged,
+          flag_description: flagDescription,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("flagOutputFile response: ", await response);
+      console.log(
+        "flagOutputFile response.data.detail: ",
+        await response.data.detail
+      );
+      handleMessage(await response.data.detail, "success");
+    } catch (e: any) {
+      console.log("flagOutputFile error: ", e.response.data.detail);
+      handleMessage(e.response.data.detail, "error");
+    }
+  };
+
+  const handleSubmit = async (
+    token: string,
+    inputFileID: string,
+    flagDescription: string
+  ) => {
+    try {
+      //perform the flag request
+      await flagOutputFile(token, inputFileID, true, flagDescription);
+      /* setOpen(false); */
+      setFlagDescription("");
+    } catch (e: any) {
+      console.log("handleSubmit error: ", e.response.data.detail);
+      handleMessage(e.response.data.detail, "error");
+    }
+  };
 
   return (
     <React.Fragment>
@@ -28,7 +98,17 @@ function Row(props: { row: any }) {
             size="small"
             onClick={() => setOpen(!open)}
           >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {row.flagged ? (
+              open ? (
+                <FlagOutlined color="error" />
+              ) : (
+                <Flag color="error" />
+              )
+            ) : open ? (
+              <KeyboardArrowUpIcon color="primary" />
+            ) : (
+              <KeyboardArrowDownIcon color="primary" />
+            )}
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
@@ -52,10 +132,89 @@ function Row(props: { row: any }) {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
+            <Box sx={{ margin: 2 }}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                {row.flagged ? "Output Flagged" : "Output not flagged"}
               </Typography>
+              {row.flagged ? (
+                <div
+                  style={{
+                    marginLeft: "10px",
+                    marginTop: "20px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="subtitle1"
+                    gutterBottom
+                    component="div"
+                    sx={{ marginRight: "10px" }}
+                  >
+                    Flag description:
+                  </Typography>
+                  <Typography variant="body1" gutterBottom component="div">
+                    {row.flag_description}
+                  </Typography>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    padding: 20,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "60%",
+                    maxWidth: "700px",
+                    minWidth: "350px",
+                    borderRadius: 5,
+                    flexDirection: "column",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    style={{ color: "#0385B0", fontWeight: "bold" }}
+                  >
+                    Flag erroneous output
+                  </Typography>
+                  <div style={{ padding: "4%" }}>
+                    <Typography variant="body1">
+                      Flag an output if you notice something wrong or
+                      unexpected, and describe the issue or error you have
+                      observed in the provided text box.
+                    </Typography>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "90%",
+                      paddingBottom: "4%",
+                    }}
+                  >
+                    <TextField
+                      fullWidth
+                      label="Description"
+                      value={flagDescription}
+                      onChange={handleChange}
+                      multiline
+                      rows={4}
+                      inputProps={{ maxLength: 255 }}
+                    />
+                  </div>
+                  <div style={{ paddingTop: 20 }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() =>
+                        handleSubmit(token, inputFileID, flagDescription)
+                      }
+                    >
+                      SUBMIT
+                    </Button>
+                  </div>
+                </div>
+              )}
             </Box>
           </Collapse>
         </TableCell>
@@ -64,10 +223,15 @@ function Row(props: { row: any }) {
   );
 }
 
-export default function CollapsibleTable(props: { historyList: any[] }) {
+export default function CollapsibleTable(props: {
+  historyList: any[];
+  token: string;
+  handleMessage: Function;
+}) {
   const rows = props.historyList;
   console.log("ROWS:", rows);
   console.log("PROPS:", props);
+
   return (
     <>
       {rows ? (
@@ -94,13 +258,18 @@ export default function CollapsibleTable(props: { historyList: any[] }) {
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <Row key={row.run_history_id} row={row} />
+                <Row
+                  key={row.run_history_id}
+                  row={row}
+                  token={props.token}
+                  handleMessage={props.handleMessage}
+                />
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       ) : (
-        <div>no content</div>
+        <></>
       )}
     </>
   );

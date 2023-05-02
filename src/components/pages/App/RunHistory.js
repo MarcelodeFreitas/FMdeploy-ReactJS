@@ -8,22 +8,36 @@ import CustomizedSnackbar from "../../Alert";
 import Cards from "../../Cards";
 import axiosInstance from "../../axios/axiosInstance";
 import CollapsibleTable from "../../CollapsibleTable";
-
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFlag } from "@fortawesome/free-solid-svg-icons";
+import NoContentCard from "../../NoContentCard";
 
 function RunHistory() {
   const { token } = useContext(StoreContext);
 
   const [runHistory, setRunHistory] = useState("");
 
-  const [runHistoryError, setRunHistoryError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const handleErrorMessage = (message) => {
+    setErrorMessage("");
+    setErrorMessage(message);
+  };
 
-  const [deleteMessage, setDeleteMessage] = useState({
+  //handle messages
+  const [message, setMessage] = useState({
     message: "",
     severity: "",
   });
+  //handle messages for the child components
+  const handleMessage = (message, severity) => {
+    setMessage({ message: "", severity: "" });
+    setMessage({ message: message, severity: severity });
+  };
+
+  //reload page when a flag is submitted
+  const [reloadFlag, setReloadFlag] = useState(false);
+  const handleReload = () => {
+    setReloadFlag(!reloadFlag);
+  };
 
   useEffect(() => {
     //get the run history for the current user
@@ -40,7 +54,7 @@ function RunHistory() {
         console.log("getRunHistory error: ", await e.response);
         if (e.response) {
           console.log("getRunHistory error detail: ", e.response.data.detail);
-          setRunHistoryError(e.response.data.detail);
+          handleErrorMessage(e.response.data.detail);
         }
       }
     };
@@ -51,7 +65,7 @@ function RunHistory() {
     };
 
     fetchRunHistory();
-  }, [token]);
+  }, [token, message]);
 
   const handleFileDownload = (fileId) => {
     axios
@@ -72,24 +86,24 @@ function RunHistory() {
       });
   };
 
-  const handleFlagCreate = (runHistoryId) => {
-    // code to create a flag for the specified run history id
-  };
-
   return (
     <>
       <Sidebar />
+      {message && (
+        <CustomizedSnackbar
+          message={message.message}
+          severity={message.severity}
+        />
+      )}
       <div className="main">
         <AppHeader title="Run History" />
+        {errorMessage && <NoContentCard text={errorMessage} />}
 
-        {deleteMessage.message && (
-          <CustomizedSnackbar
-            message={deleteMessage.message}
-            severity={deleteMessage.severity}
-          />
-        )}
-
-        <CollapsibleTable historyList={runHistory} />
+        <CollapsibleTable
+          token={token}
+          historyList={runHistory}
+          handleMessage={handleMessage}
+        />
       </div>
       <Cards />
     </>
