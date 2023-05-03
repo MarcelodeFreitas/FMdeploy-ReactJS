@@ -18,6 +18,7 @@ import { Flag, FlagOutlined } from "@material-ui/icons";
 import { useState } from "react";
 import axiosInstance from "./axios/axiosInstance";
 import CustomizedSnackbar from "./Alert";
+import Link from "@mui/material/Link";
 
 function Row(props: { row: any; token: string; handleMessage: Function }) {
   const { row } = props;
@@ -31,6 +32,9 @@ function Row(props: { row: any; token: string; handleMessage: Function }) {
   const handleChange = (event: any) => {
     setFlagDescription(event.target.value);
   };
+  const [inputFile, setInputFile] = useState("");
+  const [outputFile, setOutputFile] = useState("");
+  const [downloadLink, setDownloadLink] = useState<any>(null);
 
   //flag output file, providing the input file id and flag description (optional)
   const flagOutputFile = async (
@@ -71,6 +75,62 @@ function Row(props: { row: any; token: string; handleMessage: Function }) {
       console.log("flagOutputFile error: ", e.response.data.detail);
       handleMessage(e.response.data.detail, "error");
     }
+  };
+
+  const handleFileDownload = async (
+    token: string,
+    fileId: string,
+    fileName: string,
+    type: string
+  ) => {
+    console.log(
+      "handleFileDownload fileId: ",
+      fileId,
+      "handleFileDownload type: ",
+      type
+    );
+
+    try {
+      const url = await getFileUrl(token, fileId, type);
+
+      if (type === "input") {
+        setInputFile(url);
+      } else {
+        setOutputFile(url);
+      }
+
+      const link = createDownloadLink(url, fileName);
+      setDownloadLink(link);
+      link.click();
+    } catch (e: any) {
+      console.log("handleFileDownload error: ", e.response?.data?.detail);
+      handleMessage(
+        e.response?.data?.detail || "Error downloading file",
+        "error"
+      );
+    }
+  };
+
+  const getFileUrl = async (token: string, fileId: string, type: string) => {
+    const response = await axiosInstance.get(`/files/${type}file/${fileId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: "arraybuffer",
+    });
+    const blob = new Blob([response.data], {
+      type: response.headers["content-type"],
+    });
+    const blobUrl = window.URL.createObjectURL(blob);
+    return blobUrl;
+  };
+
+  const createDownloadLink = (url: string, filename: string) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    return link;
   };
 
   const handleSubmit = async (
@@ -115,9 +175,43 @@ function Row(props: { row: any; token: string; handleMessage: Function }) {
           {" "}
           {row.title}{" "}
         </TableCell>
-        <TableCell align="right">{row.input_file_name}</TableCell>
         <TableCell align="right">
-          {row.output_file_name ? row.output_file_name : "No file available"}
+          <Link
+            component="button"
+            variant="body2"
+            underline="always"
+            onClick={() =>
+              handleFileDownload(
+                token,
+                row.fk_input_file_id,
+                row.input_file_name,
+                "input"
+              )
+            }
+          >
+            {row.input_file_name}
+          </Link>
+        </TableCell>
+        <TableCell align="right">
+          {row.output_file_name ? (
+            <Link
+              component="button"
+              variant="body2"
+              underline="always"
+              onClick={() =>
+                handleFileDownload(
+                  token,
+                  row.fk_output_file_id,
+                  row.output_file_name,
+                  "output"
+                )
+              }
+            >
+              {row.output_file_name}
+            </Link>
+          ) : (
+            "No file available"
+          )}
         </TableCell>
         <TableCell align="right">
           {new Date(row.timestamp).toLocaleString("pt-PT", {

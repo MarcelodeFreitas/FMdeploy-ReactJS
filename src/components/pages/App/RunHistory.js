@@ -33,11 +33,11 @@ function RunHistory() {
     setMessage({ message: message, severity: severity });
   };
 
-  //reload page when a flag is submitted
+  /* //reload page when a flag is submitted
   const [reloadFlag, setReloadFlag] = useState(false);
   const handleReload = () => {
     setReloadFlag(!reloadFlag);
-  };
+  }; */
 
   useEffect(() => {
     //get the run history for the current user
