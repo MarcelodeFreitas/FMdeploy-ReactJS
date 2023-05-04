@@ -17,7 +17,6 @@ import { Button, TextField } from "@material-ui/core";
 import { Flag, FlagOutlined } from "@material-ui/icons";
 import { useState } from "react";
 import axiosInstance from "./axios/axiosInstance";
-import CustomizedSnackbar from "./Alert";
 import Link from "@mui/material/Link";
 
 function Row(props: { row: any; token: string; handleMessage: Function }) {
@@ -32,9 +31,6 @@ function Row(props: { row: any; token: string; handleMessage: Function }) {
   const handleChange = (event: any) => {
     setFlagDescription(event.target.value);
   };
-  const [inputFile, setInputFile] = useState("");
-  const [outputFile, setOutputFile] = useState("");
-  const [downloadLink, setDownloadLink] = useState<any>(null);
 
   //flag output file, providing the input file id and flag description (optional)
   const flagOutputFile = async (
@@ -93,14 +89,8 @@ function Row(props: { row: any; token: string; handleMessage: Function }) {
     try {
       const url = await getFileUrl(token, fileId, type);
 
-      if (type === "input") {
-        setInputFile(url);
-      } else {
-        setOutputFile(url);
-      }
-
       const link = createDownloadLink(url, fileName);
-      setDownloadLink(link);
+
       link.click();
     } catch (e: any) {
       console.log("handleFileDownload error: ", e.response?.data?.detail);
