@@ -165,6 +165,12 @@ function Row(props: { row: any; token: string; handleMessage: Function }) {
           {" "}
           {row.title}{" "}
         </TableCell>
+        <TableCell component="th" scope="row">
+          {row.name}
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {row.email}
+        </TableCell>
         <TableCell align="right">
           <Link
             component="button"
@@ -335,6 +341,8 @@ export default function CollapsibleTable(props: {
               <TableRow>
                 <TableCell>Flag</TableCell>
                 <TableCell>Project</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
                 <TableCell align="right">Input</TableCell>
                 <TableCell align="right">Output</TableCell>
                 <TableCell align="right">Time</TableCell>

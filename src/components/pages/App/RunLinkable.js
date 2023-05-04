@@ -15,12 +15,12 @@ import NoContentCard from "../../NoContentCard";
 import { Modal, Typography } from "@mui/material";
 import TextField from "@material-ui/core/TextField";
 import CustomizedSnackbar from "../../Alert";
+import CollapsibleTable from "../../CollapsibleTable";
 
 const Run = () => {
   const { projectId } = useParams();
 
   const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState({ message: "", severity: "" });
 
   const [flagDescription, setFlagDescription] = useState("");
   const handleChange = (event) => {
@@ -44,6 +44,18 @@ const Run = () => {
   const [project, setProject] = useState("");
   /* const [author, setAuthor] = useState("") */
   const [errorMessage, setErrorMessage] = useState("");
+
+  //handle messages
+  const [message, setMessage] = useState({
+    message: "",
+    severity: "",
+  });
+  const handleMessage = (message, severity) => {
+    setMessage({ message: "", severity: "" });
+    setMessage({ message: message, severity: severity });
+  };
+
+  const [flaggedOutputs, setFlaggedOutputs] = useState("");
 
   useEffect(() => {
     //get project info from id
@@ -86,7 +98,30 @@ const Run = () => {
       }
     } */
 
+    //get the flagged outputs for the project
+    const getFlaggedOutputs = async (token, projectId) => {
+      try {
+        const response = await axiosInstance.get(
+          `/runhistory/flagged/${projectId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("getFlaggedOutputs: ", await response.data);
+        setFlaggedOutputs(await response.data);
+      } catch (e) {
+        console.log("getFlaggedOutputs error: ", e.response?.data?.detail);
+        handleMessage(
+          e.response?.data?.detail || "Get flagged outputs failed",
+          "error"
+        );
+      }
+    };
+
     getProjectById(projectId, token);
+    getFlaggedOutputs(token, projectId);
     /* getOwner(projectId, token) */
   }, [token, projectId]);
 
@@ -524,6 +559,18 @@ const Run = () => {
                       alt="result png preview"
                     />
                   </div>
+                </div>
+              </div>
+            )}
+            {flaggedOutputs && (
+              <div className="run-box-preview">
+                <div className="flag-box">
+                  <h1 className="run-labels">FLAGGED OUTPUTS</h1>
+                  <CollapsibleTable
+                    token={token}
+                    historyList={flaggedOutputs}
+                    handleMessage={handleMessage}
+                  />
                 </div>
               </div>
             )}

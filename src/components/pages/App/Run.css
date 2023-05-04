@@ -38,6 +38,10 @@
   width: 48%;
 }
 
+.flag-box {
+  width: 100%;
+}
+
 .run-box-preview {
   margin-top: 180px;
 }
