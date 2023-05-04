@@ -325,7 +325,10 @@ export default function CollapsibleTable(props: {
   return (
     <>
       {rows ? (
-        <TableContainer component={Paper} sx={{ marginTop: "3%" }}>
+        <TableContainer
+          component={Paper}
+          sx={{ marginTop: "3%", maxHeight: "70vh" }}
+        >
           <Table aria-label="collapsible table">
             <TableHead
               sx={{
