@@ -38,6 +38,7 @@ const Run = () => {
   });
 
   const { token } = useContext(StoreContext);
+  const { role } = useContext(StoreContext);
 
   console.log("run linkable project id: ", projectId);
 
@@ -121,9 +122,12 @@ const Run = () => {
     };
 
     getProjectById(projectId, token);
-    getFlaggedOutputs(token, projectId);
+    if (role === "admin" || role === "user") {
+      getFlaggedOutputs(token, projectId);
+    }
+
     /* getOwner(projectId, token) */
-  }, [token, projectId]);
+  }, [token, role, projectId]);
 
   /* const date = new Date(project.created_in)
   
@@ -533,7 +537,7 @@ const Run = () => {
                     )}
                   </div>
                 </div>
-                {outputFileName && (
+                {outputFileName && (role === "admin" || role === "user") ? (
                   <div className="run-buttons">
                     <div
                       className="clear-button-fat"
@@ -543,6 +547,15 @@ const Run = () => {
                     </div>
                     <div className="flag-button" onClick={() => setOpen(true)}>
                       FLAG
+                    </div>
+                  </div>
+                ) : (
+                  <div className="run-button">
+                    <div
+                      className="clear-button-fat"
+                      onClick={() => downloadLink.click()}
+                    >
+                      DOWNLOAD
                     </div>
                   </div>
                 )}
@@ -562,7 +575,7 @@ const Run = () => {
                 </div>
               </div>
             )}
-            {flaggedOutputs && (
+            {flaggedOutputs && (role === "admin" || role === "user") && (
               <div className="run-box-preview">
                 <div className="flag-box">
                   <h1 className="run-labels">FLAGGED OUTPUTS</h1>

@@ -172,7 +172,10 @@ export const Project = ({
                   src="images/run.png"
                   alt="run"
                   onClick={() => {
-                    history.replace("/run", { ...project, path: currentUrl });
+                    history.replace(`/runs/${project.project_id}`, {
+                      ...project,
+                      path: currentUrl,
+                    });
                   }}
                 />
               </Tooltip>
