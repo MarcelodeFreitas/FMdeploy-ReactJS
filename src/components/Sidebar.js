@@ -10,6 +10,7 @@ import {
   faUserCog,
   faSignOutAlt,
   faHistory,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import StoreContext from "./Store/Context";
 import "./Sidebar.css";
@@ -29,6 +30,26 @@ const Sidebar = () => {
               <FontAwesomeIcon className="icon" icon={faBrain} />
             </Link>
           </li>
+
+          {role === "admin" && (
+            <li className="side-item">
+              {location.pathname === "/user-management" ? (
+                <Link
+                  to="/my"
+                  className="side-link"
+                  style={{ filter: "none", color: "#0385B0" }}
+                >
+                  <FontAwesomeIcon className="icon" style={{}} icon={faUsers} />
+                  <span className="link-text">Manage Users</span>
+                </Link>
+              ) : (
+                <Link to="/user-management" className="side-link">
+                  <FontAwesomeIcon className="icon" icon={faUsers} />
+                  <span className="link-text">Manage Users</span>
+                </Link>
+              )}
+            </li>
+          )}
 
           {(role === "admin" || role === "user") && (
             <li className="side-item">

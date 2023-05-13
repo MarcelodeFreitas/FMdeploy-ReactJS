@@ -128,10 +128,14 @@ export default function Auth() {
         if (token) {
           setToken(token);
           setRole(role);
-          if (role === "guest") {
+          if (role === "admin") {
+            return history.push("/user-management");
+          } else if (role === "user") {
+            return history.push("/my");
+          } else if (role === "guest") {
             return history.push("/shared");
           } else {
-            return history.push("/my");
+            console.log("Auth.js role error");
           }
         }
 
