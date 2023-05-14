@@ -52,6 +52,9 @@ function ManageUsers() {
 
   const [users, setUsers] = useState([]);
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -61,6 +64,7 @@ function ManageUsers() {
           },
         });
         console.log("fetchUsers: ", response.data);
+        setFilteredUsers(response.data);
         setUsers(response.data);
       } catch (e) {
         console.log("fetchUsers error: ", e.response);
@@ -138,6 +142,26 @@ function ManageUsers() {
       setExpandedRows(expandedRows.filter((id) => id !== userId));
     } else {
       setExpandedRows([...expandedRows, userId]);
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    filterUsers();
+  };
+
+  const filterUsers = () => {
+    if (searchQuery.trim() === "") {
+      setFilteredUsers(users);
+    } else {
+      const filtered = users.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          user.user_id.toString().includes(searchQuery.toLowerCase()) ||
+          user.role.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredUsers(filtered);
     }
   };
 
@@ -268,6 +292,36 @@ function ManageUsers() {
                   Searchbar: search for users by name or email.
                 </Typography>
               </div>
+              <form onSubmit={handleSearchSubmit}>
+                <Grid
+                  container
+                  spacing={2}
+                  alignItems="center"
+                  sx={{ paddingBottom: "15px" }}
+                >
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      variant="standard"
+                      id="search"
+                      name="search"
+                      label="Search by Name, ID, Email, or Role"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      sx={{ marginTop: "15px" }}
+                    >
+                      Search
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
               <TableContainer
                 component={Paper}
                 sx={{
@@ -304,7 +358,7 @@ function ManageUsers() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {users.map((user) => (
+                    {filteredUsers.map((user) => (
                       <React.Fragment key={user.user_id}>
                         <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
                           <TableCell>
