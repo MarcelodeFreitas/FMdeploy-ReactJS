@@ -45,7 +45,29 @@ function ManageUsers() {
     setMessage({ message: message, severity: severity });
   };
 
-  useEffect(() => {}, [token]);
+  /* useEffect(() => {}, [token]); */
+
+  // create user with any role
+  const createUser = async (values) => {
+    console.log("createUser values: ", values, token);
+    try {
+      const response = await axiosInstance.post("/user/admin", values, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("createUser response: ", response.data);
+      handleMessage("User created with success!", "success");
+    } catch (e) {
+      console.log("createUser error: ", e.response);
+      if (e.response && e.response.data) {
+        console.log("createUser error detail: ", e.response.data.detail);
+        handleMessage(e.response.data.detail, "error");
+      } else {
+        handleMessage("An error occurred while creating the user.", "error");
+      }
+    }
+  };
 
   //form validation
   const validationSchema = Yup.object().shape({
@@ -69,7 +91,7 @@ function ManageUsers() {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values); // Send the form data to the API endpoint here
+      createUser(values); // Send the form data to the API endpoint here
     },
   });
 
