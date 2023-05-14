@@ -1,5 +1,5 @@
 import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
+import Alert from "@mui/material/Alert";
 import { useEffect, useState } from "react";
 
 const CustomizedSnackbar = ({ message, severity }) => {
@@ -43,14 +43,14 @@ const CustomizedSnackbar = ({ message, severity }) => {
         {/* <Alert onClose={handleClose} severity={severity}>
           {message}
         </Alert> */}
-        <MuiAlert
+        <Alert
           elevation={6}
           variant="filled"
           onClose={handleClose}
           severity={severity}
         >
           {message}
-        </MuiAlert>
+        </Alert>
       </Snackbar>
     );
   } else {

@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect, useContext } from "react";
 import Sidebar from "../../Sidebar";
 import "../../Sidebar.css";
@@ -5,31 +6,35 @@ import "./Main.css";
 import AppHeader from "../../AppHeader";
 import StoreContext from "../../Store/Context";
 import CustomizedSnackbar from "../../Alert";
+import UpdateUser from "../../UpdateUser";
 import Cards from "../../Cards";
 import axiosInstance from "../../axios/axiosInstance";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import { Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import { useFormik } from "formik";
+import {} from "@material-ui/core";
+import * as Yup from "yup";
 import {
-  TextField,
-  Button,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
   FormHelperText,
   Grid,
-} from "@material-ui/core";
-import * as Yup from "yup";
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Collapse,
+  IconButton,
+  Typography,
+  Box,
+  TextField,
+  Button,
+} from "@mui/material";
+import Stack from "@mui/material/Stack";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
 function ManageUsers() {
   const { token } = useContext(StoreContext);
@@ -45,8 +50,32 @@ function ManageUsers() {
     setMessage({ message: message, severity: severity });
   };
 
-  /* useEffect(() => {}, [token]); */
+  const [users, setUsers] = useState([]);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axiosInstance.get("/user/all", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("fetchUsers: ", response.data);
+        setUsers(response.data);
+      } catch (e) {
+        console.log("fetchUsers error: ", e.response);
+        if (e.response && e.response.data) {
+          console.log("fetchUsers error detail: ", e.response.data.detail);
+          handleMessage(e.response.data.detail, "error");
+        } else {
+          handleMessage("An error occurred while fetching users.", "error");
+        }
+      }
+    };
+    fetchUsers();
+  }, [token]);
+
+  //_______________________________________
   // create user with any role
   const createUser = async (values) => {
     console.log("createUser values: ", values, token);
@@ -79,7 +108,7 @@ function ManageUsers() {
         "Password must contain 8 Characters, One Uppercase, One Lowercase, and One Number"
       )
       .required("Required"),
-    role: Yup.string().required("Required"),
+    role: Yup.string().oneOf(["user", "admin", "guest"]).required("Required"),
   });
 
   const formik = useFormik({
@@ -95,15 +124,30 @@ function ManageUsers() {
     },
   });
 
+  const handleClear = (formik) => {
+    formik.resetForm();
+  };
+  //_______________________________________
+
+  // handle collapsible table
+  const [expandedRows, setExpandedRows] = useState([]);
+  const handleRowClick = (userId) => {
+    const isRowExpanded = expandedRows.includes(userId);
+
+    if (isRowExpanded) {
+      setExpandedRows(expandedRows.filter((id) => id !== userId));
+    } else {
+      setExpandedRows([...expandedRows, userId]);
+    }
+  };
+
   return (
     <>
       <Sidebar />
-      {message && (
-        <CustomizedSnackbar
-          message={message.message}
-          severity={message.severity}
-        />
-      )}
+      <CustomizedSnackbar
+        message={message.message}
+        severity={message.severity}
+      />
       <div className="main">
         <AppHeader title="User management" />
         <Box sx={{ width: "100%", marginTop: "4vh" }}>
@@ -119,6 +163,7 @@ function ManageUsers() {
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
+                      variant="standard"
                       id="name"
                       name="name"
                       label="Name"
@@ -134,6 +179,7 @@ function ManageUsers() {
 
                   <Grid item xs={12} sm={6}>
                     <TextField
+                      variant="standard"
                       id="email"
                       name="email"
                       label="Email"
@@ -149,6 +195,7 @@ function ManageUsers() {
 
                   <Grid item xs={12} sm={6}>
                     <TextField
+                      variant="standard"
                       id="password"
                       name="password"
                       label="Password"
@@ -173,6 +220,7 @@ function ManageUsers() {
                     >
                       <InputLabel id="role-label">Role</InputLabel>
                       <Select
+                        variant="standard"
                         id="role"
                         name="role"
                         labelId="role-label"
@@ -190,13 +238,24 @@ function ManageUsers() {
                     </FormControl>
                   </Grid>
                 </Grid>
-
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="reset"
+                  onClick={() => handleClear(formik)}
+                  disabled={Object.values(formik.values).every(
+                    (value) => value === ""
+                  )}
+                  sx={{ marginTop: "15px", marginRight: "15px" }}
+                >
+                  Clear form
+                </Button>
                 <Button
                   variant="contained"
                   color="primary"
                   type="submit"
                   disabled={!formik.isValid || !formik.dirty}
-                  style={{ marginTop: "15px" }}
+                  sx={{ marginTop: "15px", marginRight: "15px" }}
                 >
                   Create User
                 </Button>
@@ -209,6 +268,96 @@ function ManageUsers() {
                   Searchbar: search for users by name or email.
                 </Typography>
               </div>
+              <TableContainer
+                component={Paper}
+                sx={{
+                  width: "100%",
+                  marginTop: "15px",
+                  overflowX: "auto",
+                  maxHeight: "45vh",
+                }}
+              >
+                <Table
+                  sx={{
+                    minWidth: 650,
+                    borderCollapse: "collapse",
+                    borderSpacing: 0,
+                  }}
+                >
+                  <TableHead
+                    sx={{
+                      maxHeight: 400,
+                      "& .MuiTableCell-head": {
+                        backgroundColor: "#0385B0",
+                        color: "#FFFFFF",
+                        position: "sticky",
+                        top: 0,
+                      },
+                    }}
+                  >
+                    <TableRow>
+                      <TableCell color="primary" />
+                      <TableCell color="primary">User ID</TableCell>
+                      <TableCell color="primary">Name</TableCell>
+                      <TableCell color="primary">Email</TableCell>
+                      <TableCell color="primary">Role</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {users.map((user) => (
+                      <React.Fragment key={user.user_id}>
+                        <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                          <TableCell>
+                            <IconButton
+                              onClick={() => handleRowClick(user.user_id)}
+                              size="small"
+                            >
+                              {expandedRows.includes(user.user_id) ? (
+                                <KeyboardArrowUp />
+                              ) : (
+                                <KeyboardArrowDown />
+                              )}
+                            </IconButton>
+                          </TableCell>
+                          <TableCell>{user.user_id}</TableCell>
+                          <TableCell>{user.name}</TableCell>
+                          <TableCell>{user.email}</TableCell>
+                          <TableCell>{user.role}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell
+                            style={{ paddingBottom: 0, paddingTop: 0 }}
+                            colSpan={6}
+                          >
+                            <Collapse
+                              in={expandedRows.includes(user.user_id)}
+                              timeout="auto"
+                              unmountOnExit
+                            >
+                              <Box sx={{ margin: 2 }}>
+                                <Typography
+                                  variant="h6"
+                                  gutterBottom
+                                  component="div"
+                                  sx={{ marginBottom: "15px" }}
+                                >
+                                  Edit user
+                                </Typography>
+                                <UpdateUser
+                                  user={user}
+                                  token={token}
+                                  handleMessage={handleMessage}
+                                  handleRowClick={handleRowClick}
+                                />
+                              </Box>
+                            </Collapse>
+                          </TableCell>
+                        </TableRow>
+                      </React.Fragment>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </Paper>
           </Stack>
         </Box>
