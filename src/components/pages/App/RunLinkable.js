@@ -542,7 +542,7 @@ const Run = () => {
                   </div>
                 </div>
                 {console.log("here", outputFileName, role, downloadLink)}
-                {outputFileName && role !== "guest" && (
+                {outputFileName && (
                   <div className="run-buttons">
                     <div
                       className="clear-button-fat"
@@ -552,16 +552,6 @@ const Run = () => {
                     </div>
                     <div className="flag-button" onClick={() => setOpen(true)}>
                       FLAG
-                    </div>
-                  </div>
-                )}
-                {outputFileName && role === "guest" && (
-                  <div className="run-button">
-                    <div
-                      className="clear-button-fat"
-                      onClick={() => downloadLink.click()}
-                    >
-                      DOWNLOAD
                     </div>
                   </div>
                 )}
