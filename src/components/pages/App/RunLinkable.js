@@ -24,6 +24,7 @@ const Run = () => {
 
   const [flagDescription, setFlagDescription] = useState("");
   const handleChange = (event) => {
+    console.log("flag description: ", event.target.value);
     setFlagDescription(event.target.value);
   };
 
@@ -234,6 +235,7 @@ const Run = () => {
       flagDescription
     );
     try {
+      console.log("flagOutputFile description: ", flagDescription);
       const response = await axiosInstance.put(
         "/runhistory/flag",
         {
@@ -265,6 +267,7 @@ const Run = () => {
   const handleSubmit = async (token, inputFileID, flagDescription) => {
     try {
       //perform the flag request
+      console.log("handleSubmit flag descripiton: ", flagDescription);
       await flagOutputFile(token, inputFileID, true, flagDescription);
       setOpen(false);
       setFlagDescription("");
@@ -466,7 +469,7 @@ const Run = () => {
                 variant="contained"
                 color="primary"
                 onClick={() =>
-                  handleSubmit(token, inputFileID, true, flagDescription)
+                  handleSubmit(token, inputFileID, flagDescription)
                 }
               >
                 SUBMIT
