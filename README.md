@@ -7,6 +7,7 @@ The frontend implementation of FMdeploy is developed as part of Marcelo Marreiro
 - **Developer:** Marcelo Marreiros
 - **Email:** marcelodefreitas25@gmail.com
 - **Supervisor:** Victor Alves
+- **Dissertation Title:** FMdeploy - Simplifying Machine Learning Deployment for Academia via Web Interfaces
 
 ## Description
 
